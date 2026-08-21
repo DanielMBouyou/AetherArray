@@ -41,31 +41,31 @@ and that is where the whole interest of the project lies.
 
 The theoretical behaviour of a linear array is written:
 
-```
-AF(θ) = sum over n from 0 to N-1 of:  a_n · exp( j ( n·k·d·sin θ + φ_n ) )
-```
+$$
+AF(\theta) \;=\; \sum_{n=0}^{N-1} a_n \, e^{\,j\left(n k d \sin\theta \,+\, \phi_n\right)}
+$$
 
 Term by term:
 
-- `N` is the number of elements.
-- `a_n` is the amplitude fed to element `n`, dimensionless.
-- `φ_n` is the phase we apply to it, in radians. This is our control knob.
-- `d` is the spacing between neighbouring elements, in metres.
-- `k = 2π/λ` is the wavenumber, in radians per metre. It converts a distance into a
-  phase shift: travelling one wavelength rotates the phase by 360 degrees.
-- `θ` is the observation angle, measured from the perpendicular to the array.
-- The term `n·k·d·sin θ` is the natural phase shift caused by the wave from element
-  `n` travelling a different distance to reach the observer.
-- `AF(θ)` is the resulting field in direction `θ`, obtained by summing every
-  element's contribution.
+- $N$ is the number of elements.
+- $a_n$ is the amplitude fed to element $n$, dimensionless.
+- $\phi_n$ is the phase we apply to it, in radians. This is our control knob.
+- $d$ is the spacing between neighbouring elements, in metres.
+- $k = 2\pi/\lambda$ is the wavenumber, in radians per metre. It converts a distance
+  into a phase shift: travelling one wavelength rotates the phase by $2\pi$.
+- $\theta$ is the observation angle, measured from the perpendicular to the array.
+- The term $n k d \sin\theta$ is the natural phase shift caused by the wave from
+  element $n$ travelling a different distance to reach the observer.
+- $AF(\theta)$ is the resulting field in direction $\theta$, obtained by summing
+  every element's contribution.
 
 What the formula says: contributions add up when they arrive in phase and cancel
-when they arrive in opposition. To point the beam in direction `θ0` it is enough to
-choose:
+when they arrive in opposition. To point the beam in direction $\theta_0$ it is
+enough to choose:
 
-```
-φ_n = - n · k · d · sin θ0
-```
+$$
+\phi_n \;=\; -\,n k d \sin\theta_0
+$$
 
 In other words, you cancel in advance the natural phase shift caused by geometry.
 
@@ -86,17 +86,18 @@ Those numbers come from theory and assume everything is perfect.
 Here is the calculation that justifies the whole project on its own.
 
 In ordinary coaxial cable the wave travels at roughly 66 percent of the speed of
-light. At 2.4 GHz the wavelength in the cable is therefore:
+light, so with velocity factor $v_f = 0.66$ the wavelength inside the cable at
+$f = 2.4$ GHz is:
 
-```
-λ_cable = 0.66 × 3e8 / 2.4e9 ≈ 82 mm
-```
+$$
+\lambda_{\text{cable}} \;=\; \frac{v_f\, c}{f} \;=\; \frac{0.66 \times 3\cdot 10^{8}}{2.4\cdot 10^{9}} \;\approx\; 82\ \text{mm}
+$$
 
 So one millimetre of cable corresponds to a phase shift of:
 
-```
-360° / 82 mm ≈ 4.4 degrees per millimetre
-```
+$$
+\frac{360^{\circ}}{\lambda_{\text{cable}}} \;=\; \frac{360^{\circ}}{82\ \text{mm}} \;\approx\; 4.4^{\circ}\ \text{per millimetre}
+$$
 
 **One centimetre of length difference between two cables introduces about 44 degrees
 of phase error.** Cutting cables by hand destroys the pattern.
@@ -112,14 +113,14 @@ And that is only one error source among several:
 | Connectors | tightening, wear | a few degrees | yes, but variable |
 | Environment | reflections off nearby objects | highly variable | no, you have to control the measurement site |
 
-The combined effect is clear. A useful rule: if the phase errors have standard
-deviation `σ` in radians, the gain loss is approximately:
+The combined effect is clear. A useful rule: if the phase errors are random with
+standard deviation $\sigma$ in radians, the mean gain degrades as:
 
-```
-gain loss ≈ exp( - σ² )
-```
+$$
+\frac{G_{\text{real}}}{G_{\text{ideal}}} \;\approx\; e^{-\sigma^{2}}
+$$
 
-For `σ = 30 degrees`, about 0.52 radian, that is roughly 1.2 dB of loss, and more
+For $\sigma = 30^{\circ} \approx 0.52$ rad that is roughly 1.2 dB of loss, and more
 importantly a rise in the side lobes, which is usually more annoying than the gain
 loss itself.
 
@@ -131,23 +132,23 @@ Translation: an uncalibrated array works, but badly, and unpredictably.
 
 Rather than treating each defect separately, gather them into one complex matrix:
 
-```
-y = H · x
-```
+$$
+\mathbf{y} \;=\; \mathbf{H}\,\mathbf{x}
+$$
 
-- `x` is the vector of commands we apply, one complex value per channel (requested
-  amplitude and phase).
-- `y` is what actually comes out of each element.
-- `H` is a complex matrix containing everything: gain and phase errors per channel
-  on its diagonal, coupling between elements off the diagonal.
+- $\mathbf{x} \in \mathbb{C}^{N}$ is the vector of commands we apply, one complex
+  value per channel: requested amplitude and phase.
+- $\mathbf{y} \in \mathbb{C}^{N}$ is what actually comes out of each element.
+- $\mathbf{H} \in \mathbb{C}^{N \times N}$ holds everything: per channel gain and
+  phase errors on the diagonal, coupling between elements off the diagonal.
 
-If `H` were the identity the system would be perfect. It is not.
+If $\mathbf{H}$ were the identity the system would be perfect. It is not.
 
-Calibrating means measuring `H`, then applying a corrected command:
+Calibrating means measuring $\mathbf{H}$, then applying a corrected command:
 
-```
-x_corrected = H^-1 · x_wanted
-```
+$$
+\mathbf{x}_{\text{corr}} \;=\; \mathbf{H}^{-1}\,\mathbf{x}_{\text{wanted}}
+$$
 
 That is where the project becomes applied mathematics rather than tinkering:
 measuring `H` takes measurements, each measurement costs time, and the inversion can
@@ -181,18 +182,18 @@ with what already works and then looks for where that stops being enough.
 To characterise a radiation pattern you have to be far enough away that the wave has
 become planar. The usual minimum distance is:
 
-```
-R > 2 D² / λ
-```
+$$
+R \;>\; \frac{2 D^{2}}{\lambda}
+$$
 
-where `D` is the largest dimension of the array and `λ` the wavelength.
+where $D$ is the largest dimension of the array and $\lambda$ the wavelength.
 
-Numerical example, four elements at 2.4 GHz, spaced 6.25 cm, so `D ≈ 19 cm` and
-`λ = 12.5 cm`:
+Numerical example, four elements at 2.4 GHz spaced 6.25 cm, so $D \approx 0.19$ m
+and $\lambda = 0.125$ m:
 
-```
-R > 2 × 0.19² / 0.125 ≈ 0.58 m
-```
+$$
+R \;>\; \frac{2 \times 0.19^{2}}{0.125} \;\approx\; 0.58\ \text{m}
+$$
 
 Under a metre, so it fits on a table. But in an ordinary room the signal reflects off
 walls, floor, furniture and the operator. Those echoes add to the direct signal and

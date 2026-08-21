@@ -14,15 +14,27 @@ if grep -rlP '\x{2014}' --include='*.md' . 2>/dev/null | grep -q .; then
 fi
 
 # 2. Public documentation is written in English. This looks for a few very common
-#    French function words as whole words. It is a tripwire, not a translator.
-fr='\b(le|la|les|des|une|nous|pour|avec|dans|cette|qui|sont|donc|mais|sans|leur|peut|doit|etre|être|tres|très|ainsi|cela|chaque|entre|selon|aussi)\b'
-if grep -rniEl "$fr" --include='*.md' . 2>/dev/null | grep -q .; then
+#    French function words as whole words. The negative lookbehind skips LaTeX
+#    control sequences such as \le, which would otherwise match.
+fr='(?<![\A-Za-z])\b(le|la|les|des|une|nous|pour|avec|dans|cette|qui|sont|donc|mais|sans|leur|peut|doit|etre|être|tres|très|ainsi|cela|chaque|entre|selon|aussi)\b'
+if grep -rniPl "$fr" --include='*.md' . 2>/dev/null | grep -q .; then
   echo "Files with suspected French prose:"
-  grep -rniE "$fr" --include='*.md' . 2>/dev/null | head -20
+  grep -rniP "$fr" --include='*.md' . 2>/dev/null | head -20
   fail "French prose detected in public documentation"
 fi
 
-# 3. Every decision record carries the mandatory sections.
+# 3. Mathematics is typeset in LaTeX, not drawn with ASCII. This catches the usual
+#    pseudo-formula habits. CONVENTIONS.md is exempt: it quotes those patterns in
+#    order to forbid them.
+pseudo='(sum over [a-z]+ from|[a-z]_(min|max|out|in|total)\b|\^\(-?[a-z])'
+skip='^\./(tools/|CONVENTIONS\.md)'
+if grep -rniE "$pseudo" --include='*.md' . 2>/dev/null | grep -vE "$skip" | grep -q .; then
+  echo "Files with ASCII pseudo-mathematics, use LaTeX instead:"
+  grep -rniE "$pseudo" --include='*.md' . 2>/dev/null | grep -vE "$skip" | head -10
+  fail "ASCII pseudo-mathematics present"
+fi
+
+# 4. Every decision record carries the mandatory sections.
 for f in decisions/[0-9][0-9][0-9][0-9]-*.md; do
   [ -e "$f" ] || continue
   case "$f" in *0000-template.md) continue;; esac
@@ -31,13 +43,14 @@ for f in decisions/[0-9][0-9][0-9][0-9]-*.md; do
   done
 done
 
-# 4. Structural documents must exist.
+# 5. Structural documents must exist.
 for f in README.md CONVENTIONS.md ROADMAP.md docs/scope.md docs/uncertainties.md \
-         research/state-of-the-art.md benchmarks/methodology.md experiments/plan.md; do
+         research/state-of-the-art.md benchmarks/methodology.md benchmarks/specification.md \
+         experiments/plan.md docs/mathematics/formulation.md; do
   [ -e "$f" ] || fail "$f: expected file is missing"
 done
 
-# 5. Main documents carry a status line.
+# 6. Main documents carry a status line.
 for f in README.md docs/scope.md docs/uncertainties.md research/state-of-the-art.md; do
   [ -e "$f" ] || continue
   grep -qE '^-? ?Status' "$f" || fail "$f: no status line"

@@ -26,12 +26,13 @@ measurements.
 
 The real system is described by:
 
-```
-y = H · x
-```
+$$
+\mathbf{y} \;=\; \mathbf{H}\,\mathbf{x}
+$$
 
-`x` is the vector of commands applied to the channels, `y` what actually comes out,
-and `H` a complex matrix holding the gain errors, the phase errors and the coupling.
+$\mathbf{x}$ is the vector of commands applied to the channels, $\mathbf{y}$ what
+actually comes out, and $\mathbf{H} \in \mathbb{C}^{N \times N}$ a complex matrix
+holding the gain errors, the phase errors and the coupling.
 
 Calibration means estimating `H` from a limited number of measurements, then
 deriving the corrected command. Optimisation means finding the command that gives

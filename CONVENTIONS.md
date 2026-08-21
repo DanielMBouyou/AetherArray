@@ -69,13 +69,30 @@ Empty cells are not allowed in comparison tables. Write `to measure` or
 - Results: `results/EXP-NNN/`, reusing the experiment identifier.
 - Source notes: `research/notes/NNN-name.md`.
 
-## 5. Units and notation
+## 5. Mathematics, units and notation
 
+**Mathematics is typeset, never drawn.** Every equation is written in LaTeX, which
+GitHub renders with MathJax: `$$ ... $$` for a display equation and `$ ... $` inline.
+ASCII pseudo-formulas are not acceptable, so no `a_n`, no `L_min`, no
+`sum over n from 0 to N-1`, no `2^(k*T)`. Subscripts, superscripts, sums, fractions
+and integrals are real notation:
+
+$$
+\eta \;=\; \frac{\Delta C}{T}
+\qquad\text{not}\qquad
+\texttt{eta = deltaC / T}
+$$
+
+Code fences are for code, diagrams and file listings only. `tools/check-docs.sh`
+flags the most common pseudo-formula habits.
+
+- Every equation is followed by a sentence, or a small table, saying what each symbol
+  means physically and in what unit. An equation without that counts as a
+  documentation defect.
 - SI units, explicit prefixes. Times in ns, us, ms.
 - Logarithmic quantities always carry their reference: dBm, dBc, dB.
-- Every equation introduced in a document is followed by a sentence saying what
-  each symbol means physically. An equation without that sentence counts as a
-  documentation defect.
+- Give a small numerical example whenever it makes the equation concrete.
+- State whether a relation is exact or an approximation.
 
 ## 6. Writing style
 
