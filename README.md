@@ -41,9 +41,9 @@ and that is where the whole interest of the project lies.
 
 The theoretical behaviour of a linear array is written:
 
-$$
-AF(\theta) \;=\; \sum_{n=0}^{N-1} a_n \, e^{\,j\left(n k d \sin\theta \,+\, \phi_n\right)}
-$$
+```math
+AF(\theta) = \sum_{n=0}^{N-1} a_n \, e^{\,j\left(n k d \sin\theta \,+\, \phi_n\right)}
+```
 
 Term by term:
 
@@ -63,9 +63,9 @@ What the formula says: contributions add up when they arrive in phase and cancel
 when they arrive in opposition. To point the beam in direction $\theta_0$ it is
 enough to choose:
 
-$$
-\phi_n \;=\; -\,n k d \sin\theta_0
-$$
+```math
+\phi_n = -\,n k d \sin\theta_0
+```
 
 In other words, you cancel in advance the natural phase shift caused by geometry.
 
@@ -89,15 +89,15 @@ In ordinary coaxial cable the wave travels at roughly 66 percent of the speed of
 light, so with velocity factor $v_f = 0.66$ the wavelength inside the cable at
 $f = 2.4$ GHz is:
 
-$$
-\lambda_{\text{cable}} \;=\; \frac{v_f\, c}{f} \;=\; \frac{0.66 \times 3\cdot 10^{8}}{2.4\cdot 10^{9}} \;\approx\; 82\ \text{mm}
-$$
+```math
+\lambda_{\text{cable}} = \frac{v_f\, c}{f} = \frac{0.66 \times 3\cdot 10^{8}}{2.4\cdot 10^{9}}  \approx  82\ \text{mm}
+```
 
 So one millimetre of cable corresponds to a phase shift of:
 
-$$
-\frac{360^{\circ}}{\lambda_{\text{cable}}} \;=\; \frac{360^{\circ}}{82\ \text{mm}} \;\approx\; 4.4^{\circ}\ \text{per millimetre}
-$$
+```math
+\frac{360^{\circ}}{\lambda_{\text{cable}}} = \frac{360^{\circ}}{82\ \text{mm}}  \approx  4.4^{\circ}\ \text{per millimetre}
+```
 
 **One centimetre of length difference between two cables introduces about 44 degrees
 of phase error.** Cutting cables by hand destroys the pattern.
@@ -116,9 +116,9 @@ And that is only one error source among several:
 The combined effect is clear. A useful rule: if the phase errors are random with
 standard deviation $\sigma$ in radians, the mean gain degrades as:
 
-$$
-\frac{G_{\text{real}}}{G_{\text{ideal}}} \;\approx\; e^{-\sigma^{2}}
-$$
+```math
+\frac{G_{\text{real}}}{G_{\text{ideal}}}  \approx  e^{-\sigma^{2}}
+```
 
 For $\sigma = 30^{\circ} \approx 0.52$ rad that is roughly 1.2 dB of loss, and more
 importantly a rise in the side lobes, which is usually more annoying than the gain
@@ -132,9 +132,9 @@ Translation: an uncalibrated array works, but badly, and unpredictably.
 
 Rather than treating each defect separately, gather them into one complex matrix:
 
-$$
-\mathbf{y} \;=\; \mathbf{H}\,\mathbf{x}
-$$
+```math
+\mathbf{y} = \mathbf{H}\,\mathbf{x}
+```
 
 - $\mathbf{x} \in \mathbb{C}^{N}$ is the vector of commands we apply, one complex
   value per channel: requested amplitude and phase.
@@ -146,9 +146,9 @@ If $\mathbf{H}$ were the identity the system would be perfect. It is not.
 
 Calibrating means measuring $\mathbf{H}$, then applying a corrected command:
 
-$$
-\mathbf{x}_{\text{corr}} \;=\; \mathbf{H}^{-1}\,\mathbf{x}_{\text{wanted}}
-$$
+```math
+\mathbf{x}_{\text{corr}} = \mathbf{H}^{-1}\,\mathbf{x}_{\text{wanted}}
+```
 
 That is where the project becomes applied mathematics rather than tinkering:
 measuring `H` takes measurements, each measurement costs time, and the inversion can
@@ -182,18 +182,18 @@ with what already works and then looks for where that stops being enough.
 To characterise a radiation pattern you have to be far enough away that the wave has
 become planar. The usual minimum distance is:
 
-$$
-R \;>\; \frac{2 D^{2}}{\lambda}
-$$
+```math
+R > \frac{2 D^{2}}{\lambda}
+```
 
 where $D$ is the largest dimension of the array and $\lambda$ the wavelength.
 
 Numerical example, four elements at 2.4 GHz spaced 6.25 cm, so $D \approx 0.19$ m
 and $\lambda = 0.125$ m:
 
-$$
-R \;>\; \frac{2 \times 0.19^{2}}{0.125} \;\approx\; 0.58\ \text{m}
-$$
+```math
+R > \frac{2 \times 0.19^{2}}{0.125}  \approx  0.58\ \text{m}
+```
 
 Under a metre, so it fits on a table. But in an ordinary room the signal reflects off
 walls, floor, furniture and the operator. Those echoes add to the direct signal and

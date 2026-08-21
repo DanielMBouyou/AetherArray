@@ -26,9 +26,9 @@ measurements.
 
 The real system is described by:
 
-$$
-\mathbf{y} \;=\; \mathbf{H}\,\mathbf{x}
-$$
+```math
+\mathbf{y} = \mathbf{H}\,\mathbf{x}
+```
 
 $\mathbf{x}$ is the vector of commands applied to the channels, $\mathbf{y}$ what
 actually comes out, and $\mathbf{H} \in \mathbb{C}^{N \times N}$ a complex matrix

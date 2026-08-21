@@ -72,16 +72,23 @@ Empty cells are not allowed in comparison tables. Write `to measure` or
 ## 5. Mathematics, units and notation
 
 **Mathematics is typeset, never drawn.** Every equation is written in LaTeX, which
-GitHub renders with MathJax: `$$ ... $$` for a display equation and `$ ... $` inline.
-ASCII pseudo-formulas are not acceptable, so no `a_n`, no `L_min`, no
-`sum over n from 0 to N-1`, no `2^(k*T)`. Subscripts, superscripts, sums, fractions
+GitHub renders with MathJax. Two forms are used, and only these two:
+
+- a display equation goes in a fenced block tagged `math`, shown below,
+- an inline expression goes between single dollar signs.
+
+The fenced form is used rather than double dollar signs because Markdown processes
+backslash escapes inside an ordinary paragraph, which quietly destroys commands such
+as the thin space macros before the renderer ever sees them.
+
+ASCII pseudo-formulas are not acceptable. Subscripts, superscripts, sums, fractions
 and integrals are real notation:
 
-$$
-\eta \;=\; \frac{\Delta C}{T}
+```math
+\eta = \frac{\Delta C}{T}
 \qquad\text{not}\qquad
 \texttt{eta = deltaC / T}
-$$
+```
 
 Code fences are for code, diagrams and file listings only. `tools/check-docs.sh`
 flags the most common pseudo-formula habits.

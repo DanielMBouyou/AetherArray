@@ -9,9 +9,9 @@
 
 For a linear array of $N$ identical elements evenly spaced by $d$:
 
-$$
-AF(\theta) \;=\; \sum_{n=0}^{N-1} a_n \, e^{\,j\left(n k d \sin\theta \,+\, \phi_n\right)}
-$$
+```math
+AF(\theta) = \sum_{n=0}^{N-1} a_n \, e^{\,j\left(n k d \sin\theta \,+\, \phi_n\right)}
+```
 
 | Symbol | Meaning | Unit |
 | --- | --- | --- |
@@ -29,9 +29,9 @@ they oppose they cancel. The whole behaviour of the array sits in that image.
 The total radiated pattern is, strictly, the product of the array factor with the
 pattern of a single element:
 
-$$
-P(\theta) \;=\; P_{\text{elem}}(\theta) \cdot AF(\theta)
-$$
+```math
+P(\theta) = P_{\text{elem}}(\theta) \cdot AF(\theta)
+```
 
 That factorisation assumes every element radiates identically, which is false in the
 presence of coupling. It is the first approximation to question.
@@ -40,9 +40,9 @@ presence of coupling. It is the first approximation to question.
 
 To point in direction $\theta_0$, choose:
 
-$$
-\phi_n \;=\; -\,n k d \sin\theta_0
-$$
+```math
+\phi_n = -\,n k d \sin\theta_0
+```
 
 Interpretation: you deliberately delay each element by exactly enough that all
 contributions arrive in phase in the wanted direction.
@@ -52,16 +52,16 @@ Two important consequences.
 **Grating lobes.** The array factor repeats whenever the inter element phase
 advances by a full turn, that is when
 
-$$
-k d \left(\sin\theta - \sin\theta_0\right) \;=\; 2\pi m, \qquad m \in \mathbb{Z}
-$$
+```math
+k d \left(\sin\theta - \sin\theta_0\right) = 2\pi m, \qquad m \in \mathbb{Z}
+```
 
 has a solution with $|\sin\theta| \le 1$ other than $m = 0$. Avoiding that for every
 steering angle requires
 
-$$
-\frac{d}{\lambda} \;<\; \frac{1}{1 + |\sin\theta_0|}
-$$
+```math
+\frac{d}{\lambda}  <  \frac{1}{1 + |\sin\theta_0|}
+```
 
 which gives the familiar $d \le \lambda/2$ for full hemispheric steering. You can
 exceed it, provided you know what you are accepting.
@@ -69,9 +69,9 @@ exceed it, provided you know what you are accepting.
 **Beam squint.** The required phase depends on $k$, therefore on frequency. An array
 set for $\theta_0$ at frequency $f_0$ points, at frequency $f$, towards
 
-$$
-\sin\theta \;=\; \frac{f_0}{f}\,\sin\theta_0
-$$
+```math
+\sin\theta = \frac{f_0}{f}\,\sin\theta_0
+```
 
 Over a narrow band the effect is small, over a wide band it becomes a problem. The
 real fix is a true time delay rather than a phase shift, which is more expensive to
@@ -95,9 +95,9 @@ $\cos\theta_0$.
 If the realised phases deviate from the intended ones by independent random errors
 with standard deviation $\sigma$ in radians, the mean gain degrades as:
 
-$$
-\frac{\mathbb{E}\left[G_{\text{real}}\right]}{G_{\text{ideal}}} \;\approx\; e^{-\sigma^{2}}
-$$
+```math
+\frac{\mathbb{E}\left[G_{\text{real}}\right]}{G_{\text{ideal}}}  \approx  e^{-\sigma^{2}}
+```
 
 | $\sigma$ | Gain loss | Effect on side lobes |
 | --- | --- | --- |
@@ -114,20 +114,20 @@ in the side lobes, which is usually more troublesome in practice.
 
 Gather every defect into one complex matrix:
 
-$$
-\mathbf{y} \;=\; \mathbf{H}\,\mathbf{x}, \qquad
+```math
+\mathbf{y} = \mathbf{H}\,\mathbf{x}, \qquad
 \mathbf{H} \in \mathbb{C}^{N \times N}
-$$
+```
 
 Structure of $\mathbf{H}$:
 
-$$
-H_{nm} \;=\;
+```math
+H_{nm} =
 \begin{cases}
 g_n\, e^{\,j\psi_n} & \text{if } n = m, \quad \text{channel gain and phase error} \[4pt]
 c_{nm} & \text{if } n \neq m, \quad \text{coupling between elements } n \text{ and } m
 \end{cases}
-$$
+```
 
 If coupling is negligible, $\mathbf{H}$ is diagonal and calibration reduces to $N$
 independent corrections. That is the easy case, and whether it applies has to be
@@ -140,9 +140,9 @@ question before any hardware exists.
 
 With $M$ measurements and $N$ unknowns, if $M > N$ the least squares solution is:
 
-$$
-\hat{\mathbf{x}} \;=\; \left(\mathbf{A}^{H}\mathbf{A}\right)^{-1}\mathbf{A}^{H}\,\mathbf{b}
-$$
+```math
+\hat{\mathbf{x}} = \left(\mathbf{A}^{H}\mathbf{A}\right)^{-1}\mathbf{A}^{H}\,\mathbf{b}
+```
 
 where $\mathbf{A}$ describes the measurement conditions, $\mathbf{b}$ holds the
 measurements and $\mathbf{A}^{H}$ is the conjugate transpose.
@@ -152,18 +152,18 @@ measurements and $\mathbf{A}^{H}$ is the conjugate transpose.
 If $\mathbf{A}$ is poorly conditioned, a small measurement error produces a large
 estimation error. The condition number
 
-$$
-\kappa(\mathbf{A}) \;=\; \frac{\sigma_{\max}(\mathbf{A})}{\sigma_{\min}(\mathbf{A})}
-$$
+```math
+\kappa(\mathbf{A}) = \frac{\sigma_{\max}(\mathbf{A})}{\sigma_{\min}(\mathbf{A})}
+```
 
 quantifies that risk, where $\sigma_{\max}$ and $\sigma_{\min}$ are the largest and
 smallest singular values.
 
 Tikhonov regularisation adds a constraint:
 
-$$
-\hat{\mathbf{x}}_{\mu} \;=\; \left(\mathbf{A}^{H}\mathbf{A} + \mu \mathbf{I}\right)^{-1}\mathbf{A}^{H}\,\mathbf{b}
-$$
+```math
+\hat{\mathbf{x}}_{\mu} = \left(\mathbf{A}^{H}\mathbf{A} + \mu \mathbf{I}\right)^{-1}\mathbf{A}^{H}\,\mathbf{b}
+```
 
 The term $\mu \mathbf{I}$ stabilises the inversion at the price of a small bias.
 Interpretation: a slightly wrong but robust solution beats one that is exact in
@@ -179,10 +179,10 @@ A classical method in this field sidesteps it. Sweep the phase $\varphi$ of a si
 channel $n$ while the others stay fixed. Writing $S = \sum_{m \neq n} y_m$ for the
 sum of the other channels, the total received power is:
 
-$$
-P(\varphi) \;=\; \left| S + |y_n|\, e^{\,j(\psi_n + \varphi)} \right|^{2}
-\;=\; |S|^{2} + |y_n|^{2} + 2\,|S|\,|y_n|\,\cos\!\left(\psi_n + \varphi - \arg S\right)
-$$
+```math
+P(\varphi) = \left| S + |y_n|\, e^{\,j(\psi_n + \varphi)} \right|^{2}
+= |S|^{2} + |y_n|^{2} + 2\,|S|\,|y_n|\,\cos\!\left(\psi_n + \varphi - \arg S\right)
+```
 
 The power varies sinusoidally with $\varphi$, and the position of its maximum gives
 $\psi_n$ relative to $\arg S$. Repeat for each channel and you reconstruct every
@@ -197,9 +197,9 @@ measurements it needs.
 An alternative to the inverse problem: search directly for the command maximising a
 criterion, without estimating $\mathbf{H}$.
 
-$$
-\mathbf{x}^{\star} \;=\; \arg\max_{\mathbf{x}} \; f(\mathbf{x})
-$$
+```math
+\mathbf{x}^{\star} = \arg\max_{\mathbf{x}}   f(\mathbf{x})
+```
 
 where $f$ might be the measured power in one direction, or the negative deviation
 from a target pattern.
