@@ -1,22 +1,22 @@
 ---
-name: Décision à prendre
-about: Un choix structurant qui devra être tranché et documenté
+name: Decision to make
+about: A structural choice that will have to be settled and recorded
 title: "[decision] "
 labels: decision
 ---
 
 ## Question
 
-## Options envisagées à ce stade
+## Options on the table so far
 
-## Ce qui manque pour trancher
+## What is missing before deciding
 
-Mesure, lecture, essai, information matérielle.
+Measurement, reading, trial, hardware information.
 
-## Date ou événement limite
+## Deadline or trigger
 
-À partir de quand le fait de ne pas décider devient-il bloquant ?
+At what point does not deciding become the blocking problem?
 
-## Fiche cible
+## Target record
 
 `decisions/NNNN-....md`

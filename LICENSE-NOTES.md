@@ -1,104 +1,103 @@
-# Choix de licence : analyse, pas encore de décision
+# Licence analysis, no decision yet
 
-- Statut : à trancher avant publication du dépôt
-- Dernière revue : 2026-08-21
+- Status: to settle before the repository is presented as reusable
+- Last reviewed: 2026-08-21
 
-Aucun fichier `LICENSE` n'est présent volontairement. Poser une licence par
-habitude est une décision technique déguisée en formalité.
+There is deliberately no `LICENSE` file. Picking one out of habit is a technical
+decision dressed up as a formality.
 
-**Attention** : un dépôt public sans licence n'est pas "libre". En l'absence de
-licence, le droit d'auteur s'applique par défaut et personne n'a le droit de
-réutiliser le contenu. Ce n'est donc pas un état acceptable à long terme pour un
-dépôt destiné à être lu et éventuellement repris.
+**Important**: a public repository with no licence is not "open". With no licence,
+default copyright applies and nobody may reuse the content. That is acceptable
+during a research phase, and it is not acceptable indefinitely for a repository
+meant to be read and possibly reused.
 
-## 1. Ce que contient le dépôt
+## 1. What the repository contains
 
-Le contenu n'est pas homogène, et une licence unique n'est pas forcément le bon
-choix.
+The content is not homogeneous, so a single licence is not obviously the right
+answer.
 
-| Nature | Présent aujourd'hui | Prévu | Licence adaptée |
+| Nature | Present today | Planned | Suitable licence family |
 | --- | --- | --- | --- |
-| Documentation, analyses, figures | oui | oui | famille Creative Commons |
-| Code logiciel (scripts, modèle de référence, analyse) | non | oui | licence logicielle permissive ou copyleft |
-| Schémas et circuits imprimés | non | probable | licence matérielle dédiée, voir plus bas |
-| Fichiers de simulation | non | oui | attention aux modèles de composants fournis par les fabricants |
-| Données de mesure produites ici | non | oui | licence de données ou domaine public |
-| Données tierces | non | non, par principe | sans objet, on ne les redistribue pas |
+| Documentation, analysis, figures | yes | yes | Creative Commons |
+| Software (scripts, reference model, analysis) | no | yes | permissive or copyleft software licence |
+| Antenna and board design files | no | likely | dedicated hardware licence, see below |
+| Simulation files | no | yes | careful with vendor supplied device models |
+| Measurement data produced here | no | yes | data licence or public domain |
+| Third party data | no | no, by policy | not applicable, we do not redistribute it |
 
-## 2. Les candidates
+## 2. Candidates
 
-| Licence | Type | Ce qu'elle permet | Ce qu'elle impose | Pertinence ici |
+| Licence | Type | Allows | Requires | Relevance here |
 | --- | --- | --- | --- | --- |
-| MIT | permissive | tout, y compris usage commercial fermé | attribution | simple, mais aucune clause sur les brevets |
-| BSD 2 ou 3 clauses | permissive | idem | attribution | équivalent à MIT en pratique |
-| Apache 2.0 | permissive | idem | attribution, mention des modifications, concession de brevets | intéressante pour du matériel, où les brevets existent vraiment |
-| MPL 2.0 | copyleft de fichier | usage large | les fichiers modifiés restent ouverts | compromis rarement utilisé en matériel |
-| GPL 3.0 | copyleft fort | usage large | toute oeuvre dérivée reste sous GPL | dissuade la reprise industrielle, rarement adapté au RTL |
-| CERN OHL, variantes P, W et S | matériel | conçue pour les designs matériels | selon la variante, de permissive à copyleft fort | pensée pour ce cas précis |
-| Solderpad | matériel | dérivée d'Apache 2.0 adaptée au matériel | attribution, brevets | utilisée par plusieurs projets RISC-V |
-| CC BY 4.0 | documentation | réutilisation avec attribution | attribution | adaptée aux textes et figures |
-| CC0 | domaine public | tout | rien | adaptée aux données de mesure |
+| MIT | permissive | anything, including closed commercial use | attribution | simple, but silent on patents |
+| BSD 2 or 3 clause | permissive | same | attribution | equivalent to MIT in practice |
+| Apache 2.0 | permissive | same | attribution, notice of changes, patent grant | interesting for hardware, where patents genuinely exist |
+| MPL 2.0 | file level copyleft | broad use | modified files stay open | rarely used for hardware |
+| GPL 3.0 | strong copyleft | broad use | derivative works stay GPL | discourages industrial reuse, rarely a fit for RTL |
+| CERN OHL, P, W and S variants | hardware | designed for hardware designs | from permissive to strong copyleft | written for exactly this case |
+| Solderpad | hardware | Apache 2.0 adapted to hardware | attribution, patents | used by several RISC-V projects |
+| CC BY 4.0 | documentation | reuse with attribution | attribution | fits text and figures |
+| CC0 | public domain | anything | nothing | fits measurement data |
 
-## 3. Le point qui décidera vraiment
+## 3. What will actually decide
 
-La licence des briques externes reprises. Trois cas :
+The licences of the external blocks we reuse. Three cases:
 
-| Cas | Conséquence |
+| Case | Consequence |
 | --- | --- |
-| On n'écrit que du code original | choix totalement libre |
-| On reprend des blocs sous licence permissive | choix libre, avec obligation d'attribution et conservation des en-têtes |
-| On reprend un bloc sous copyleft fort | la licence du projet est en grande partie déterminée |
+| Only original code | free choice |
+| Permissively licensed blocks reused | free choice, with attribution and header retention |
+| Strong copyleft block reused | the project licence is largely determined |
 
-Conséquence pratique : **la décision de licence dépend de la décision
-d'architecture**, donc elle vient après. Chaque brique externe envisagée doit
-avoir sa licence notée dans sa fiche de `research/fiches/`, et c'est cette liste
-qui décidera.
+So the licence decision follows the architecture decision. Every external block
+under consideration has its licence recorded in its note in `research/notes/`, and
+that list is what will decide.
 
-## 4. Le cas particulier des dessins de carte
+## 4. The board design question
 
-Un dessin de circuit imprimé n'est pas du logiciel. Les licences dédiées au
-matériel ouvert ont été écrites précisément pour cet objet, et elles existent en
-plusieurs variantes, de la plus permissive à la plus contraignante pour les
-travaux dérivés.
+A printed circuit board design is not software. Licences written for open hardware
+exist precisely for this kind of object, in several variants ranging from permissive
+to strongly reciprocal for derived work.
 
-Question ouverte : appliquer une licence logicielle par simplicité, ou une licence
-matérielle par exactitude ? À trancher, avec un argument.
+Open question: apply a software licence for simplicity, or a hardware licence for
+accuracy? To be settled with an argument.
 
-## 5. Le cas des modèles de composants, des simulations et des données de mesure
+## 5. Device models and simulation files
 
-Point spécifique à ce projet et facile à oublier : les modèles de composants
-fournis par les fabricants sont souvent soumis à des conditions d'utilisation
-particulières, et leur redistribution n'est généralement pas autorisée.
+Specific to the radio frequency projects, and easy to forget: device models supplied
+by component vendors, and electromagnetic simulation project files that embed vendor
+libraries, usually come with their own terms of use, and redistributing them is
+generally not allowed.
 
-Règle du dépôt :
+Repository rule:
 
-- on ne redistribue aucun modèle de composant fourni par un fabricant,
-- on référence le composant et l'endroit où récupérer son modèle,
-- les fichiers de simulation présents dans le dépôt doivent pouvoir être ouverts
-  sans ces modèles, ou indiquer clairement ce qui manque.
+- no vendor supplied device model is redistributed,
+- we reference the part and where to obtain its model,
+- simulation files in the repository must either open without those models, or state
+  clearly what is missing.
 
-La même prudence s'applique aux données de mesure fournies par des tiers, y
-compris les jeux de données publics : leurs conditions d'utilisation doivent être
-lues et notées dans la fiche correspondante.
+The same caution applies to measurement data provided by third parties, including
+public datasets: their terms of use are read and recorded in the corresponding
+source note.
 
-## 6. Proposition de départ, non validée
+## 6. Starting proposal, not validated
 
-À discuter, et à confirmer par une fiche de décision :
+To be confirmed by a decision record:
 
-- documentation et figures : Creative Commons attribution,
-- scripts et modèle de référence : Apache 2.0, pour la clause de brevets,
-- dessins de carte : à décider, licence matérielle dédiée probable,
-- données de mesure produites ici : domaine public ou attribution simple.
+- documentation and figures: Creative Commons attribution,
+- scripts and reference model: Apache 2.0, for the patent grant,
+- board design files: to decide, a dedicated hardware licence is likely,
+- measurement data produced here: public domain or simple attribution.
 
-Un fichier `LICENSE` par nature de contenu est possible et courant. Cela demande
-une explication claire en tête de README pour éviter toute ambiguïté.
+One `LICENSE` file per content type is possible and common. It requires a clear
+statement at the top of the README to avoid ambiguity.
 
-## 7. Points de vigilance avant publication
+## 7. Checklist before declaring the repository reusable
 
-- [ ] Aucune donnée tierce redistribuée sans autorisation.
-- [ ] Aucun extrait de documentation constructeur copié dans le dépôt.
-- [ ] Aucune clé, aucun jeton, aucune adresse personnelle.
-- [ ] Aucun modèle de composant fourni par un fabricant n'est redistribué.
-- [ ] Les conditions d'utilisation des jeux de données tiers sont vérifiées.
-- [ ] Le fichier de licence choisi est présent avant de rendre le dépôt public.
-- [ ] Le README indique clairement quelle licence s'applique à quoi.
+- [ ] No third party data redistributed without permission.
+- [ ] No vendor documentation copied into the repository.
+- [ ] No keys, tokens or personal addresses.
+- [ ] No vendor supplied device model redistributed.
+- [ ] Terms of use of every third party dataset checked and recorded.
+- [ ] Chosen licence file present.
+- [ ] README states clearly which licence applies to what.

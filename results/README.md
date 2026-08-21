@@ -1,49 +1,50 @@
-# Résultats
+# Results
 
-Ce dossier contient les mesures réelles, pas les mesures espérées.
+This directory holds measurements that were actually taken, not measurements we
+hope to take.
 
-## Organisation
+## Layout
 
 ```
 results/
-  EXP-001-nom/
-    SOURCE.md        origine, date, opérateur, matériel, versions
-    raw/             données brutes, jamais modifiées
-    processed/       données dérivées, régénérables par script
+  EXP-001-name/
+    SOURCE.md        origin, date, operator, hardware, versions
+    raw/             raw data, never modified
+    processed/       derived data, regenerable by script
     figures/
-    notes.md         ce qui s'est mal passé pendant la manipulation
+    notes.md         what went wrong during the session
 ```
 
-`raw/` est en lecture seule par convention. Si une donnée brute est fausse, on ne
-la corrige pas : on ajoute une note et on refait la mesure.
+`raw/` is read-only by convention. If a raw measurement is wrong, we do not fix
+it: we add a note and take the measurement again.
 
-## Règle sur les données brutes
+## Metadata rule
 
-Une mesure sans métadonnée est perdue. `SOURCE.md` doit contenir au minimum :
+A measurement without metadata is lost. `SOURCE.md` must contain at least:
 
-- date et heure,
-- matériel utilisé avec identifiants,
-- versions logicielles, de bitstream ou de firmware,
-- conditions (température ambiante si pertinent, alimentation, câblage),
-- procédure de calibration éventuelle et sa date,
-- anomalies constatées.
+- date and time,
+- hardware used, with identifiers,
+- software, bitstream or firmware versions,
+- conditions (ambient temperature where relevant, supply, cabling),
+- calibration procedure and its date,
+- anything anomalous that was noticed.
 
-## Politique de versionnement des gros fichiers
+## Large file policy
 
-À décider avant la première campagne de mesure sérieuse.
+To be decided before the first serious measurement campaign.
 
-| Option | Avantage | Inconvénient | Statut |
+| Option | Advantage | Drawback | Status |
 | --- | --- | --- | --- |
-| Tout dans git | simple, autonome | dépôt lourd, clone lent | à évaluer |
-| Git LFS | intégré à GitHub | quota, friction pour les contributeurs | à évaluer |
-| Données hors dépôt, empreintes dans git | dépôt léger | nécessite un stockage externe fiable | à évaluer |
-| Sous-échantillon dans git, brut hors dépôt | compromis | risque de désynchronisation | à évaluer |
+| Everything in git | simple, self-contained | heavy repository, slow clone | to evaluate |
+| Git LFS | integrated with GitHub | quota, friction for contributors | to evaluate |
+| Data outside the repository, hashes inside | light repository | needs reliable external storage | to evaluate |
+| Subsample in git, raw outside | compromise | risk of the two drifting apart | to evaluate |
 
-Tant que la décision n'est pas prise, on limite les fichiers à quelques Mo et on
-privilégie les formats texte compressibles.
+Until this is decided, files stay in the low megabytes and compressible text
+formats are preferred.
 
-## Reproductibilité
+## Reproducibility
 
-Chaque figure publiée dans le README ou dans un document doit pouvoir être
-régénérée par un script présent dans le dépôt, à partir des données de `raw/`.
-Une figure sans script associé est marquée comme illustrative.
+Every figure published in the README or in a document must be regenerable by a
+script in this repository, from the data in `raw/`. A figure with no associated
+script is labelled as illustrative.

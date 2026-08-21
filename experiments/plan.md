@@ -1,104 +1,130 @@
-# Plan d'expériences
+# Experiment plan
 
-- Statut : en cours
-- Dernière revue : 2026-08-21
+- Status: in progress
+- Last reviewed: 2026-08-21
 
-Comme dans NeuralRFIC, le travail est organisé en deux fils : un fil simulation qui
-démarre immédiatement, et un fil matériel contraint par les achats et la
-fabrication.
+As in the RF modelling project, the work runs on two tracks: a simulation track that
+starts immediately, and a hardware track constrained by purchases and fabrication.
 
 ---
 
-## Vue d'ensemble
+## Overview
 
-| N | Fil | Titre | Débloque | Effort | Statut |
+| N | Track | Title | Unblocks | Effort | Status |
 | --- | --- | --- | --- | --- | --- |
-| 001 | simulation | Simulateur de réseau avec défauts injectés | tout le fil simulation | 1 semaine | à faire |
-| 002 | simulation | Comparaison des méthodes de calibration | résultat principal théorique | 2 semaines | à faire |
-| 003 | simulation | Sensibilité au bruit et au nombre de mesures | dimensionnement des campagnes réelles | 1 semaine | à faire |
-| 004 | matériel | Audit des instruments et de l'environnement | tout le fil matériel | 2 jours | à faire |
-| 005 | matériel | Essai de mesure de puissance reproductible | faisabilité de toute mesure | 2 jours | à faire |
-| 006 | matériel | Réseau à deux éléments | premier système réel | 2 semaines | à faire |
-| 007 | matériel | Effet d'une erreur de câble connue | démonstration du problème | 1 jour | à faire |
-| 008 | matériel | Première calibration réelle | résultat principal pratique | 1 semaine | à faire |
-| 009 | matériel | Extension à quatre éléments | résolution et couplage | 2 semaines | à faire |
-| 010 | matériel | Durée de validité d'une calibration | axe original | temps calendaire | à faire |
+| 001 | simulation | Array simulator with injected defects | all of the simulation track | 1 week | to do |
+| 002 | simulation | Compare calibration methods in simulation | main theoretical result | 2 weeks | to do |
+| 003 | simulation | Sensitivity to noise and to measurement count | sizing the real campaigns | 1 week | to do |
+| 004 | hardware | Instrument and environment audit | all of the hardware track | 2 days | to do |
+| 005 | hardware | Repeatable power measurement trial | feasibility of any measurement | 2 days | to do |
+| 006 | hardware | Two element array | first real system | 2 weeks | to do |
+| 007 | hardware | Effect of a known cable error | demonstration of the problem | 1 day | to do |
+| 008 | hardware | First real calibration | main practical result | 1 week | to do |
+| 009 | hardware | Extend to four elements | resolution and coupling | 2 weeks | to do |
+| 010 | hardware | How long a calibration stays valid | original angle | calendar time | to do |
+| 011 | simulation | Electromagnetic simulation of the real geometry | physically grounded coupling model | 1 week | to do |
 
 ---
 
-## EXP-001 : simulateur de réseau
+## EXP-001: array simulator
 
-**Question** : dispose-t-on d'un banc virtuel où les défauts sont connus
-exactement ?
+**Question**: do we have a virtual bench where the defects are known exactly?
 
-**Méthode** : implémenter le facteur de réseau, injecter des erreurs de gain et de
-phase tirées au hasard, ajouter du couplage et du bruit de mesure réglables.
+**Method**: implement the array factor, inject randomly drawn gain and phase errors,
+add adjustable coupling and measurement noise.
 
-**Vérification** : sans défaut ni bruit, le diagramme doit correspondre exactement
-à la théorie, largeur de faisceau et niveau de lobes secondaires compris. C'est un
-test facile à écrire et qui attrape la plupart des erreurs d'implémentation.
+**Checks before trusting it**: with no defects and no noise the pattern must match
+theory exactly.
 
-**Livrable** : un simulateur testé, réutilisable pour toutes les expériences
-suivantes.
+- [ ] Beam width matching the classical formula
+- [ ] First side lobe near -13 dB with uniform amplitudes
+- [ ] Requested broadside pointing gives a maximum exactly at zero
+- [ ] Requested 30 degree pointing gives a maximum at 30 degrees
+- [ ] Spacing beyond half a wavelength produces a grating lobe at the predicted
+      position
 
----
-
-## EXP-002 : comparaison en simulation
-
-**Question** : quelle méthode de calibration donne la meilleure qualité pour un
-nombre de mesures donné ?
-
-**Méthode** : appliquer chaque méthode au même réseau virtuel, avec les mêmes
-défauts et le même bruit, en comptant les mesures consommées. Répéter sur de
-nombreux tirages de défauts.
-
-**Livrable** : la courbe qualité en fonction du nombre de mesures, une par méthode.
-C'est le résultat central du fil simulation, et il est obtenu sans matériel.
-
-**Critère** : les courbes sont produites, et les croisements éventuels sont
-expliqués.
+These checks are quick to write and catch almost every implementation error.
 
 ---
 
-## EXP-005 : mesure de puissance reproductible
+## EXP-002: comparison in simulation
 
-**Question** : peut-on mesurer une puissance reçue de façon reproductible dans
-l'environnement disponible ?
+**Question**: which calibration method gives the best quality for a given number of
+measurements?
 
-**Méthode** : montage fixe, mesure répétée sur plusieurs minutes, puis après avoir
-déplacé un objet dans la pièce, puis avec quelqu'un qui passe à proximité.
+**Method**: apply each method to the same virtual array, with the same defects and
+the same noise, counting the measurements consumed. Repeat over many defect draws.
 
-**Critère** : écart type des mesures répétées. Ce chiffre devient le plancher
-d'incertitude et détermine si les mesures de diagramme sont possibles.
-
-**Pourquoi c'est prioritaire** : si la variation due à l'environnement dépasse
-l'effet qu'on veut mesurer, il faut changer de stratégie immédiatement, avant tout
-achat.
+**Deliverable**: quality against measurement count, one curve per method. This is
+the central result of the simulation track, and it needs no hardware.
 
 ---
 
-## EXP-007 : démonstration du problème
+## EXP-004: instrument and environment audit
 
-**Question** : quel est l'effet mesurable d'une erreur de longueur de câble connue ?
+**Question**: what can we measure, and are the room reflections small enough?
 
-**Méthode** : réseau à deux éléments, mesure du diagramme, puis remplacement d'un
-câble par un câble un peu plus long, de longueur connue, et nouvelle mesure.
+**Method**: record every instrument model and its characteristics. Check whether the
+network analyser offers time domain gating, since that would solve much of the echo
+problem for free.
 
-**Hypothèse à écrire avant** : le déphasage introduit vaut environ 4,4 degrés par
-millimètre à 2,4 GHz dans un câble à vitesse de propagation usuelle. La direction
-du faisceau doit se déplacer d'une quantité calculable à partir de cette valeur.
-
-**Critère** : accord entre le déplacement prévu et le déplacement mesuré.
-
-**Pourquoi cette expérience est importante** : c'est la démonstration la plus
-parlante du projet, et elle valide en même temps le banc de mesure. Si le
-déplacement mesuré correspond au calcul, on sait que tout le montage fonctionne et
-qu'on mesure bien ce qu'on croit mesurer.
+**Deliverable**: `docs/hardware/inventory-and-needs.md` filled in.
 
 ---
 
-## Suite
+## EXP-005: repeatable power measurement
 
-Les expériences 008 à 010 seront détaillées quand les précédentes auront eu lieu.
-EXP-010, sur la durée de validité, demande peu de travail mais du temps calendaire.
-Elle peut donc être lancée en parallèle des autres.
+**Question**: can received power be measured repeatably in the available
+environment?
+
+**Method**: fixed setup, measurement repeated over several minutes, then after
+moving an object in the room, then with somebody walking past.
+
+**Criterion**: standard deviation of the repeated measurements. That number becomes
+the uncertainty floor and decides whether pattern measurement is possible at all.
+
+**Why it is a priority**: if the variation caused by the environment exceeds the
+effect we want to measure, the strategy has to change immediately, before any
+purchase.
+
+---
+
+## EXP-007: demonstration of the problem
+
+**Question**: what is the measurable effect of a known cable length error?
+
+**Method**: two element array, measure the pattern, replace one cable with a
+slightly longer one of known length, measure again.
+
+**Hypothesis, written before the measurement**: the introduced phase shift is about
+4.4 degrees per millimetre at 2.4 GHz in cable of typical velocity factor. The beam
+direction should move by an amount calculable from that.
+
+**Criterion**: agreement between the predicted and measured shift.
+
+**Why this experiment matters**: it is the most legible demonstration in the
+project, and it validates the measurement bench at the same time. If the measured
+shift matches the calculation, you know the whole setup works and that you are
+measuring what you think you are.
+
+---
+
+## EXP-011: electromagnetic simulation of the real geometry
+
+**Question**: what coupling does the planned array actually have?
+
+**Method**: model the intended geometry in the full wave simulator, extract the
+coupling matrix, and feed it into the array simulator in place of an invented one.
+
+**Why it matters**: it replaces a guessed coupling model with a physically grounded
+one. Later, comparing simulated coupling against coupling measured on the fabricated
+array is a result in itself, and it is something most projects at this scale cannot
+produce.
+
+---
+
+## Later
+
+EXP-008 to EXP-010 will be detailed once the earlier ones have run. EXP-010, on how
+long a calibration lasts, needs little work but a lot of calendar time, so it can run
+alongside the others.

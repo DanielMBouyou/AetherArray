@@ -1,9 +1,9 @@
 name: docs
 
-# Cette CI ne compile rien pour l'instant : le dépôt est en phase d'étude.
-# Elle vérifie seulement que la documentation respecte les conventions.
-# La CI de simulation et de synthèse est décrite dans docs/ci-strategie.md et sera
-# ajoutée quand il y aura du code à construire.
+# This CI does not build anything yet: the repository is in its study phase.
+# It only checks that the documentation follows the repository conventions.
+# Simulation and synthesis CI is described in docs/ci-strategy.md and will be
+# added when there is code to build.
 
 on:
   push:
@@ -15,5 +15,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Contrôles de documentation
+      - name: Documentation checks
         run: bash tools/check-docs.sh

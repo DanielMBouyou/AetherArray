@@ -1,65 +1,68 @@
-# Backlog initial
+# Initial backlog
 
-- Statut : à transformer en issues GitHub à la création du dépôt
-- Dernière revue : 2026-08-21
+- Status: mirrored into GitHub issues
+- Last reviewed: 2026-08-21
 
-## Fil simulation, démarrage immédiat
+## Simulation track, start immediately
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 1 | Implémenter le facteur de réseau et le vérifier sur les cas théoriques | experience | fondation de tout le fil |
-| 2 | Ajouter injection de défauts, couplage et bruit | experience | permet de connaître la vérité |
-| 3 | Reproduire l'effet statistique des erreurs de phase | experience | valide le simulateur contre la théorie |
-| 4 | Implémenter la calibration voie par voie | experience | méthode de base |
-| 5 | Implémenter la méthode par rotation de phase | experience | ne demande que des mesures de puissance |
-| 6 | Implémenter l'inversion régularisée | experience | méthode complète |
-| 7 | Comparer les méthodes à nombre de mesures compté | experience | résultat théorique principal |
-| 8 | Étudier la sensibilité au bruit | experience | dimensionne les campagnes réelles |
+| 1 | Implement the array factor and check it against the theoretical cases | experiment | foundation of the whole track |
+| 2 | Add defect, coupling and noise injection | experiment | lets us know the truth |
+| 3 | Reproduce the statistical effect of phase errors | experiment | validates the simulator against theory |
+| 4 | Implement channel by channel calibration | experiment | the basic method |
+| 5 | Implement the phase rotation method | experiment | needs only power measurements |
+| 6 | Implement regularised inversion | experiment | the complete method |
+| 7 | Compare the methods with measurements counted | experiment | main theoretical result |
+| 8 | Study noise sensitivity | experiment | sizes the real campaigns |
+| 9 | Simulate the planned geometry electromagnetically | experiment | replaces an invented coupling model with a physical one |
 
-## Fil matériel, bloquant
+## Hardware track, blocking
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 9 | Auditer les instruments disponibles | etude | conditionne tout |
-| 10 | Vérifier la disponibilité d'un fenêtrage temporel sur l'analyseur | etude | pourrait résoudre le problème des échos |
-| 11 | Caractériser les réflexions de l'environnement | experience | décide de la stratégie de mesure |
-| 12 | Mesurer la reproductibilité d'une mesure de puissance | experience | plancher d'incertitude |
-| 13 | Décider de la nature des ondes, RF ou acoustique | decision | dépend de 11 et 12 |
-| 14 | Décider de la fréquence de travail | decision | dépend de 9 et 13 |
+| 10 | Audit the available instruments | study | gates everything |
+| 11 | Check whether the analyser offers time domain gating | study | could solve the echo problem for free |
+| 12 | Characterise the environment reflections | experiment | decides the measurement strategy |
+| 13 | Measure the repeatability of a power measurement | experiment | the uncertainty floor |
+| 14 | Decide the kind of wave, radio frequency or acoustic | decision | depends on 12 and 13 |
+| 15 | Decide the working frequency | decision | depends on 10 and 14 |
 
-## Conception
+## Design
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 15 | Comparer les architectures de formation de faisceau | etude | analogique, numérique, commutation |
-| 16 | Chercher et chiffrer les composants de déphasage | etude | coût par voie |
-| 17 | Décider de l'architecture | decision | détermine le rôle du FPGA |
-| 18 | Concevoir les antennes | etude | reproductibilité entre éléments plus importante que performance |
-| 19 | Réaliser un réseau à deux éléments | experience | premier système réel |
-| 20 | Concevoir un positionneur angulaire | etude | utile aussi à NeuralRFIC |
+| 16 | Compare the beamforming architectures | study | analogue, digital, switched line |
+| 17 | Find and cost the phase shifting components | study | cost per channel |
+| 18 | Decide the architecture | decision | determines the role of the FPGA |
+| 19 | Design the antennas | study | reproducibility between elements matters more than individual performance |
+| 20 | Build a two element array | experiment | first real system |
+| 21 | Design an angular positioner | study | also useful to the RF modelling project |
+| 22 | Group the board order with the RF modelling project | decision | shares the fixed setup cost |
 
-## Mesure et validation
+## Measurement and validation
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 21 | Mesurer l'effet d'une erreur de câble connue | experience | démonstration la plus parlante du projet |
-| 22 | Mesurer le diagramme non calibré | experience | état de départ |
-| 23 | Appliquer une première calibration réelle | experience | résultat principal |
-| 24 | Mesurer le couplage entre éléments | experience | valide ou invalide l'hypothèse de matrice diagonale |
-| 25 | Mesurer la durée de validité d'une calibration | experience | demande du temps calendaire, à lancer tôt |
+| 23 | Measure the effect of a known cable error | experiment | the most legible demonstration in the project |
+| 24 | Measure the uncalibrated pattern | experiment | the control case |
+| 25 | Apply a first real calibration | experiment | main result |
+| 26 | Measure coupling between elements | experiment | confirms or refutes the diagonal matrix assumption |
+| 27 | Compare simulated coupling against measured coupling | experiment | a distinctive deliverable |
+| 28 | Measure how long a calibration stays valid | experiment | needs calendar time, start early |
 
-## Méthodes avancées
+## Advanced methods
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 26 | Étudier l'optimisation bayésienne | etude | réduction du nombre de mesures |
-| 27 | L'appliquer et mesurer le gain réel | experience | comparaison à budget de mesures égal |
-| 28 | Décider si une méthode apprise est poursuivie | decision | dépend de 27 |
+| 29 | Study Bayesian optimisation | study | reducing the measurement count |
+| 30 | Apply it and measure the real gain | experiment | comparison at an equal measurement budget |
+| 31 | Decide whether a learned method is pursued | decision | depends on 30 |
 
 ## Infrastructure
 
-| # | Titre | Type | Note |
+| # | Title | Type | Note |
 | --- | --- | --- | --- |
-| 29 | Automatiser l'acquisition et l'archivage | etude | commun avec NeuralRFIC |
-| 30 | Décider de la licence | decision | code, mesures et dessins de carte diffèrent |
-| 31 | Organiser le partage de l'analyseur de réseau avec NeuralRFIC | decision | ressource unique |
+| 32 | Automate acquisition and archiving | study | shared with the RF modelling project |
+| 33 | Decide the repository licence | decision | code, measurements and board files differ |
+| 34 | Organise sharing the network analyser with the RF modelling project | decision | single resource |

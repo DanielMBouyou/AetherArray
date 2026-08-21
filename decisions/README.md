@@ -1,40 +1,40 @@
-# Journal des décisions
+# Decision log
 
-Ce dossier conserve les décisions techniques structurantes du projet.
+This directory records the structural technical decisions of the project.
 
-## Pourquoi
+## Why
 
-Dans six mois, la question ne sera pas "qu'est-ce qu'on a choisi", elle sera
-"pourquoi on a choisi ça, et est-ce que la raison tient toujours". Un choix sans
-justification tracée finit par être repris par habitude, même quand le contexte a
-changé.
+In six months the question will not be "what did we choose". It will be "why did
+we choose that, and does the reason still hold". A choice with no recorded
+justification ends up being repeated out of habit, long after the context has
+changed.
 
-## Ce qui mérite une entrée
+## What belongs here
 
-Une décision entre ici si au moins une de ces conditions est vraie :
+A decision goes in if at least one of these is true:
 
-- elle est coûteuse à annuler (matériel acheté, architecture RTL engagée, format
-  de données figé),
-- elle exclut une famille de solutions,
-- elle repose sur une hypothèse qui pourrait se révéler fausse,
-- quelqu'un d'extérieur pourrait raisonnablement faire l'autre choix.
+- it is expensive to undo (hardware bought, RTL architecture committed, data
+  format frozen),
+- it rules out a family of solutions,
+- it rests on an assumption that could turn out to be wrong,
+- someone competent could reasonably make the opposite call.
 
-Un choix réversible en une heure ne mérite pas de fiche.
+A choice that can be reversed in an hour does not need a record.
 
 ## Format
 
-Un fichier par décision : `NNNN-titre-court.md`, à partir de `0001`. La
-numérotation ne recule jamais. Une décision annulée n'est pas supprimée : son
-statut passe à `remplacée par NNNN` et la nouvelle fiche explique ce qui a changé.
+One file per decision: `NNNN-short-title.md`, starting at `0001`. Numbers never go
+backwards. A cancelled decision is not deleted: its status becomes
+`superseded by NNNN`, and the new record explains what changed.
 
-Statuts possibles : `proposée`, `acceptée`, `rejetée`, `remplacée`, `suspendue`.
+Statuses: `proposed`, `accepted`, `rejected`, `superseded`, `on hold`.
 
-Le modèle est dans `0000-template.md`.
+The template is in `0000-template.md`.
 
-## Règle importante pour cette phase
+## One rule that matters during this phase
 
-Le projet est en phase d'étude. La plupart des grandes questions ne doivent pas
-encore être tranchées. Une fiche de décision écrite trop tôt, sans mesure, est une
-manière déguisée de figer une intuition. Si une décision doit être prise sans
-preuve (contrainte de calendrier ou de budget), la fiche doit le dire dans la
-section "preuves" plutôt que d'inventer une justification technique.
+The project is in its study phase. Most of the big questions should not be settled
+yet. A decision record written too early, with no measurement behind it, is a way
+of freezing an intuition and calling it a choice. If a decision has to be made
+without evidence (schedule or budget pressure), the evidence section must say so
+rather than invent a technical justification.

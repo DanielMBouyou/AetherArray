@@ -1,0 +1,63 @@
+# What is established, assumed, or still to verify
+
+- Status: in progress
+- Last reviewed: 2026-08-21
+
+---
+
+## 1. Established
+
+| Fact | Source | Consequence |
+| --- | --- | --- |
+| One centimetre of coaxial cable is about 44 degrees of phase at 2.4 GHz | calculation from the velocity factor | calibration is mandatory, not optional |
+| Phase errors with 30 degree standard deviation cost about 1.2 dB of gain | classical array result | the effect is calculable before any measurement |
+| Spacing beyond half a wavelength creates grating lobes | the non aliasing condition | a hard geometric constraint |
+| Far field distance is about twice the array size squared over the wavelength | usual definition | sets the measurement distance |
+| A human body near the setup changes the measurement | absorption and reflection | the measurement protocol has to account for it |
+| The required phase depends on frequency | form of the array factor | pointing drifts across the band |
+| A full wave electromagnetic simulator is available | tool inventory | the coupling model can come from physics rather than invention |
+
+## 2. Assumed
+
+| Assumption | Why | How it could fall | Effect |
+| --- | --- | --- | --- |
+| Pattern measurements are possible in an ordinary room | with care, many people manage it | if reflections dominate | move to conducted measurement, or to an acoustic array |
+| Coupling is secondary to channel errors | half wavelength spacing | if coupling is strong | the full matrix has to be estimated, so more measurements |
+| A classical calibration method will be enough | maturity of the field | if it fails against noise or coupling | optimisation becomes necessary, which is interesting |
+| Two elements are enough to validate the method | the physics is the same | if the interesting phenomena start at four | move to four sooner |
+| An acoustic array is a good substitute for the algorithms | identical mathematical formalism | if the physical differences change the conclusions | validate on both, which is the interesting experiment anyway |
+| Simulated coupling matches measured coupling | full wave simulation is generally accurate | if the model omits the real environment | the gap becomes a result in itself |
+
+## 3. To verify
+
+| N | Question | Method | Blocks |
+| --- | --- | --- | --- |
+| I1 | Can received power be measured repeatably? | EXP-005 | all of the hardware track |
+| I2 | Does the network analyser offer time domain gating to isolate the direct path? | manual, then trial | measurement quality |
+| I3 | How large are the reflections in the available environment? | EXP-005 | choice of measurement strategy |
+| I4 | Can we measure phase, or only power? | instrument audit | choice of calibration method |
+| I5 | How large are channel errors in a home built assembly? | EXP-006 | calibration sizing |
+| I6 | Is coupling significant at the chosen spacing? | S parameters between elements, and simulation | complexity of the model |
+| I7 | What do commandable phase shifters cost? | component search | architecture choice |
+| I8 | How long does a calibration stay valid? | EXP-010 | practical use of the system |
+| I9 | Is an angular positioner necessary, and can we build one? | trial | feasibility of pattern measurement |
+| I10 | Is the FPGA genuinely useful here? | architecture choice | this project's role in the lab |
+| I11 | Does simulated coupling match measured coupling? | simulation then measurement | credibility of the simulation study |
+
+Question I10 deserves to be asked bluntly. If the chosen architecture is analogue,
+the FPGA has no role in this project, and that should be stated rather than dressed
+up with an artificial one.
+
+## 4. Reasoning traps to avoid
+
+- **Measuring a pattern without characterising the environment.** Echoes can produce
+  curves that look like lobes.
+- **Attributing to coupling what comes from the cables.** The two are confounded in
+  the measurement, and separating them needs a protocol.
+- **Comparing calibration methods without counting the measurements.**
+- **Concluding from a single defect draw.** Results vary a lot from draw to draw.
+- **Forgetting that the operator is part of the setup.**
+- **Believing a calibration is permanent.** That is exactly what has to be measured.
+- **Using the FPGA because it is available**, when the chosen architecture has no
+  need for one.
+- **Trusting simulated coupling without checking it against measurement.**

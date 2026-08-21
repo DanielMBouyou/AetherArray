@@ -1,153 +1,147 @@
-# Architectures candidates
+# Candidate architectures
 
-- Statut : ouvert, aucun choix fait
-- Dernière revue : 2026-08-21
+- Status: open, nothing chosen
+- Last reviewed: 2026-08-21
 
 ---
 
-## 1. Les trois façons de former un faisceau
+## 1. The three ways to form a beam
 
-| Approche | Principe | Matériel par voie | Souplesse | Coût |
+| Approach | Principle | Hardware per channel | Flexibility | Cost |
 | --- | --- | --- | --- | --- |
-| Analogique | déphaseurs et atténuateurs sur le signal RF, une seule chaîne de conversion | un déphaseur, un atténuateur | un seul faisceau à la fois | modéré |
-| Numérique | une chaîne de conversion complète par voie, tout se fait par le calcul | un convertisseur et un émetteur-récepteur | totale, plusieurs faisceaux simultanés | élevé |
-| Hybride | sous-groupes analogiques, combinés numériquement | intermédiaire | intermédiaire | intermédiaire |
+| Analogue | phase shifters and attenuators on the RF signal, one conversion chain | one phase shifter, one attenuator | one beam at a time | moderate |
+| Digital | a full conversion chain per channel, everything done by computation | a converter and a transceiver | total, several simultaneous beams | high |
+| Hybrid | analogue sub arrays combined digitally | intermediate | intermediate | intermediate |
 
-Conséquence directe pour ce projet : **le FPGA n'a d'intérêt que dans les
-approches numérique ou hybride.** En analogique, un microcontrôleur suffit
-largement à piloter des déphaseurs. Ce point doit être tranché consciemment, pas
-subi.
+Direct consequence for this project: **the FPGA only matters in the digital or
+hybrid approaches.** In the analogue case a microcontroller is ample for driving
+phase shifters. That has to be decided consciously rather than inherited.
 
-## 2. Options de mise en oeuvre
+## 2. Implementation options
 
-### Option A : réseau analogique avec déphaseurs commandés
+### Option A: analogue array with commanded phase shifters
 
-Des composants dédiés appliquent un déphasage réglable à chaque voie.
+Dedicated components apply an adjustable phase shift per channel.
 
-| Aspect | Évaluation |
+| Aspect | Assessment |
 | --- | --- |
-| Complexité électronique | moyenne |
-| Coût | dépend fortement des composants, à chiffrer |
-| Réalisme | c'est l'architecture des systèmes réels |
-| Problème de calibration | bien posé, et c'est le sujet |
-| Rôle du FPGA | aucun, un microcontrôleur suffit |
+| Electronic complexity | medium |
+| Cost | depends heavily on the components, to be costed |
+| Realism | this is how real systems are built |
+| Calibration problem | well posed, and it is the subject |
+| Role of the FPGA | none, a microcontroller is enough |
 
-### Option B : réseau numérique multi-voies
+### Option B: digital multi channel array
 
-Chaque voie a sa propre chaîne de conversion, la formation de faisceau se fait par
-le calcul.
+Each channel has its own conversion chain, beamforming is done by computation.
 
-| Aspect | Évaluation |
+| Aspect | Assessment |
 | --- | --- |
-| Complexité | élevée, il faut synchroniser les voies |
-| Coût | élevé |
-| Souplesse | maximale |
-| Problème de calibration | toujours présent, et plus riche |
-| Rôle du FPGA | central, y compris pour la synchronisation |
+| Complexity | high, the channels have to be kept coherent |
+| Cost | high |
+| Flexibility | maximal |
+| Calibration problem | still present, and richer |
+| Role of the FPGA | central, including for synchronisation |
 
-Difficulté spécifique et intéressante : la cohérence entre voies. Deux récepteurs
-séparés ont chacun leur oscillateur, et leur différence de phase dérive. Il faut
-soit une horloge commune, soit une voie de référence. C'est un vrai problème
-d'ingénierie, et il rejoint directement les compétences de synchronisation
-développées dans muMarket.
+A specific and interesting difficulty: channel coherence. Two separate receivers
+each have their own oscillator, and their phase difference drifts. You need either a
+shared clock or a reference channel. That is a genuine engineering problem, and it
+connects directly to the synchronisation work in the latency project in this lab.
 
-### Option C : déphasage par commutation de lignes
+### Option C: switched line phase shifting
 
-On sélectionne des longueurs de ligne différentes pour créer des déphasages
-discrets, par exemple par pas de 90 degrés.
+Select between different line lengths to create discrete phase steps, for example in
+90 degree increments.
 
-| Aspect | Évaluation |
+| Aspect | Assessment |
 | --- | --- |
-| Complexité | faible |
-| Coût | faible |
-| Précision | limitée par la quantification du déphasage |
-| Intérêt pédagogique | fort, tout est visible et compréhensible |
-| Limite | la quantification limite la précision de pointage |
+| Complexity | low |
+| Cost | low |
+| Accuracy | limited by phase quantisation |
+| Teaching value | high, everything is visible and understandable |
+| Limit | quantisation caps pointing accuracy |
 
-La quantification de phase est un sujet en soi : avec des pas de 90 degrés,
-l'erreur maximale est de 45 degrés, ce qui dégrade fortement le diagramme. Étudier
-cet effet est instructif et peu coûteux.
+Phase quantisation is a subject in itself: with 90 degree steps the worst case error
+is 45 degrees, which degrades the pattern significantly. Studying that effect is
+instructive and cheap.
 
-### Option D : réseau acoustique
+### Option D: acoustic array
 
-On transpose tout le problème à des ultrasons, autour de 40 kHz.
+Move the whole problem to ultrasound, around 40 kHz.
 
-| Aspect | Évaluation |
+| Aspect | Assessment |
 | --- | --- |
-| Coût | très faible |
-| Complexité électronique | faible, le déphasage se fait numériquement à basse fréquence |
-| Mesure | facile, avec un microphone et un déplacement mécanique |
-| Physique | identique dans son principe, longueur d'onde d'environ 8,6 mm |
-| Limite | ce ne sont pas des ondes électromagnétiques, il faut le dire clairement |
+| Cost | very low |
+| Electronic complexity | low, phase shifting is done digitally at low frequency |
+| Measurement | easy, with a microphone and a mechanical scan |
+| Physics | identical in principle, wavelength about 8.6 mm |
+| Limit | these are not electromagnetic waves, and that has to be said clearly |
 
-Cette option n'est pas un gadget. Toute la partie algorithmique, calibration,
-optimisation et mesure de diagramme, est identique. Elle permettrait de produire
-des résultats complets et validés très rapidement, puis de porter la méthode sur
-un réseau RF.
+This is not a gimmick. The entire algorithmic side, calibration, optimisation and
+pattern measurement, is identical. It would produce complete, validated results very
+quickly, and the method could then be carried over to an RF array.
 
-Son défaut est de communication : un projet de réseau d'antennes qui n'utilise pas
-d'antennes demande une explication. Cette explication est facile à donner si les
-résultats sont bons.
+Its drawback is presentational: an antenna array project that uses no antennas needs
+an explanation. That explanation is easy to give if the results are good.
 
-### Option E : kit pédagogique du commerce
+### Option E: commercial educational kit
 
-Un réseau à commande de phase déjà conçu, documenté et fonctionnel.
+A phased array already designed, documented and working.
 
-| Aspect | Évaluation |
+| Aspect | Assessment |
 | --- | --- |
-| Coût | à vérifier, probablement significatif |
-| Temps gagné | considérable |
-| Apprentissage de la conception | faible |
-| Intérêt | permet de se concentrer entièrement sur la calibration et les algorithmes |
+| Cost | to check, probably significant |
+| Time saved | considerable |
+| Design learning | low |
+| Value | lets you focus entirely on calibration and algorithms |
 
-À considérer honnêtement : si l'objectif principal est l'étude de la calibration,
-partir d'un réseau qui fonctionne déjà n'est pas de la triche, c'est un choix de
-périmètre. Le risque est de se retrouver à simplement suivre un tutoriel.
+Worth considering honestly: if the main goal is studying calibration, starting from
+an array that already works is not cheating, it is a scope choice. The risk is
+ending up simply following a tutorial.
 
 ---
 
-## 3. Matrice de comparaison
+## 3. Comparison matrix
 
-| Option | Coût | Délai | Difficulté de mesure | Richesse du problème de calibration | Rôle du FPGA | Risque |
+| Option | Cost | Lead time | Measurement difficulty | Richness of the calibration problem | Role of the FPGA | Risk |
 | --- | --- | --- | --- | --- | --- | --- |
-| A analogique | moyen | moyen | élevée | bonne | nul | moyen |
-| B numérique | élevé | long | élevée | excellente | central | élevé |
-| C commutation | faible | court | élevée | bonne, avec quantification | nul | faible |
-| D acoustique | très faible | très court | faible | bonne | possible mais non nécessaire | très faible |
-| E kit du commerce | à chiffrer | court | moyenne | bonne | nul | faible |
+| A analogue | medium | medium | high | good | none | medium |
+| B digital | high | long | high | excellent | central | high |
+| C switched line | low | short | high | good, with quantisation | none | low |
+| D acoustic | very low | very short | low | good | possible but unnecessary | very low |
+| E commercial kit | to cost | short | medium | good | none | low |
 
-**Enchaînement suggéré, à discuter** : commencer par D pour valider les
-algorithmes de calibration dans de bonnes conditions de mesure, puis passer à A ou
-C sur deux voies, puis étendre. L'option B n'a de sens que si la formation de
-faisceau numérique devient un objectif explicite.
+**Suggested sequence, to discuss**: start with D to validate the calibration
+algorithms under good measurement conditions, then move to A or C on two channels,
+then extend. Option B only makes sense if digital beamforming becomes an explicit
+goal.
 
-Cet enchaînement a la même propriété que celui de NeuralRFIC : chaque étape produit
-un résultat utilisable même si la suivante n'a jamais lieu.
+That sequence has the same property as the one in the RF modelling project: every
+step produces a usable result even if the next one never happens.
 
 ---
 
-## 4. Options d'antenne
+## 4. Antenna options
 
-| Type | Fabrication | Bande | Remarque |
+| Type | Fabrication | Bandwidth | Note |
 | --- | --- | --- | --- |
-| Antenne imprimée sur circuit | à commander | étroite | facile à reproduire à l'identique, ce qui compte pour un réseau |
-| Antenne filaire | faite main | moyenne | irrégularités entre éléments, ce qui est justement ce qu'on étudie |
-| Antenne du commerce | achat | selon modèle | reproductibilité correcte, coût par élément |
+| Printed antenna on a board | ordered | narrow | easy to reproduce identically, which is what matters for an array |
+| Wire antenna | hand made | medium | element to element variation, which is exactly what we are studying |
+| Commercial antenna | purchased | model dependent | decent reproducibility, cost per element |
 
-Point intéressant : la reproductibilité entre éléments est un critère plus
-important que la performance de chaque élément. Un réseau de quatre antennes
-médiocres mais identiques se calibre mieux qu'un réseau de quatre bonnes antennes
-toutes différentes.
+Worth noting: reproducibility between elements matters more than the performance of
+any single element. An array of four mediocre but identical antennas calibrates
+better than four good but different ones.
 
 ---
 
-## 5. Décisions à prendre plus tard
+## 5. Decisions to make later
 
-| Décision | Ce qui manque pour trancher | Conséquence |
+| Decision | What is missing | Consequence |
 | --- | --- | --- |
-| Nature des ondes, RF ou acoustique | évaluation du moyen de mesure disponible | tout le reste |
-| Fréquence de travail | audit des instruments | dimensions, coût, mesure |
-| Nombre d'éléments | budget et complexité | résolution du faisceau |
-| Type de déphasage | coût des composants | précision et rôle du FPGA |
-| Analogique ou numérique | objectif principal du projet | coût et complexité |
-| Méthode de mesure du diagramme | environnement disponible | crédibilité de tous les résultats |
+| Kind of wave, radio frequency or acoustic | evaluation of the available measurement means | everything else |
+| Working frequency | instrument audit | dimensions, cost, measurement |
+| Element count | budget and complexity | beam resolution |
+| Phase shifting method | component cost | accuracy and the role of the FPGA |
+| Analogue or digital | the project's main goal | cost and complexity |
+| Pattern measurement method | available environment | credibility of every result |

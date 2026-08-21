@@ -1,9 +1,9 @@
-# Normalisation des fins de ligne.
-# Le depot stocke du LF pour tous les fichiers texte, quel que soit le systeme
-# utilise pour ecrire.
+# Line ending normalisation.
+# The repository stores LF for every text file, whatever system it was written on.
+
 * text=auto
 
-# Ces fichiers sont executes par l'integration continue sous Linux : ils doivent
-# rester en LF y compris dans une copie de travail Windows.
+# These files are run by continuous integration on Linux: they must stay LF even
+# in a Windows working copy.
 *.sh text eol=lf
 *.yml text eol=lf

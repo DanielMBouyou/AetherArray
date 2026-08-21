@@ -1,71 +1,70 @@
-# NNNN. Titre court de la décision
+# NNNN. Short decision title
 
-- Statut : proposée | acceptée | rejetée | remplacée par NNNN | suspendue
-- Date : AAAA-MM-JJ
-- Portée : quel sous-système est concerné
+- Status: proposed | accepted | rejected | superseded by NNNN | on hold
+- Date: YYYY-MM-DD
+- Scope: which subsystem this affects
 
-## Question posée
+## Question
 
-Formuler la question sous une forme qui admet plusieurs réponses défendables.
-Si la question n'a qu'une réponse possible, ce n'est pas une décision, c'est une
-contrainte : la documenter ailleurs.
+State the question in a form that admits more than one defensible answer. If there
+is only one possible answer, this is not a decision, it is a constraint: document
+it somewhere else.
 
-## Contexte
+## Context
 
-Ce qui est vrai au moment de la décision : contraintes matérielles, temps
-disponible, compétences, dépendances avec d'autres choix déjà faits.
+What is true at the time of the decision: hardware constraints, time available,
+skills, dependencies on choices already made.
 
-## Options étudiées
+## Options considered
 
 ### Option A
-Description, ce qu'elle apporte, ce qu'elle coûte.
+What it does, what it buys, what it costs.
 
 ### Option B
-Idem.
+Same.
 
-### Option C, ou "ne rien décider pour l'instant"
-L'option "attendre d'avoir mesuré" est légitime. La lister quand elle est
-raisonnable.
+### Option C, or "decide nothing yet"
+"Wait until we have measured" is a legitimate option. List it when it is
+reasonable.
 
-## Comparaison
+## Comparison
 
-| Critère | Option A | Option B | Option C |
+| Criterion | Option A | Option B | Option C |
 | --- | --- | --- | --- |
-| Performance attendue | à mesurer | à mesurer | à mesurer |
-| Complexité de mise en oeuvre | | | |
-| Coût matériel | | | |
-| Reproductibilité par un tiers | | | |
-| Risque principal | | | |
-| Réversibilité | | | |
+| Expected performance | to measure | to measure | to measure |
+| Implementation effort | | | |
+| Hardware cost | | | |
+| Reproducibility by a third party | | | |
+| Main risk | | | |
+| Reversibility | | | |
 
-## Preuves utilisées
+## Evidence
 
-Lister précisément. Pour chaque preuve, dire sa nature :
+List it precisely, and say what kind of evidence each item is:
 
-- mesure faite ici : lien vers `results/EXP-NNN`
-- résultat de simulation : préciser l'outil et sa version
-- source externe : référence complète
-- avis technique non vérifié : le dire
+- measurement made here: link to `results/EXP-NNN`
+- simulation result: name the tool and its version
+- external source: full reference
+- unverified technical opinion: say so
 
-Si cette section est vide, l'écrire noir sur blanc : "aucune preuve
-expérimentale, décision prise sur la base de X".
+If this section is empty, write it down in plain words: "no experimental
+evidence, decision based on X".
 
-## Décision
+## Decision
 
-Ce qui est décidé, en une ou deux phrases, sans ambiguïté.
+What is decided, in one or two sentences, with no ambiguity.
 
-## Conséquences
+## Consequences
 
-- Ce que cela rend possible.
-- Ce que cela rend plus difficile ou impossible.
-- Travail induit (code à écrire, matériel à acheter, compétence à acquérir).
+- What this makes possible.
+- What this makes harder or impossible.
+- Work it creates (code to write, hardware to buy, skills to acquire).
 
-## Limites connues
+## Known limitations
 
-Ce que la décision ne résout pas, et les cas où elle est probablement mauvaise.
+What the decision does not solve, and the cases where it is probably wrong.
 
-## Conditions de réexamen
+## Conditions for reopening
 
-Formuler des déclencheurs observables, pas une date vague. Par exemple :
-"si la latence mesurée dépasse X", "si le taux d'occupation DSP dépasse Y",
-"si le composant Z devient indisponible".
+Write observable triggers, not a vague date. For example: "if measured latency
+exceeds X", "if DSP utilisation exceeds Y", "if component Z becomes unavailable".

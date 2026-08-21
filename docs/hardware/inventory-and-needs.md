@@ -1,0 +1,127 @@
+# Hardware and measurement means
+
+- Status: in progress, the measurement environment is the critical point
+- Last reviewed: 2026-08-21
+
+---
+
+## 1. What decides this project
+
+The main constraint here is neither budget nor components, it is **the ability to
+measure a radiation pattern in an ordinary environment**.
+
+Three questions, in this order:
+
+1. Can we measure received power repeatably?
+2. Can we measure it at several angles, with accurate positioning?
+3. Are the room reflections weak enough not to mask the phenomenon?
+
+If the answer to the third is no, the project has to change strategy, and it is
+better to know that immediately.
+
+## 2. Available hardware
+
+| Item | Quantity | Role here | Status |
+| --- | --- | --- | --- |
+| Vector network analyser | 1 | channel measurement, coupling between elements | **model, range, port count and calibration kit unknown** |
+| Oscilloscope | 1 | time domain measurement, coherence checks | **model, bandwidth and sample rate unknown** |
+| Function generator | 1 | source | **model and maximum frequency unknown** |
+| Software defined radio | unknown | digital option, coherent channels | **presence unknown** |
+| Terasic DE1-SoC | 3 | only if digital beamforming is chosen | confirmed |
+| Digilent Zybo | 1 | same, plus AXI and DDR if sampled channels are processed | confirmed |
+| STM32G0 Nucleo | 2 | phase shifter control, positioner control, sequencing | exact variant to record |
+| ESP32 | 3 | remote telemetry for long unattended runs | exact variant to record |
+| Gaming PC | 1 | optimisation, simulation sweeps | model to record |
+| Stepper motor and driver | 0 | rotating the array for pattern measurement | **to acquire, see the bill of materials** |
+| Absorbers | 0 | reducing reflections | **to acquire, or work around** |
+
+The angular positioner is easy to underestimate. Measuring a pattern means rotating
+the array or the probe in regular steps, dozens of times, repeatably. Doing it by
+hand is fine for a few points, not for a full pattern, and the operator leaning over
+the setup changes the measurement.
+
+Building a simple positioner from a stepper motor and a microcontroller we already
+own is an accessible and very useful sub-project. It would serve the RF modelling
+project as well.
+
+## 3. Available software, and what it changes
+
+| Tool | Role | Consequence for this project |
+| --- | --- | --- |
+| 3D electromagnetic simulator (HFSS) | full wave simulation of the array | **can produce a physically grounded coupling matrix, rather than an invented one** |
+| Electromagnetic scripting (PyAEDT) | automating the above | makes geometry sweeps realistic |
+| Circuit simulator (ADS) | feed network, phase shifters, matching | designs the distribution network before fabrication |
+| S parameter library (scikit-rf) | measurement processing, de-embedding | the measurement backbone |
+| MATLAB | array processing, optimisation | cross check on the algorithms |
+
+The first row matters more than it looks. The project's simulator needs a coupling
+model, and there were two options: invent a plausible one, or simulate the real
+structure. Having a full wave simulator means the injected coupling can come from
+physics rather than from a guess. That makes the simulation study substantially more
+credible, and it is a genuine advantage over most amateur array projects.
+
+## 4. The reflection problem
+
+In an ordinary room the received signal is the sum of the direct path and several
+echoes. The effect can reach several decibels, the same order as what we are
+measuring.
+
+Mitigations, cheapest first:
+
+| Means | Expected effect | Cost |
+| --- | --- | --- |
+| Move the setup away from walls and floor | moderate | none |
+| Differential measurement, array driven and not driven | good on stable echoes | none |
+| Averaging over several positions | moderate | none, but slow |
+| Time domain gating, if the instrument supports it | very good, it separates the direct path from later echoes | none if the function exists |
+| Absorbers on the main surfaces | good | moderate |
+| Anechoic chamber | excellent | out of reach |
+
+The time domain gating row should be checked first. Some network analysers can
+transform to the time domain and isolate the direct path from later reflections. If
+that function is available it solves much of the problem for nothing.
+
+## 5. The acoustic route
+
+If the RF measurement environment turns out to be poor, an ultrasonic array removes
+almost all of these problems.
+
+| Aspect | RF array at 2.4 GHz | Acoustic array at 40 kHz |
+| --- | --- | --- |
+| Wavelength | 12.5 cm | about 8.6 mm |
+| Half wavelength spacing | 6.25 cm | about 4.3 mm |
+| Cost per element | moderate to high | very low |
+| Phase shift generation | dedicated component or digital | directly digital, the frequency is low |
+| Measurement | delicate | a microphone is enough |
+| Reflections | hard to control | easier, absorbing materials are common |
+| Subject realism | direct | an analogy, and it has to be explained |
+
+The wavelength gap is the interesting complication: at 40 kHz elements would need to
+sit a few millimetres apart, which is mechanically awkward with standard
+transducers. So we would have to accept spacing greater than half a wavelength, and
+therefore grating lobes. That is a real constraint, and it could itself become a
+study subject.
+
+An alternative is to move down into the audible range, where loudspeakers are easier
+to space correctly, at the cost of a physically larger array.
+
+These points have to be costed before choosing this route. It is promising but not
+free.
+
+## 6. What is missing
+
+| Need | Workaround | Cost if bought |
+| --- | --- | --- |
+| Angular positioner | manual measurement at a few points | low, and buildable from parts |
+| Absorbers | distance, time gating, differential measurement | moderate |
+| Commanded phase shifters | switched line phase shifting, or the digital route | to cost, see the bill of materials |
+| Coherent receive channels | stay analogue | high |
+| Identical antennas | fabricate on a printed circuit board | low in a small batch |
+
+## 7. Safety and regulation
+
+- Very low power, no hazard.
+- Frequencies chosen inside licence exempt bands.
+- Radiated measurements stay local and at very low power.
+- For the acoustic route, watch sound pressure levels if the design moves into the
+  audible range.

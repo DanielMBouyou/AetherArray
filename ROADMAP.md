@@ -1,79 +1,81 @@
-# Feuille de route
+# Roadmap
 
-- Statut : proposition, révisable après chaque phase
-- Dernière revue : 2026-08-21
+- Status: proposal, revised after each phase
+- Last reviewed: 2026-08-21
 
-## Phase 0 : théorie et simulateur
+## Phase 0: theory and simulator
 
-- [ ] Fondamentaux lus, équations écrites correctement
-- [ ] Simulateur de réseau implémenté et vérifié sur les cas théoriques
-- [ ] Défauts, couplage et bruit injectables
-- [ ] Effet statistique des erreurs reproduit en simulation
+- [ ] Fundamentals read, equations written correctly
+- [ ] Array simulator implemented and checked against the theoretical cases
+- [ ] Defects, coupling and noise injectable
+- [ ] Statistical effect of errors reproduced in simulation
+- [ ] Electromagnetic simulation of the planned geometry, giving a physical coupling model
 
-**Sortie** : on dispose d'un banc virtuel où la vérité est connue.
+**Exit**: we have a virtual bench where the truth is known.
 
-## Phase 1 : méthodes de calibration en simulation
+## Phase 1: calibration methods in simulation
 
-- [ ] Méthodes classiques implémentées
-- [ ] Comparaison à nombre de mesures compté
-- [ ] Sensibilité au bruit caractérisée
-- [ ] Courbes qualité contre nombre de mesures produites
+- [ ] Classical methods implemented
+- [ ] Comparison with measurements counted
+- [ ] Noise sensitivity characterised
+- [ ] Quality against measurement count curves produced
 
-**Sortie** : le résultat théorique du projet existe, sans matériel.
+**Exit**: the theoretical result of the project exists, with no hardware.
 
-## Phase 2 : environnement de mesure
+## Phase 2: measurement environment
 
-- [ ] Instruments audités
-- [ ] Réflexions de l'environnement caractérisées
-- [ ] Reproductibilité de mesure chiffrée
-- [ ] Stratégie de mesure décidée
+- [ ] Instruments audited
+- [ ] Environment reflections characterised
+- [ ] Measurement repeatability quantified
+- [ ] Measurement strategy decided
+- [ ] Radio frequency or acoustic route decided
 
-**Sortie** : on sait si et comment on peut mesurer un diagramme.
+**Exit**: we know whether and how a pattern can be measured.
 
-## Phase 3 : premier réseau réel
+## Phase 3: first real array
 
-- [ ] Architecture et fréquence choisies
-- [ ] Réseau à deux éléments réalisé
-- [ ] Effet d'une erreur de câble connue mesuré et conforme au calcul
-- [ ] Diagramme non calibré mesuré
+- [ ] Architecture and frequency chosen
+- [ ] Two element array built
+- [ ] Effect of a known cable error measured, and matching the calculation
+- [ ] Uncalibrated pattern measured
 
-**Sortie** : la démonstration du problème existe, avec des mesures.
+**Exit**: the demonstration of the problem exists, with measurements behind it.
 
-## Phase 4 : calibration réelle
+## Phase 4: real calibration
 
-- [ ] Première méthode de calibration appliquée au réseau réel
-- [ ] Amélioration mesurée sur le diagramme
-- [ ] Comparaison de plusieurs méthodes, mesures comptées
-- [ ] Confrontation avec les prédictions de la phase 1
+- [ ] First calibration method applied to the real array
+- [ ] Improvement measured on the pattern
+- [ ] Several methods compared, measurements counted
+- [ ] Confrontation with the phase 1 predictions
 
-**Sortie** : le résultat principal du projet.
+**Exit**: the project's main result.
 
-## Phase 5 : extension et robustesse
+## Phase 5: extension and robustness
 
-- [ ] Réseau à quatre éléments
-- [ ] Couplage mesuré et pris en compte
-- [ ] Durée de validité d'une calibration mesurée
-- [ ] Sensibilité thermique évaluée
+- [ ] Four element array
+- [ ] Coupling measured and compared against the simulated coupling
+- [ ] How long a calibration stays valid, measured
+- [ ] Thermal sensitivity assessed
 
-## Phase 6 : méthodes avancées
+## Phase 6: advanced methods
 
-Conditionnelle.
+Conditional.
 
-- [ ] Optimisation bayésienne appliquée à la réduction du nombre de mesures
-- [ ] Gain chiffré, ou absence de gain documentée
-- [ ] Étude de la prédiction de dérive
+- [ ] Bayesian optimisation applied to reducing the measurement count
+- [ ] Quantified gain, or a documented absence of gain
+- [ ] Drift prediction studied
 
-## Points de sortie anticipée
+## Early exit points
 
-| Arrêt après | Ce qui reste publiable |
+| Stop after | What is still publishable |
 | --- | --- |
-| Phase 1 | une comparaison rigoureuse des méthodes de calibration en simulation |
-| Phase 3 | une démonstration mesurée de l'écart entre théorie et réalité |
-| Phase 4 | le résultat complet du projet |
+| Phase 1 | a rigorous comparison of calibration methods in simulation, with a physically grounded coupling model |
+| Phase 3 | a measured demonstration of the gap between theory and reality |
+| Phase 4 | the complete result of the project |
 
-## Décision structurante à prendre tôt
+## The structural decision to take early
 
-La nature du réseau, radiofréquence ou acoustique, doit être tranchée à la fin de
-la phase 2, en fonction de ce que l'environnement de mesure permet réellement. Ce
-choix change le coût, le calendrier et la présentation du projet, mais pas son
-contenu scientifique.
+The kind of array, radio frequency or acoustic, has to be settled at the end of
+phase 2, based on what the measurement environment genuinely allows. That choice
+changes the cost, the schedule and how the project is presented, but not its
+scientific content.

@@ -1,65 +1,64 @@
-# EXP-NNN : titre
+# EXP-NNN: title
 
-- Statut : prévue | en cours | terminée | abandonnée
-- Date :
-- Durée estimée :
-- Durée réelle :
-- Lien résultats : `results/EXP-NNN/`
+- Status: planned | running | done | abandoned
+- Date:
+- Estimated effort:
+- Actual effort:
+- Results: `results/EXP-NNN/`
 
 ## Question
 
-Une seule question, formulée de façon à ce qu'un résultat puisse y répondre par
-oui, par non, ou par un nombre. Si l'expérience répond à trois questions, la
-couper en trois.
+One question, phrased so that a result can answer it with yes, no, or a number. If
+the experiment answers three questions, split it into three.
 
-## Hypothèse
+## Hypothesis
 
-Ce qu'on s'attend à observer, et l'ordre de grandeur attendu. Écrire l'hypothèse
-avant la mesure. Une hypothèse fausse écrite avant est plus utile qu'une
-explication trouvée après.
+What we expect to see, and the expected order of magnitude. Write the hypothesis
+before the measurement. A wrong hypothesis written beforehand is more useful than
+an explanation found afterwards.
 
-## Critère de décision
+## Decision criterion
 
-À partir de quelle valeur conclut-on dans un sens ou dans l'autre. Fixé avant la
-manipulation.
+The value above or below which we conclude one way or the other. Fixed before the
+measurement.
 
-## Montage
+## Setup
 
-Schéma, liste du matériel, versions logicielles, identifiants des cartes.
-Un lecteur doit pouvoir refaire la manipulation sans poser de question.
+Diagram, hardware list, software versions, board identifiers. A reader should be
+able to repeat the measurement without asking questions.
 
-| Élément | Référence | Réglage | Remarque |
+| Item | Reference | Setting | Note |
 | --- | --- | --- | --- |
 | | | | |
 
-## Protocole
+## Procedure
 
 1.
 2.
 3.
 
-## Sources d'erreur identifiées avant la mesure
+## Error sources identified before measuring
 
-Bruit, dérive thermique, quantification, résolution de l'instrument, effet de
-l'instrument sur le système mesuré, biais de la méthode.
+Noise, thermal drift, quantisation, instrument resolution, the effect of the
+instrument on the system being measured, bias in the method itself.
 
-## Vérification indépendante prévue
+## Independent check
 
-Comment sait-on que le résultat n'est pas un artefact du montage ? Deuxième
-méthode de mesure, cas témoin, valeur connue d'avance, mesure à blanc.
+How do we know the result is not an artefact of the setup? Second measurement
+method, control case, known reference value, blank measurement.
 
-## Résultats bruts
+## Raw results
 
-Ne pas mettre les données ici. Les mettre dans `results/EXP-NNN/` avec leurs
-métadonnées. Ici, seulement le résumé et les figures.
+Do not put data here. Put it in `results/EXP-NNN/` with its metadata. Only the
+summary and the figures belong here.
 
-## Analyse
+## Analysis
 
 ## Conclusion
 
-Réponse à la question posée en haut. Si l'expérience ne permet pas de conclure,
-l'écrire, et dire ce qui manque.
+Answer to the question at the top. If the experiment does not allow a conclusion,
+say so, and say what is missing.
 
-## Suites
+## Follow-up
 
-Expérience suivante, question nouvelle, décision à mettre à jour.
+Next experiment, new question, decision record to update.
