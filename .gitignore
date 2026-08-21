@@ -1,0 +1,166 @@
+# ---------------------------------------------------------------------------
+# Systeme et editeurs
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# ---------------------------------------------------------------------------
+# Secrets et donnees locales. Rien de tout cela ne doit partir sur GitHub.
+# ---------------------------------------------------------------------------
+.env
+*.key
+*.pem
+secrets/
+credentials*
+*_local.*
+
+# ---------------------------------------------------------------------------
+# Resultats : les donnees brutes lourdes restent locales tant que la politique
+# de stockage n'est pas decidee (voir results/README.md).
+# ---------------------------------------------------------------------------
+results/**/raw/
+results/**/processed/
+!results/**/SOURCE.md
+!results/**/notes.md
+*.csv.gz
+*.parquet
+
+# ---------------------------------------------------------------------------
+# Keysight ADS
+# ---------------------------------------------------------------------------
+*_wrk/simulation/
+*_wrk/logs/
+*_wrk/.ADS_*
+*.ael.bak
+hpeesofsim.log
+
+# ---------------------------------------------------------------------------
+# Ansys HFSS / Electronics Desktop
+# ---------------------------------------------------------------------------
+*.aedtresults/
+*.aedt.lock
+*.aedt.auto
+*.aedb/
+*.lock
+*.pyaedt
+
+# ---------------------------------------------------------------------------
+# KiCad
+# ---------------------------------------------------------------------------
+*-backups/
+fp-info-cache
+*.kicad_prl
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.net
+gerbers/
+*.gbr
+*.drl
+
+# ---------------------------------------------------------------------------
+# Acquisitions d'instruments (souvent volumineuses)
+# ---------------------------------------------------------------------------
+*.cti
+*.trc
+*.wfm
+*.isf
+*.h5
+*.sdf
+
+# ---------------------------------------------------------------------------
+# Quartus (Intel / Altera)
+# ---------------------------------------------------------------------------
+db/
+incremental_db/
+output_files/
+greybox_tmp/
+hc_output/
+simulation/
+timing/
+*.qws
+*.qar
+*.sof
+*.pof
+*.rbf
+*.jdi
+*.pin
+*.summary
+*.rpt
+*.smsg
+*.done
+PLLJ_PLLSPE_INFO.txt
+
+# ---------------------------------------------------------------------------
+# Vivado / Vitis (si une carte AMD est utilisee)
+# ---------------------------------------------------------------------------
+*.jou
+*.log
+*.str
+.Xil/
+vivado*.backup.jou
+vivado*.backup.log
+*.runs/
+*.cache/
+*.hw/
+*.sim/
+*.bit
+*.xsa
+
+# ---------------------------------------------------------------------------
+# Simulation RTL
+# ---------------------------------------------------------------------------
+obj_dir/
+work/
+transcript
+vsim.wlf
+*.vcd
+*.fst
+*.ghw
+*.vvp
+*.wdb
+sim_build/
+results.xml
+coverage/
+*.dat
+*.ucdb
+
+# ---------------------------------------------------------------------------
+# Yosys, nextpnr, OpenROAD
+# ---------------------------------------------------------------------------
+*.json.gz
+*.blif
+*.asc
+runs/
+
+# ---------------------------------------------------------------------------
+# Machine learning
+# ---------------------------------------------------------------------------
+checkpoints/
+runs/
+wandb/
+mlruns/
+lightning_logs/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.npz
+*.npy

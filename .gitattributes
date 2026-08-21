@@ -1,0 +1,9 @@
+# Normalisation des fins de ligne.
+# Le depot stocke du LF pour tous les fichiers texte, quel que soit le systeme
+# utilise pour ecrire.
+* text=auto
+
+# Ces fichiers sont executes par l'integration continue sous Linux : ils doivent
+# rester en LF y compris dans une copie de travail Windows.
+*.sh text eol=lf
+*.yml text eol=lf
