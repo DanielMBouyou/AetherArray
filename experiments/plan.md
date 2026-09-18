@@ -23,6 +23,14 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 | 009 | hardware | Extend to four elements | resolution and coupling | 2 weeks | to do |
 | 010 | hardware | How long a calibration stays valid | original angle | calendar time | to do |
 | 011 | simulation | Electromagnetic simulation of the real geometry | physically grounded coupling model | 1 week | to do |
+| 012 | simulation | Measurement count bound against the classical baselines | sizing every later claim | 3 days | to do |
+| 013 | simulation | Learned estimator for first calibration, as a control | ML-A, the learned control | 1 week | to do |
+| 014 | hardware | Unattended recalibration rig and its logging schema | ML-B, the drift dataset | 1 week then calendar time | to do |
+| 015 | hardware | Learned drift prior against from scratch recalibration | **the project's central claim** | 2 weeks after 014 | to do |
+
+Experiments 012 to 015 come from `docs/architecture/ml-calibration.md` and decision
+0002. They are the learning track, and 015 is the one the project's research question
+actually names.
 
 ---
 
@@ -123,8 +131,99 @@ produce.
 
 ---
 
+## EXP-012: where the measurement count bound actually sits
+
+**Question**: how many physical measurements do the classical baselines need, and how
+close is that to the information bound, at the element count we are likely to build?
+
+**Method**: in the simulator, run the element by element, rotating element field
+vector and orthogonal coding baselines on identical defect draws, at four and eight
+elements, counting measurements. Compare against the identifiable parameter count of
+$2N-2$ and against the generic power only bound of $4N-4$.
+
+**Deliverable**: the table in `docs/architecture/ml-calibration.md` section 2,
+replaced by measured numbers rather than formulas.
+
+**Why it comes first**: every later claim about a learned method saving measurements
+is meaningless until this curve exists. Running it before any learned method also
+removes the temptation to pick a flattering baseline afterwards.
+
+---
+
+## EXP-013: learned estimator for first calibration, as a control
+
+**Question**: does a supervised estimator trained on simulated arrays beat the
+rotating element field vector method at its own minimum of three phase states?
+
+**Method**: specification ML-A in `docs/architecture/ml-calibration.md` section 6.
+Train on simulator draws whose coupling comes from EXP-011 and whose noise level comes
+from EXP-005.
+
+**Hypothesis, written before the run**: it will not beat the baseline on measurement
+count at four elements, because the baseline is already at the bound. It may beat it
+on accuracy at a fixed count under noise.
+
+**Mandatory negative test**: train at one error magnitude and one coupling model, test
+at another, and report the degradation. A method that only works inside its training
+distribution is reported as such.
+
+**Why it is a control and not a contribution**: this is a smaller scale reproduction
+of published work, A16 and A21. Its role is to show that the learned machinery works
+at all before anything is claimed from it.
+
+---
+
+## EXP-014: unattended recalibration rig
+
+**Question**: can the array calibrate itself repeatedly, with no operator, for weeks?
+
+**Method**: drive the calibration sequence from a microcontroller already owned, read
+the sum port detector, log every measurement with its commanded code word, the board
+temperature, a timestamp, and a flag saying whether any connector was touched since
+the previous session. Requirements R3, R4, R5 and R8 in
+`docs/hardware/rev-a-requirements.md`.
+
+**Criterion**: the rig completes a full classical calibration unattended, repeatedly,
+and the session to session spread is at or below the EXP-005 repeatability floor.
+
+**Deliverable**: the dataset. Not a result, a dataset, and it is the input to EXP-015.
+
+**Why the logging schema is part of the experiment**: a drift dataset cannot be
+reconstructed afterwards. A session logged without its temperature is a session lost.
+
+---
+
+## EXP-015: learned drift prior against from scratch recalibration
+
+**Question**: does a prior learned from the array's own history return pointing error
+below target using fewer physical measurements than calibrating from scratch?
+
+This is the project's central claim, stated as an experiment.
+
+**Method**: specification ML-B in `docs/architecture/ml-calibration.md` section 6. On
+each held out session, recalibrate from the prior using $P$ measurements, then run a
+full classical calibration immediately afterwards to supply the label.
+
+**Controls**: recalibrating from scratch, and applying the previous calibration
+unchanged.
+
+**Criterion**: the smallest $P$ that returns pointing error below target, compared
+against the $4N-4$ the same array needs from scratch. Reported as a curve with spread
+bands over sessions, never as a single number.
+
+**Failure is declared, not explained away, if**: the required $P$ is not below the
+from scratch count on held out sessions, or if gate G2 has already shown that drift
+sits under the repeatability floor.
+
+**Prerequisite**: EXP-005 and EXP-010 must first show that drift over hours is
+measurable at all. If it is not, this experiment does not run and decision 0002 is
+superseded.
+
+---
+
 ## Later
 
-EXP-008 to EXP-010 will be detailed once the earlier ones have run. EXP-010, on how
+EXP-008 and EXP-009 will be detailed once the earlier ones have run. EXP-010, on how
 long a calibration lasts, needs little work but a lot of calendar time, so it can run
-alongside the others.
+alongside the others. It has been promoted: it now gates EXP-014 and EXP-015, and
+therefore the learning track as a whole.

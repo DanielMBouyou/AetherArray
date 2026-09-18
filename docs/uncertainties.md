@@ -43,10 +43,20 @@
 | I9 | Is an angular positioner necessary, and can we build one? | trial | feasibility of pattern measurement |
 | I10 | Is the FPGA genuinely useful here? | architecture choice | this project's role in the lab |
 | I11 | Does simulated coupling match measured coupling? | simulation then measurement | credibility of the simulation study |
+| I12 | Is drift over hours larger than the repeatable measurement floor? | EXP-005 then EXP-010 | **the entire learning track, gate G2** |
+| I13 | How much does the power detector itself drift with temperature? | AD8318 datasheet, then bench measurement | whether a null result on I12 is physical or instrumental |
+| I14 | Is drift driven by time and temperature, or by connector handling? | EXP-014, with handling logged per session | whether a learned prior is possible in principle |
+| I15 | How many unattended calibration sessions per day can the rig sustain? | EXP-014 | the data budget, and therefore the model class |
+| I16 | Does the generic $4N-4$ phase retrieval bound apply to the structured rotating element measurement set? | reading A12 in full, then a numerical check | whether section 3 of the calibration architecture holds as stated |
 
 Question I10 deserves to be asked bluntly. If the chosen architecture is analogue,
 the FPGA has no role in this project, and that should be stated rather than dressed
-up with an artificial one.
+up with an artificial one. `docs/hardware/rev-a-requirements.md` section 6 now answers
+it that way for Rev A: no method in the selected calibration architecture needs one.
+
+I12 is the most consequential open question in the repository. Decision 0002 commits
+the project to a learning track that does not exist if the answer is no, and the
+answer costs nothing but bench time with instruments already owned.
 
 ## 4. Reasoning traps to avoid
 

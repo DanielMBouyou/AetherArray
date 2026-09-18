@@ -1,9 +1,12 @@
 # State of the art: phased arrays and calibration
 
 - Status: structured draft, most reading still to do
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-17
 
-References recorded from memory, to be confirmed on first reading.
+Leads marked **found** have had author, title, venue and year confirmed, and are
+recorded in `docs/references/bibliography.md`. Found does not mean read: most have
+been consulted only as an abstract so far, and the bibliography says which. Every
+remaining lead is still recorded from memory and to be confirmed on first reading.
 
 ---
 
@@ -23,11 +26,12 @@ References recorded from memory, to be confirmed on first reading.
 
 | Ref | Lead | Priority | Question | State |
 | --- | --- | --- | --- | --- |
-| A6 | Phase rotation calibration, using power measurements only | 1 | the project's central method, cheap in hardware | to find |
-| A7 | Calibration exploiting coupling between neighbouring elements | 1 | calibration with no external measurement, very elegant | to find |
+| A6 | Phase rotation calibration, using power measurements only | 1 | the project's central method, cheap in hardware | **found**, Mano and Katagi 1982, see the bibliography |
+| A7 | Calibration exploiting coupling between neighbouring elements | 1 | calibration with no external measurement, very elegant | **found**, Aumann, Fenn and Willwerth 1989 |
 | A8 | Near field calibration | 2 | accurate, but needs mechanical scanning | to find |
 | A9 | Work on manufacturing errors and their statistical effect on the pattern | 1 | quantitatively justifies calibration | to find |
 | A10 | Effect of phase quantisation | 2 | relevant if discrete step phase shifters are used | to find |
+| A18 | Calibration by orthogonal coding of the element commands | 1 | all elements measured at once, and the strongest count baseline | **found**, Silverstein 1997 |
 
 A7 deserves particular attention: some methods use coupling between neighbouring
 elements, normally treated as a defect, as an internal measurement mechanism. The
@@ -40,8 +44,8 @@ measurement bench.
 | Ref | Lead | Priority | Question | State |
 | --- | --- | --- | --- | --- |
 | A11 | Regularisation of ill posed inverse problems | 1 | stability of the inversion | to find |
-| A12 | Phase retrieval from intensity measurements | 2 | the power only case | to find |
-| A13 | Bayesian optimisation and Gaussian processes | 1 | reducing the number of physical measurements | to find |
+| A12 | Phase retrieval from intensity measurements | **1** | the power only case, and the bound on how few measurements are possible | **found**, Conca, Edidin, Hering and Vinzant 2015; raised to priority 1 because it supplies the bound that decides the learning track |
+| A13 | Bayesian optimisation and Gaussian processes | 1 | reducing the number of physical measurements | **found**, Shahriari and others 2016 |
 | A14 | Evolution strategies for derivative free optimisation | 2 | a robust reference method | to find |
 | A15 | Pattern synthesis by optimisation | 2 | reaching a target pattern | to find |
 
@@ -49,8 +53,17 @@ measurement bench.
 
 | Ref | Lead | Priority | Question | State |
 | --- | --- | --- | --- | --- |
-| A16 | Work applying learning to array calibration | 1 | has somebody already answered our question? | to find |
-| A17 | Drift prediction and predictive maintenance of RF systems | 2 | an original and measurable angle | to find |
+| A16 | Work applying learning to array calibration | 1 | has somebody already answered our question? | **found**, Sarayloo and others 2020, and A21 in 2024 |
+| A17 | Drift prediction and predictive maintenance of RF systems | **1** | an original and measurable angle | still to find, and now the project's central track, so it is raised to priority 1 |
+| A19 | Gaussian process calibration from sparse measurements | 1 | the model class the data budget allows | **found**, Tambovskiy, Fodor and Tullberg 2023 |
+
+Partial answer to A16, recorded because it changed the project. Learned calibration
+from power only measurements exists and works, but it is demonstrated on large arrays
+and it addresses first calibration. At four elements the classical baseline already
+sits at the information bound, so that contribution does not transfer to this scale.
+The reasoning is in `docs/architecture/ml-calibration.md` section 3, and decision 0002
+moves the learning track to recalibration as a result. **A17 is therefore the lead
+that matters most now, and it is the one still unfound.**
 
 ---
 
@@ -58,7 +71,7 @@ measurement bench.
 
 | Ref | Lead | What we want | State |
 | --- | --- | --- | --- |
-| I1 | Educational phased array kits with full documentation | a real architecture described in detail, for free | to find |
+| I1 | Educational phased array kits with full documentation | a real architecture described in detail, for free | **found**, the CN0566 circuit note and its eight element platform; figures still to verify against the datasheets |
 | I2 | Datasheets of integrated beamforming circuits | what exists, at what price, with what performance | to find |
 | I3 | Datasheets of commanded phase shifters and attenuators | candidate components | to find |
 | I4 | Application notes on array calibration | proven protocols | to find |

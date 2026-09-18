@@ -167,13 +167,21 @@ be unstable if the matrix is poorly conditioned.
 3. **Is a classical method enough?** Least squares, regularisation, direct
    inversion: these are old, proven and cheap. You need to know how far they go
    before talking about anything else.
-4. **Can an optimisation method cut the number of measurements?** This is where
-   learning has a real, measurable chance of contributing.
+4. **Can a learned method cut the number of measurements?** Not on a first
+   calibration, as it turns out. At four elements the classical baselines already sit
+   at the information bound for power only measurement, so there is nothing left to
+   save. The question that survives is narrower and more interesting: **once the array
+   has been calibrated before, can a prior learned from its own drift history
+   recalibrate it with fewer measurements than starting again?**
 5. **How long does a calibration stay valid?** Rarely addressed, easy to measure,
-   and directly useful.
+   directly useful, and now the question the learning track depends on.
 
 The order is deliberate. The project does not start with machine learning, it starts
-with what already works and then looks for where that stops being enough.
+with what already works and then looks for where that stops being enough. Question 4
+is what that discipline produced: the obvious learning claim did not survive contact
+with a counting argument, and the one that replaced it is sharper. The reasoning is in
+`docs/architecture/ml-calibration.md`, and the choice is recorded in
+`decisions/0002-learning-as-a-drift-prior.md`.
 
 ---
 
@@ -230,11 +238,16 @@ separates two risks instead of adding them together.
 | Ideal simulation | what theory predicts |
 | Real system, uncalibrated | what you get for free |
 | Classical calibration | inversion, least squares, regularisation |
-| Optimised calibration | search for the best setting by optimisation |
-| Learning assisted method | if it adds anything |
+| Rotating element field vector, at its own minimum | the power only baseline, not padded to flatter a rival |
+| Orthogonal coding | all elements measured at once, the strongest count baseline |
+| Mutual coupling | calibration with no external probe, if the board allows it |
+| Adaptive measurement selection | choosing each measurement for information gain |
+| Learned drift prior | recalibrating from history rather than from nothing |
 
 For each: pointing error, achieved gain, side lobe level, beam width, number of
-measurements required, calibration time, and stability over time.
+measurements required, calibration time, and stability over time. Every count is also
+quoted against the information bound, so that a method is judged by what is possible
+and not only by what its rivals managed.
 
 ---
 

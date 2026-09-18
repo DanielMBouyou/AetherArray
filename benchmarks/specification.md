@@ -39,8 +39,15 @@ side lobe level, and the number of measurements consumed.
 | B0, ideal | perfect array, no defects | what theory promises |
 | B1, uncalibrated | real defects, theoretical commands applied | **the control, and what everything is judged against** |
 | B2, channel by channel | each channel measured separately | the basic method |
-| B3, phase rotation | power only measurements | the classical method needing no phase measurement |
+| B3, phase rotation | power only measurements, run at its minimum of three phase states | the classical method needing no phase measurement |
 | B4, regularised inversion | full matrix estimation | the complete method |
+| B5, orthogonal coding | every element measured at once under orthogonal codes | the strongest measurement count baseline |
+| B6, mutual coupling | element pairs measured against each other | the only method needing no external probe, and conditional on per element access |
+| B7, information bound | $2N-2$ identifiable parameters, $4N-4$ generic power only measurements | not a method, the floor every count is quoted against |
+
+B3 is run at three phase states because that is its own minimum. Running it at eight
+or sixteen and reporting the difference as somebody else's gain would be a result
+about the baseline, not about the method.
 
 B1 is the most important row and the cheapest to obtain. Without it there is no way
 to say what calibration is worth.

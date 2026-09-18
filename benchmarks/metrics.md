@@ -38,11 +38,25 @@ exactly why the simulation bench is indispensable.
 | Calibration time | minutes | includes mechanical movement |
 | Compute time | seconds | usually negligible against the rest |
 | Number of angular positions needed | count | drives the total time |
+| **Measurements to recover** | count | the measurements needed to bring pointing error back below target after drift, starting from the previous calibration rather than from nothing. **The primary metric of the learning track.** |
+| Distance to the information bound | ratio | the measurement count divided by $4N-4$, so that a method is judged against what is possible and not only against its rivals |
+| Labelled sessions available | count | the data budget, which selects the model class before any modelling choice is made |
 
 The ratio between the first and third rows is striking: a measurement takes seconds
 or minutes, the computation behind it takes milliseconds. Optimising the computation
 is pointless, optimising the number of measurements is worth a great deal. That
 imbalance shapes the whole project.
+
+The two new rows exist because of one result. At four elements the classical
+baselines already sit at the information bound for a first calibration, so measuring
+a method only against its rivals hides the fact that no room is left. Quoting the
+distance to the bound makes that visible in the table itself, and it is why the
+learning track is judged on measurements to recover rather than on measurements to
+calibrate. See `docs/architecture/ml-calibration.md` section 3.
+
+Sim to real gap is reported alongside any result from a learned estimator: the same
+metric computed on simulated arrays and on the real one, as two numbers, never
+averaged together.
 
 ## 4. Robustness metrics
 
