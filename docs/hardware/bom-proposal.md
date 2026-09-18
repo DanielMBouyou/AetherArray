@@ -1,7 +1,19 @@
 # Proposed hardware to buy
 
-- Status: proposal, nothing ordered, blocked on the measurement audit
-- Last reviewed: 2026-08-21
+- Status: **partly superseded by decision 0003**, nothing ordered, blocked on the measurement audit
+- Last reviewed: 2026-09-18
+
+> **Superseded on five points.** Decision 0003 and
+> `docs/architecture/rev-a-rf-architecture.md` replace the two bit phase shifting, the
+> eight switch count and price, the single board topology, the guessed price of an
+> integrated phase shifter, and the assessment of the varactor option. Section 8 of
+> the architecture document lists each one with its reason. The costed bill of
+> materials to use is the one in section 6 of that document, at about 62 EUR.
+>
+> This document is kept rather than rewritten, because it records what was believed
+> before the parts were checked against manufacturer and distributor documentation.
+> The reasoning in "The reasoning behind buying anything at all" below still holds and
+> is not superseded.
 
 The lab already owns the instruments, the FPGA boards, the microcontrollers, the
 PCs and the simulation software. None of that is bought again. This document covers

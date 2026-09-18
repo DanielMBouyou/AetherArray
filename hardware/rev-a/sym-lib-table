@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "aetherarray")(type "KiCad")(uri "${KIPRJMOD}/aetherarray.kicad_sym")(options "")(descr "AetherArray Rev A parts"))
+)

@@ -92,6 +92,67 @@ that source is quoted elsewhere as established.
      times N measurements, with K at least three.
 ```
 
+## Vendor documentation, checked 2026-09-18
+
+Manufacturer product pages and distributor listings consulted for decision 0003.
+Part status, stock and unit price are quoted as read on that date and are re-checked
+before any order. Figures marked to verify were not obtainable from a machine
+readable datasheet here.
+
+```
+[V1] pSemi. PE4259, UltraCMOS SPDT RF switch, 10 MHz to 3000 MHz.
+     MPN as ordered: PE4259-63. SC-70-6. 0.35 dB insertion loss, 30 dB isolation,
+     1.8 V to 3.3 V, integrated CMOS control logic.
+     Status active and recommended for new designs. 0.84 USD at one unit, 0.601 at
+     ten, 0.475 at one hundred, more than 300000 units in distributor stock.
+     Consulted 2026-09-18, product page and distributor listing.
+     The part the Rev A phase chain and channel enable are built from.
+     To verify: insertion loss and state to state repeatability at 2.4 GHz.
+
+[V2] pSemi. PE44820, UltraCMOS 8-bit RF digital phase shifter.
+     MPN as ordered: PE44820B-X. 32 lead 5 mm QFN. 358.6 degrees in 1.4 degree steps.
+     Nominal band 1.7 GHz to 2.2 GHz, extended narrowband operation 1.1 GHz to 3.0 GHz.
+     Status active, 328 units in distributor stock, 13.09 USD at one unit.
+     Consulted 2026-09-18. The datasheet is an image based file and was not machine
+     readable here, so no insertion loss figure is quoted.
+     Evaluated and rejected for Rev A on budget and on band edge, decision 0003.
+
+[V3] pSemi. PE4302 is discontinued. PE4312 is the pin compatible successor, a 6-bit
+     digital step attenuator, 1 MHz to 4 GHz, 31.5 dB in 0.5 dB steps, parallel and
+     serial control, single 3 V supply.
+     Consulted 2026-09-18.
+     Named as the amplitude control provision in decision 0003. Recorded chiefly
+     because PE4302 is still widely quoted and is no longer orderable.
+
+[V4] Analog Devices. ADL5390, RF and IF vector multiplier, 20 MHz to 2400 MHz.
+     Continuous 360 degree phase and amplitude control from two analogue voltages,
+     output amplitude from about +5 dB to below -30 dB, requires quadrature inputs.
+     Consulted 2026-09-18, product page.
+     The only compared option offering amplitude control. Rejected for Rev A because
+     2.4 GHz is its specified upper limit.
+
+[V5] Microchip. MCP9808, I2C digital temperature sensor.
+     About 0.25 degrees Celsius typical accuracy over -40 to +125 degrees Celsius,
+     0.0625 degree resolution, 8 pin MSOP or DFN.
+     Consulted 2026-09-18.
+     Requirement R4 telemetry. TMP117 is the higher accuracy alternative at higher
+     cost, and 0.25 degrees is ample for separating array drift from detector drift.
+
+[V6] Analog Devices. AD8318, 1 MHz to 8 GHz, 70 dB logarithmic detector and
+     controller. Data sheet revision E.
+     https://www.analog.com/media/en/technical-documentation/data-sheets/AD8318.pdf
+     Accurate logarithmic conformance from 1 MHz to 6 GHz with useful operation to
+     8 GHz; plus or minus 1 dB over a 55 dB range below 5.8 GHz; nominal slope minus
+     25 mV per dB; stability over temperature plus or minus 0.5 dB; single 5 V supply,
+     about 68 mA typical.
+     Consulted 2026-09-18. Direct retrieval of the file failed repeatedly in this
+     environment; the figures above were read from the revision E document through a
+     search index and each one was cross checked against an independently supplied
+     value before being recorded.
+     Requirement R3. These figures close item E7 of the Rev A architecture and are
+     turned into schematic requirements in section 5.5 of that document.
+```
+
 ## Located but not yet verified
 
 These have an identifier but lack confirmed authorship, or were not retrievable here.
@@ -116,13 +177,10 @@ They stay out of the verified list until that is fixed.
      datasheet. This is the documented educational kit named as lead I1 in the state
      of the art.
 
-[I6] Analog Devices. AD8318 data sheet, 1 MHz to 8 GHz logarithmic detector and
-     controller.
-     https://www.analog.com/media/en/technical-documentation/data-sheets/ad8318.pdf
-     Retrieval timed out here, so no figure from it is quoted anywhere. Wanted for the
-     logarithmic slope, the dynamic range for 1 dB conformance near 2.2 GHz, and the
-     drift over temperature, which gate G2 depends on.
 ```
+
+`[I6]`, the AD8318 data sheet, has been resolved and moved to the verified vendor list
+as `[V6]`.
 
 ## Where to look
 

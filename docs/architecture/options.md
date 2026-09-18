@@ -1,7 +1,14 @@
 # Candidate architectures
 
-- Status: open, nothing chosen
-- Last reviewed: 2026-08-21
+- Status: **closed for Rev A by decision 0003**, still open beyond it
+- Last reviewed: 2026-09-18
+
+> Decision 0003 selects option C, switched line phase shifting, in a two board form
+> with per element connectors, phase control only and three bits rather than two.
+> `docs/architecture/rev-a-rf-architecture.md` holds the comparison that settled it
+> against real part numbers and current distributor data. Options A, B, D and E are
+> not rejected for ever, they are not chosen for the first board. The comparison in
+> this document remains the record of why the field was narrowed to C.
 
 ---
 

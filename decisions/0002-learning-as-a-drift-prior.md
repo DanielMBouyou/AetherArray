@@ -65,6 +65,13 @@ merit. With $Q$ phase states per channel and one reference channel, exhaustive s
 costs $Q^{\,N-1}$ measurements, which is $4^{3} = 64$ at four elements and two bits. A
 surrogate cannot produce a result against a brute force baseline of 64 points.
 
+Update, 2026-09-18: decision 0003 selects three bits rather than the two assumed here,
+so $Q^{\,N-1}$ becomes $8^{3} = 512$ and the condition in point 3 of the decision below
+is met. Bayesian optimisation for pattern synthesis is therefore scheduled. The
+decision text needs no change, because it was written as a condition rather than as a
+verdict, but the input to that condition has changed and the change is recorded here
+rather than left to be rediscovered.
+
 ### Option D: decide nothing until the array exists
 
 Build first, choose the algorithmic track afterwards.

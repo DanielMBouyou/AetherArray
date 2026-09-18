@@ -44,7 +44,7 @@
 | I10 | Is the FPGA genuinely useful here? | architecture choice | this project's role in the lab |
 | I11 | Does simulated coupling match measured coupling? | simulation then measurement | credibility of the simulation study |
 | I12 | Is drift over hours larger than the repeatable measurement floor? | EXP-005 then EXP-010 | **the entire learning track, gate G2** |
-| I13 | How much does the power detector itself drift with temperature? | AD8318 datasheet, then bench measurement | whether a null result on I12 is physical or instrumental |
+| I13 | How much does the power detector itself drift with temperature? | **partly answered**: the AD8318 data sheet, revision E, gives a stability over temperature of $\pm 0.5$ dB across its full range, bibliography V6. Bench measurement over a laboratory swing still to do | whether a null result on I12 is physical or instrumental. Now bounded and correctable, but only if the temperature beside the detector is logged |
 | I14 | Is drift driven by time and temperature, or by connector handling? | EXP-014, with handling logged per session | whether a learned prior is possible in principle |
 | I15 | How many unattended calibration sessions per day can the rig sustain? | EXP-014 | the data budget, and therefore the model class |
 | I16 | Does the generic $4N-4$ phase retrieval bound apply to the structured rotating element measurement set? | reading A12 in full, then a numerical check | whether section 3 of the calibration architecture holds as stated |

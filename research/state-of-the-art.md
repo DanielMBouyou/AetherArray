@@ -72,8 +72,8 @@ that matters most now, and it is the one still unfound.**
 | Ref | Lead | What we want | State |
 | --- | --- | --- | --- |
 | I1 | Educational phased array kits with full documentation | a real architecture described in detail, for free | **found**, the CN0566 circuit note and its eight element platform; figures still to verify against the datasheets |
-| I2 | Datasheets of integrated beamforming circuits | what exists, at what price, with what performance | to find |
-| I3 | Datasheets of commanded phase shifters and attenuators | candidate components | to find |
+| I2 | Datasheets of integrated beamforming circuits | what exists, at what price, with what performance | **found**, and excluded for Rev A: the distributor friendly parts are X and Ku band, decision 0003 |
+| I3 | Datasheets of commanded phase shifters and attenuators | candidate components | **found**, entries V1 to V5 in the bibliography, with prices and stock as at 2026-09-18 |
 | I4 | Application notes on array calibration | proven protocols | to find |
 | I5 | Documentation of coherent multi channel software radios | option for the digital route | to find |
 

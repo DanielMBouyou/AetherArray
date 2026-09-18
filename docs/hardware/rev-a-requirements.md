@@ -42,6 +42,11 @@ R1 and R2 are the same physical decision seen twice, and they are the decisive o
 
 ## 3. The decision that must be taken before the board is frozen
 
+> **Taken, on 2026-09-18, by decision 0003.** Rev A is two boards joined by four per
+> element jumpers, so R1 and R2 hold by construction rather than by addition. The
+> analysis below is kept because it is the argument that forced the choice, and
+> because it states what would be lost if the two board split were ever undone.
+
 `docs/hardware/bom-proposal.md` function 2 proposes one board carrying the four
 antennas, the splitter and the phase shifters. Read literally, that closes R1: with
 the splitter integrated and no per element connector, no instrument can ever address a
@@ -97,21 +102,27 @@ than a swept pattern.
 Gate G2 asks whether array drift over hours exceeds the repeatability floor. That
 question is only answerable if the measuring chain drifts less than the array does.
 
-A logarithmic detector is the likely candidate for R3. The candidate part carries a
-vendor stated drift over its temperature range that is of the same order as the array
-drift we intend to measure. If that is so, and no temperature channel exists, then a
-null result on G2 is uninterpretable: the drift track would be abandoned for an
-instrument reason while being recorded as a physical one.
+The part selected for R3 by decision 0003 is the AD8318. Its figures are now
+**[established]** against revision E of the vendor data sheet, bibliography V6,
+consulted 2026-09-18.
 
-| Item | Status |
-| --- | --- |
-| Candidate detector, AD8318, 1 MHz to 8 GHz logarithmic detector | **[to verify]** against the vendor datasheet: logarithmic slope, dynamic range for 1 dB conformance near 2.2 GHz, and deviation from the 25 degree Celsius output over the full temperature range |
-| Consequence if drift is comparable to array drift | R4 becomes mandatory rather than advisable, and the detector reading is corrected against the measured temperature before use |
+| Figure | Value | What it settles here |
+| --- | --- | --- |
+| Frequency range | 1 MHz to 8 GHz | the detector does not constrain the working frequency, so EXP-004 cannot invalidate this part |
+| Accuracy | $\pm 1$ dB over a 55 dB range below 5.8 GHz | ample at any band this project would choose |
+| Logarithmic slope | nominally $-25$ mV/dB | 55 dB of range maps to about 1.4 V of output swing |
+| Stability over temperature | $\pm 0.5$ dB | bounded over the full 125 degree Celsius span, therefore small over a laboratory swing, and correctable in any case |
+| Supply | single 5 V, about 68 mA typical | the whole board draws about 69 mA, supplied by a Nucleo |
 
-The datasheet is at
-`https://www.analog.com/media/en/technical-documentation/data-sheets/ad8318.pdf`. It
-has not been read here, and the figure is therefore not quoted. An attempt to retrieve
-it timed out, and the repository rule is that an unverified number is not written down.
+**The trap is closed, but only by R4.** The detector's own drift is bounded and
+correctable rather than unknown, which removes it as a confound on gate G2, and the
+correction is empirical against logged temperature. That makes the temperature sensor
+beside the detector load bearing: without it the $\pm 0.5$ dB stays an uncorrected term
+and a null result on G2 becomes uninterpretable again, exactly as feared. R4 is
+therefore mandatory, not advisable, and it was already marked as not retrofittable.
+
+What remains open is not the part but the chain: EXP-005 still has to show that the
+whole measuring path, detector included, repeats well enough for unattended running.
 
 ---
 
@@ -122,7 +133,7 @@ analysis.
 
 | Not required | Reason |
 | --- | --- |
-| More than two phase bits per channel | only the Bayesian optimisation track, M5, benefits, and that track is already conditional on element count |
+| More than three phase bits per channel | **corrected on 2026-09-18.** This row previously said more than two, which decision 0003 contradicts. Three bits is required, not optional: two bits degrades the B3 baseline that every measurement count is quoted against, and it drops $Q^{\,N-1}$ below the threshold that makes track M5 worth running. A fourth bit benefits only M5 and is not required |
 | Continuous analogue phase shifters | the quantisation is a study subject, and every method above tolerates coded states provided R5 holds |
 | Coherent multi channel reception | the digital route, option B, is not selected, and no method above needs it |
 | An FPGA | uncertainty I10 is answered plainly here: with an analogue array and a microcontroller control path, this project has no need of one |

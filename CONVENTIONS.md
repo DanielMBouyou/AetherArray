@@ -24,12 +24,21 @@ question without reading everything else.
 | `results/` | What did we actually measure? |
 | `docs/references/` | Where are the sources and the vocabulary? |
 | `decisions/` | What was decided, on what evidence, and when should we revisit it? |
+| `hardware/` | The design files themselves: schematics, symbol libraries, generators |
 
 Two choices deserve a justification, because they depart from a flat list.
 
 **`research/` sits at the top level, not inside `docs/`.** During this phase the
 literature is not supporting documentation, it is the main work. Putting it on the
 same level as `benchmarks/` and `experiments/` reflects its actual weight.
+
+**`hardware/` sits at the top level, next to `docs/hardware/`, and the two are not
+the same thing.** `docs/hardware/` is prose about what hardware is needed, available
+or missing. `hardware/` holds machine readable design files that a tool opens.
+Putting design files under `docs/` would make the documentation tree unreadable, and
+putting the prose next to the design files would bury it. This directory was added on
+2026-09-18, when decision 0003 authorised schematic capture; before that there were no
+design files to hold.
 
 **`experiments/` (the plan) and `results/` (the measurements) are separate.** An
 experiment plan is written once and rarely revised. Results accumulate, grow, and

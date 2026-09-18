@@ -167,7 +167,12 @@ Q^{\,N-1}
 
 measurements. At $N = 4$ with two bit phase shifters, $Q = 4$, that is $4^{3} = 64$
 measurements, which a bench can simply run. Any surrogate method has to beat brute
-force, and against 64 points it will not beat it by enough to be a result. At $N = 8$
+force, and against 64 points it will not beat it by enough to be a result.
+
+**Update, 2026-09-18.** Decision 0003 selects three bits, so $Q = 8$ and the figure for
+the array actually being built is $8^{3} = 512$, above the threshold. The track is
+therefore scheduled rather than conditional, and the two bit figure above is kept
+because it is what makes the threshold legible. At $N = 8$
 with three bits the same expression gives $8^{7}$, about 2.1 million, and the surrogate
 becomes the only option. **The value of the Bayesian optimisation track is therefore
 decided by two hardware numbers, the element count and the phase shifter bit count, and
@@ -236,6 +241,10 @@ from a model.
 Run only if $Q^{\,N-1}$ exceeds about 100. Otherwise the result is exhaustive search,
 and that is reported as the answer.
 
+**Condition met on 2026-09-18.** Decision 0003 gives $Q = 8$ and $N = 4$, so
+$Q^{\,N-1} = 512$. This track is scheduled. It has no experiment number yet, and needs
+one before it is worked on.
+
 ---
 
 ## 7. The data budget decides the model class
@@ -267,7 +276,7 @@ produce, not by how well it performs in any single one.
 | Decision 0001, simulator before hardware | **compatible, and strengthened** | supervised learning needs labels, labels exist only in simulation, so the simulator becomes the training set rather than a checking tool |
 | EXP-011, coupling matrix from full wave simulation | **promoted from useful to required** | it is now the training distribution for ML-A, so a wrong coupling model no longer produces a wrong figure, it produces a wrong estimator |
 | Two element smallest prototype, `docs/scope.md` section 12 | **incompatible with the ML track** | at $N = 2$ there is one relative phase and one relative gain, so no method can improve on a bound of two real numbers, and the ML track cannot start there |
-| Switched line phase shifting at two bits, `docs/hardware/bom-proposal.md` | **in tension** | $Q = 4$ closes the Bayesian optimisation track by the arithmetic of section 4, and coarse states limit REV accuracy, which confounds every count comparison unless the bit count is reported with each result |
+| Switched line phase shifting at two bits, `docs/hardware/bom-proposal.md` | **tension resolved 2026-09-18** | decision 0003 selects three bits for exactly these two reasons. $Q = 8$ opens the pattern synthesis track, and 45 degree steps stop the B3 baseline being degraded. The bit count is still reported with every result, as `benchmarks/specification.md` requires |
 | Acoustic route, option D | **compatible, and self undermining** | measurements become cheap enough to gather thousands, which is exactly what the radio frequency route cannot offer, and that simultaneously removes the premise that measurements are expensive |
 | README question 4, "can optimisation cut the number of measurements" | **needs restating** | as written it is not testable at this scale, because section 3 shows the count is already at its bound on first calibration |
 | Benchmark primary metric, error against measurement count | **compatible without change** | ML-A, ML-C and the classical baselines all produce that same curve |
@@ -282,7 +291,7 @@ These are not open questions to be worked around. Each one changes the architect
 | --- | --- | --- | --- |
 | G1 | can phase be measured, or only power | EXP-004, instrument audit | whether the $4N-4$ power only bound applies at all, or whether $2N-2$ complex measurements are available |
 | G2 | is drift over hours larger than the repeatability floor | EXP-005 then EXP-010 | **whether the M3 track exists**; if drift hides under the noise floor, the central claim is unmeasurable and must be abandoned rather than reported |
-| G3 | element count and phase shifter bit count | architecture decision, not yet taken | whether M4 has room, and whether M5 is meaningful |
+| G3 | element count and phase shifter bit count | **closed 2026-09-18 by decision 0003**: four elements, three bits, so $Q^{\,N-1} = 512$ | M4 has the room the count allows at four elements, and **M5 is now scheduled rather than conditional**. Reducing either number reopens this gate and decision 0003 |
 | G4 | is coupling significant at the chosen spacing, uncertainty I6 | EXP-011 then S parameter measurement | whether the unknown count is $2N-2$ or $2N^{2}$, which moves every number in section 2 |
 | G5 | does the budget allow per element access | costing against the 50 to 70 EUR rule, see `docs/hardware/rev-a-requirements.md` | whether B6 and the unattended dataset are possible |
 
