@@ -87,9 +87,16 @@ matters.
 
 ## 5. What is deliberately unresolved
 
+> **Reduced on 2026-09-19 by EXP-004.** There is one admissible radio frequency,
+> $f_0 = 2.44$ GHz, and the open question is whether the analyser reaches it, not which
+> band to use. The rule is fixed in `experiments/EXP-004-instrument-audit.md`. Nothing
+> in this file may be computed until observation O2 exists, because if the analyser
+> falls short the answer is a change of measurement mode or medium, and the lengths
+> here would then be for a board that is not being built.
+
 | Item | Blocked on | Effect |
 | --- | --- | --- |
-| $f_0$ | EXP-004, the instrument audit | every physical length |
+| $f_0$, 2.44 GHz if the analyser reaches it | EXP-004 observation O2 | every physical length |
 | $\varepsilon_{\text{eff}}$ and the stack-up | choice of fabricator and material | every physical length, and the trace widths |
 | Trace width for 50 ohm and 70.7 ohm | stack-up | layout |
 | Matching tolerance between channels | $f_0$ | layout acceptance |

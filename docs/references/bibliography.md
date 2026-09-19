@@ -153,6 +153,24 @@ readable datasheet here.
      turned into schematic requirements in section 5.5 of that document.
 ```
 
+## Regulatory sources, checked 2026-09-19
+
+```
+[R1] European Commission. Commission Implementing Decision (EU) 2022/180 of 8 February
+     2022 amending Decision 2006/771/EC as regards the update of harmonised technical
+     conditions in the area of radio spectrum use for short-range devices. Annex,
+     non-specific short range devices.
+     https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022D0180
+     Consulted 2026-09-19, annex rows read directly.
+     Source of the band table in experiments/EXP-004-instrument-audit.md. Band 57a,
+     2400 to 2483.5 MHz, 10 mW e.i.r.p., carries no duty cycle restriction, which is
+     what permits a continuous carrier for radiated measurement. Every sub-band between
+     863 and 870 MHz requires a mitigation technique or a duty cycle of at most 10 per
+     cent, which is what eliminates that band for this work.
+     Limit: this is the European harmonisation instrument. The national table of
+     allocations may be more restrictive and has not been checked.
+```
+
 ## Located but not yet verified
 
 These have an identifier but lack confirmed authorship, or were not retrievable here.

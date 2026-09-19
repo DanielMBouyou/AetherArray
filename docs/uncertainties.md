@@ -33,9 +33,11 @@
 | N | Question | Method | Blocks |
 | --- | --- | --- | --- |
 | I1 | Can received power be measured repeatably? | EXP-005 | all of the hardware track |
-| I2 | Does the network analyser offer time domain gating to isolate the direct path? | manual, then trial | measurement quality |
+| I2 | Does the network analyser offer time domain gating to isolate the direct path? | EXP-004 observation O8 | measurement quality. **Not a gate**: the function is optional on some instrument families and built in on others, so its absence is a cost, not a blocker |
 | I3 | How large are the reflections in the available environment? | EXP-005 | choice of measurement strategy |
-| I4 | Can we measure phase, or only power? | instrument audit | choice of calibration method |
+| I4 | Can we measure phase, or only power? | EXP-004 observations O4 and O5 | choice of calibration method, and **gate G1**. If it fails, B5 is unavailable and the per element complex label that supervises the learned drift prior has to be found another way or abandoned, which reopens decision 0002 |
+| I17 | Can the analyser reach 2.44 GHz? | EXP-004 observation O2 | **the only open input to the frequency.** 2.44 GHz, band 57a, is the sole licence exempt band below the 3.0 GHz component ceiling with no duty cycle restriction, bibliography R1. If the analyser falls short the answer is conducted only measurement or the acoustic route, not another band. Neither outcome changes the schematic or the bill of materials |
+| I18 | What is the PE4259-63 isolation at the working frequency, and is there a guaranteed minimum? | read the curve in the vendor datasheet, which is a scanned image and needs a human | the floor of the B2 baseline taken at the sum port. Only typical spot values are in hand, 30 dB at 1000 MHz and 20 dB at 2000 MHz; no guaranteed figure at any frequency |
 | I5 | How large are channel errors in a home built assembly? | EXP-006 | calibration sizing |
 | I6 | Is coupling significant at the chosen spacing? | S parameters between elements, and simulation | complexity of the model |
 | I7 | What do commandable phase shifters cost? | component search | architecture choice |

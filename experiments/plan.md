@@ -15,7 +15,7 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 | 001 | simulation | Array simulator with injected defects | all of the simulation track | 1 week | to do |
 | 002 | simulation | Compare calibration methods in simulation | main theoretical result | 2 weeks | to do |
 | 003 | simulation | Sensitivity to noise and to measurement count | sizing the real campaigns | 1 week | to do |
-| 004 | hardware | Instrument and environment audit | all of the hardware track | 2 days | to do |
+| 004 | hardware | Instrument and environment audit | all of the hardware track, and the working frequency | 30 minutes at the bench | **running**, see `EXP-004-instrument-audit.md` |
 | 005 | hardware | Repeatable power measurement trial | feasibility of any measurement | 2 days | to do |
 | 006 | hardware | Two element array | first real system | 2 weeks | to do |
 | 007 | hardware | Effect of a known cable error | demonstration of the problem | 1 day | to do |
@@ -70,13 +70,23 @@ the central result of the simulation track, and it needs no hardware.
 
 ## EXP-004: instrument and environment audit
 
-**Question**: what can we measure, and are the room reflections small enough?
+Expanded into its own document on 2026-09-19, because it now carries the working
+frequency decision: **`experiments/EXP-004-instrument-audit.md`**.
 
-**Method**: record every instrument model and its characteristics. Check whether the
-network analyser offers time domain gating, since that would solve much of the echo
-problem for free.
+**Question**: what can we measure, and which working frequency should Rev A use?
 
-**Deliverable**: `docs/hardware/inventory-and-needs.md` filled in.
+**Method**: nine numbered observations at the front panel, each with an expected value
+written beforehand, then every reading checked against the datasheet of whatever model
+observation O1 returns.
+
+**State**: the local evidence phase is complete and found nothing, which is recorded in
+`results/EXP-004/`. The analysis that does not need the bench has been done, so the
+visit is a lookup: observation O2, the analyser upper frequency, decides whether
+$f_0 = 2.44$ GHz can be used. There is no second radio frequency to fall back on,
+because every licence exempt band below it is duty cycle limited.
+
+**Deliverable**: `results/EXP-004/` filled in, then decision 0004 fixing the frequency,
+then the physical line lengths in `hardware/rev-a/layout-constraints.md`.
 
 ---
 

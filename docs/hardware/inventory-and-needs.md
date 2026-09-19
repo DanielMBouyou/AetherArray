@@ -21,9 +21,17 @@ better to know that immediately.
 
 ## 2. Available hardware
 
+> **Still unknown on 2026-09-19, and now known to be unknowable without the bench.**
+> EXP-004 searched every avenue that could have identified the instruments from
+> records rather than from the front panel: the consolidated inventory, installed
+> instrument software, the instrument control library, the operating system record of
+> every device ever attached by USB, and saved measurement files. All came back empty.
+> The result is in `results/EXP-004/` so the search is not repeated. The instruments
+> have simply never been connected to this computer.
+
 | Item | Quantity | Role here | Status |
 | --- | --- | --- | --- |
-| Vector network analyser | 1 | channel measurement, coupling between elements | **model, range, port count and calibration kit unknown** |
+| Vector network analyser | 1 | channel measurement, coupling between elements | **model, range, port count and calibration kit unknown**; observations O1 to O9 in `experiments/EXP-004-instrument-audit.md` |
 | Oscilloscope | 1 | time domain measurement, coherence checks | **model, bandwidth and sample rate unknown** |
 | Function generator | 1 | source | **model and maximum frequency unknown** |
 | Software defined radio | unknown | digital option, coherent channels | **presence unknown** |

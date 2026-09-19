@@ -306,9 +306,24 @@ capture can proceed while EXP-004 is still outstanding.
 
 ### 7.2 Blocked by EXP-004, the instrument audit
 
+> **Reduced on 2026-09-19 by EXP-004, then corrected on review the same day.** There is
+> exactly **one** admissible radio frequency for this array, $f_0 = 2.44$ GHz, in band
+> 57a. It is the only licence exempt band below the PE4259-63 ceiling of 3.0 GHz that
+> carries no duty cycle restriction, so it is the only one where a swept measurement can
+> radiate legally. Every sub-band between 863 and 870 MHz is capped at a duty cycle of
+> 10 per cent or less, or requires listen before talk, and 433 MHz is eliminated by a
+> one metre aperture as well. Source is bibliography R1.
+>
+> The frequency is still **not frozen**, because reaching 2.44 GHz depends on the
+> analyser. If it cannot, the answer is not another band: it is conducted only
+> measurement, or the acoustic route. Either reopens the frequency in decision 0003
+> and leaves its topology, part choices and control interface untouched, so **the
+> schematic and the bill of materials stand in every case.** Full analysis in
+> `experiments/EXP-004-instrument-audit.md`.
+
 | | Question | What it changes |
 | --- | --- | --- |
-| E1 | Does the analyser cover 2.4 GHz | the working frequency, therefore every delay line length and patch dimension. Topology is unaffected |
+| E1 | Does the analyser reach 2500 MHz | **the only open input to the frequency decision.** At or above 2500 MHz freezes $f_0 = 2.44$ GHz. Below it, no compliant radiated radio option exists at this scale and the choice becomes conducted only or acoustic. Topology is unaffected in every case |
 | E2 | Does the analyser have two ports | whether B6 can run at all, and therefore how much R2 is worth |
 | E3 | Is phase measurable, gate G1 | whether B5 joins the comparison |
 | E4 | Is there a source able to drive the probe antenna, or must the analyser supply it | whether the radiated path can run while the analyser is busy |
