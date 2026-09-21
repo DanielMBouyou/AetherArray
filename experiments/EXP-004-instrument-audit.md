@@ -1,6 +1,6 @@
 # EXP-004: instrument audit and the working frequency
 
-- Status: running, local evidence exhausted, bench observation outstanding
+- Status: running, five of nine observations recorded, O2, O4 and O5 all passing
 - Date: 2026-09-19
 - Estimated effort: 2 days originally, now about 30 minutes at the bench
 - Results: `results/EXP-004/`
@@ -281,8 +281,21 @@ decision 0002 needs revisiting. Record this outcome loudly if it occurs.
 
 ## Conclusion
 
-**Not yet available.** The frequency is not frozen, because the one observation that
-decides it has not been made.
+**Not yet available, but much closer.** Update of 2026-09-20: a Rohde and Schwarz ZVL
+was observed on the bench, and the three observations that decide the frequency all
+pass. O2 is 3 GHz against a criterion of 2500 MHz, O4 gives a transmission
+measurement, and O5 gives complex formats.
+
+The frequency is still not frozen, for one reason only: **O1 has not been read.** The
+procedure above requires every reading to be checked against the datasheet of the exact
+model, and "a ZVL" does not identify a datasheet. The observed behaviour matches the
+ZVL3, the 3 GHz member of the family, but that is an inference from behaviour and the
+rear label settles it in seconds.
+
+The remaining observations and the instrument assignment for every Rev A measurement
+are in `docs/hardware/measurement-bench.md`. The practical risk has moved: it is no
+longer the frequency, it is whether a calibration kit and the adapters to reach an SMA
+reference plane exist at all, which is observation O7.
 
 What is established is that no local evidence can identify the instrument. The search
 is recorded in `results/EXP-004/`, and it was exhaustive enough to be worth not

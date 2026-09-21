@@ -21,17 +21,21 @@ better to know that immediately.
 
 ## 2. Available hardware
 
-> **Still unknown on 2026-09-19, and now known to be unknowable without the bench.**
-> EXP-004 searched every avenue that could have identified the instruments from
-> records rather than from the front panel: the consolidated inventory, installed
-> instrument software, the instrument control library, the operating system record of
-> every device ever attached by USB, and saved measurement files. All came back empty.
-> The result is in `results/EXP-004/` so the search is not repeated. The instruments
-> have simply never been connected to this computer.
+> **Largely answered on 2026-09-20.** A Rohde and Schwarz ZVL was observed on the
+> bench: 50 ohm, 9 kHz to 3 GHz, N female ports, transmission and complex formats
+> available, source up to 0 dBm, USB present. That covers the working frequency and
+> the measurements the calibration architecture needs. The instrument assignment for
+> every Rev A task is in `docs/hardware/measurement-bench.md`, the readings are in
+> `results/EXP-004/`, and what remains outstanding is listed there.
+>
+> Two cautions carried forward. The exact model and serial have not been read, so no
+> reading has yet been checked against a datasheet. And the instruments documented in
+> the laboratory inventory, which do not include this one, have **not** been confirmed
+> to be physically present; they are treated as conditional cross checks only.
 
 | Item | Quantity | Role here | Status |
 | --- | --- | --- | --- |
-| Vector network analyser | 1 | channel measurement, coupling between elements | **model, range, port count and calibration kit unknown**; observations O1 to O9 in `experiments/EXP-004-instrument-audit.md` |
+| Vector network analyser | 1 | channel measurement, coupling between elements, complex per element labels | **observed 2026-09-20**: Rohde and Schwarz ZVL, 9 kHz to 3 GHz, N female, complex formats, source to 0 dBm. Exact model, calibration kit, adapters and installed options still outstanding |
 | Oscilloscope | 1 | time domain measurement, coherence checks | **model, bandwidth and sample rate unknown** |
 | Function generator | 1 | source | **model and maximum frequency unknown** |
 | Software defined radio | unknown | digital option, coherent channels | **presence unknown** |

@@ -153,6 +153,55 @@ readable datasheet here.
      turned into schematic requirements in section 5.5 of that document.
 ```
 
+## Instrument sources, checked 2026-09-20
+
+Capability references for `docs/hardware/measurement-bench.md`. A capability here says
+what a model family can do. It says nothing about whether that instrument is present.
+
+```
+[T1] Rohde and Schwarz. R&S ZVL vector network analyser, family reference. The unit on
+     the bench has not been identified to a variant; the 3 GHz member is the one whose
+     published range matches the observation.
+     9 kHz to 3 GHz, 2 ports, N connectors. Source power range -50 dBm to 0 dBm.
+     Calibration: full one port (OSM), full two port (TOSM), and one path two port.
+     Dynamic range up to 123 dB. Remote control over 100BaseT, GPIB optional (B10).
+     Options reported as K1 spectrum analysis, K2 distance to fault, K3 time domain
+     analysis, B4 reference oscillator, B22 preamplifier.
+     **Source class: distributor and aggregator listings, not manufacturer
+     documentation.** The manufacturer datasheet is a scanned image and could not be
+     read here, and the manufacturer product page is now a discontinued product stub
+     carrying no option list. Retrieval attempted 2026-09-20 and 2026-09-21.
+     The option designations above are therefore not established and must not be
+     relied on. Observation O8 records the instrument's own option list verbatim.
+
+[T2] Keysight, formerly Agilent. N9923A FieldFox handheld RF vector network analyser,
+     2 MHz to 4 GHz, 6 GHz variant available. S11 and S21 in the base unit; four
+     S-parameter measurement is option dependent. **The option number is not
+     established**: secondary listings give 122, while the one manufacturer datasheet
+     passage readable here mentions option 122 in connection with an external
+     generator measurement instead. Dynamic range up to 90 dB for four parameter
+     measurement and above 100 dB for vector measurement, secondary sources. Built in quick calibration
+     in addition to SOLT. Discontinued, still supported.
+     Consulted 2026-09-20, manufacturer product and datasheet pages.
+     The intended independent cross check, conditional on presence and on whichever
+     option enables four parameter measurement.
+
+[T3] Keysight, formerly Hewlett Packard. 8714C economy network analyser, 300 kHz to
+     3 GHz. Output power up to +16 dBm. Dynamic range above 100 dB in narrowband
+     mode. Obsolete.
+     Consulted 2026-09-20. Second cross check, conditional on presence. The +16 dBm
+     output is above the radiated ceiling this project must respect and has to be set
+     deliberately if ever used for a radiated measurement.
+
+[T4] Keysight, formerly Agilent. N9000A CXA signal analyser, 9 kHz to 26.5 GHz
+     depending on model, absolute amplitude accuracy 0.5 dB. Obsolete.
+     Consulted 2026-09-20. Absolute power reference for AD8318 validation,
+     conditional on presence.
+
+[T5] Hewlett Packard. 8562A portable spectrum analyser, 1 kHz to 22 GHz.
+     Consulted 2026-09-20. Second spectrum instrument, conditional on presence.
+```
+
 ## Regulatory sources, checked 2026-09-19
 
 ```
