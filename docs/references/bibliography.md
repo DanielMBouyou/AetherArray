@@ -1,7 +1,7 @@
 # Bibliography
 
 - Status: in progress, first entries verified
-- Last reviewed: 2026-09-17
+- Last reviewed: 2026-09-21
 
 `research/state-of-the-art.md` holds the leads and why they matter. This file holds
 the exact reference once it has been checked.
@@ -165,26 +165,44 @@ what a model family can do. It says nothing about whether that instrument is pre
      9 kHz to 3 GHz, 2 ports, N connectors. Source power range -50 dBm to 0 dBm.
      Calibration: full one port (OSM), full two port (TOSM), and one path two port.
      Dynamic range up to 123 dB. Remote control over 100BaseT, GPIB optional (B10).
-     Options reported as K1 spectrum analysis, K2 distance to fault, K3 time domain
-     analysis, B4 reference oscillator, B22 preamplifier.
-     **Source class: distributor and aggregator listings, not manufacturer
-     documentation.** The manufacturer datasheet is a scanned image and could not be
+     Capability figures above: distributor and aggregator listings, not manufacturer
+     documentation. The manufacturer datasheet is a scanned image and could not be
      read here, and the manufacturer product page is now a discontinued product stub
      carrying no option list. Retrieval attempted 2026-09-20 and 2026-09-21.
-     The option designations above are therefore not established and must not be
-     relied on. Observation O8 records the instrument's own option list verbatim.
+
+[T1a] Rohde and Schwarz. R&S ZVL option designations, confirmed 2026-09-21 against the
+     manufacturer's own option listing and manual catalogue for the family:
+     K1 spectrum analysis, K2 distance to fault, K3 time domain analysis.
+     K1 is corroborated independently by the existence of a manufacturer document
+     titled "R&S ZVL-K1 Operating Manual", which describes the spectrum analyser mode.
+     Operating manual catalogue entry:
+     https://www.rohde-schwarz.com/us/manual/rs-zvl-operating-manual_78701-28770.html
+     Family option listing: rohde-schwarz.com, product page zvl-options_63490-9014.
+     Limit on this source: the live product pages render as discontinued product
+     stubs, so the confirmation rests on the manufacturer's option listing and manual
+     catalogue rather than on a datasheet PDF, which remains unreadable here.
+     **This establishes what each designation means. It establishes nothing about
+     which options are installed on the unit on the bench.** That is observation O8,
+     which records the instrument's own option list verbatim.
+     Supersedes the earlier entry in this file, which recorded these designations as
+     unconfirmed and not to be relied on.
 
 [T2] Keysight, formerly Agilent. N9923A FieldFox handheld RF vector network analyser,
      2 MHz to 4 GHz, 6 GHz variant available. S11 and S21 in the base unit; four
-     S-parameter measurement is option dependent. **The option number is not
-     established**: secondary listings give 122, while the one manufacturer datasheet
-     passage readable here mentions option 122 in connection with an external
-     generator measurement instead. Dynamic range up to 90 dB for four parameter
-     measurement and above 100 dB for vector measurement, secondary sources. Built in quick calibration
+     S-parameter measurement is option dependent. **Option 122 is full two port
+     S-parameters**, confirmed 2026-09-21 against the manufacturer's own options page
+     and technical overview for this model: it adds S22 and S12 to the base S11 and
+     S21, and provides full two port calibration.
+     https://www.keysight.com/us/en/options/N9923A/fieldfox-a-handheld-rf-vector-network-analyzer-4-ghz-6-ghz.html
+     Technical overview 5990-5087, keysight.com asset 7018-02396.
+     The same manufacturer source gives more than 100 dB of dynamic range for vector
+     measurement, from four independent receivers. The 90 dB figure for four parameter
+     measurement remains a secondary listing. Built in quick calibration
      in addition to SOLT. Discontinued, still supported.
-     Consulted 2026-09-20, manufacturer product and datasheet pages.
-     The intended independent cross check, conditional on presence and on whichever
-     option enables four parameter measurement.
+     Consulted 2026-09-20, re-checked 2026-09-21.
+     Supersedes the earlier entry, which recorded option 122 as not established.
+     The intended independent cross check, conditional on presence and on option 122
+     being installed.
 
 [T3] Keysight, formerly Hewlett Packard. 8714C economy network analyser, 300 kHz to
      3 GHz. Output power up to +16 dBm. Dynamic range above 100 dB in narrowband
@@ -198,8 +216,30 @@ what a model family can do. It says nothing about whether that instrument is pre
      Consulted 2026-09-20. Absolute power reference for AD8318 validation,
      conditional on presence.
 
-[T5] Hewlett Packard. 8562A portable spectrum analyser, 1 kHz to 22 GHz.
-     Consulted 2026-09-20. Second spectrum instrument, conditional on presence.
+[T5] Keysight, formerly Hewlett Packard. 8562A portable spectrum analyser,
+     **9 kHz to 22 GHz**. Obsolete.
+     https://www.keysight.com/us/en/support/8562A/9-khz-22-ghz-spectrum-analyzer.html
+     Consulted 2026-09-20, corrected 2026-09-21. Second spectrum instrument,
+     conditional on presence.
+     Correction: the earlier entry gave 1 kHz as the lower limit, taken from a
+     secondary listing. The manufacturer's own product title gives 9 kHz. Nothing in
+     the measurement plan depended on the difference, since this instrument is
+     `[inventory]` and every use of it is conditional.
+```
+
+```
+[T6] Terasic. DE1-SoC user manual, Cyclone V SoC development board.
+     Two 40 pin expansion headers, 36 user pins each connected directly to the
+     Cyclone V device, at 3.3 V with protection diodes, plus DC 5 V, DC 3.3 V and two
+     grounds per header.
+     On board converter: LTC2308, eight channel, 12 bit, up to 500 ksps, analogue input
+     range 0 V to 4.096 V, reached from the fabric over a four wire serial interface at
+     3.3 V.
+     Consulted 2026-09-23, manufacturer user manual.
+     The Rev A controller, decision 0005. Source of the 3.3 V expansion header level
+     that makes the buffer on the radio frequency board necessary, and of the onboard
+     converter retained as an independent cross check.
+     Not obtained: the current limit of the header supply rails, which is an open item.
 ```
 
 ## Regulatory sources, checked 2026-09-19

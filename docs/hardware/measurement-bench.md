@@ -69,10 +69,10 @@ Every cell carries its evidence class. References in `docs/references/bibliograp
 
 | Axis | The observed analyser | N9923A | 8714C | N9000A CXA | 8562A |
 | --- | --- | --- | --- | --- | --- |
-| Frequency range | 9 kHz to 3 GHz `[observed]` | 2 MHz to 4 GHz, 6 GHz variant exists `[vendor]` | 300 kHz to 3 GHz `[vendor]` | 9 kHz to 26.5 GHz, model dependent `[vendor]` | 1 kHz to 22 GHz `[listing]` |
-| S-parameters | S21 `[observed]`; full two port `[listing]` | S11 and S21; **all four are option dependent, see below** `[listing]` | transmission and reflection `[vendor]` | none, receiver only | none, receiver only |
+| Frequency range | 9 kHz to 3 GHz `[observed]` | 2 MHz to 4 GHz, 6 GHz variant exists `[vendor]` | 300 kHz to 3 GHz `[vendor]` | 9 kHz to 26.5 GHz, model dependent `[vendor]` | **9 kHz to 22 GHz** `[vendor]` |
+| S-parameters | S21 `[observed]`; full two port `[listing]` | S11 and S21; **all four are option dependent, option 122, see below** `[vendor]` | transmission and reflection `[vendor]` | none, receiver only | none, receiver only |
 | Phase and complex data | yes `[observed]` | yes, phase and Smith `[inventory]` | to verify | not applicable | not applicable |
-| Dynamic range | up to 123 dB `[listing]` | up to 90 dB for four parameters, above 100 dB vector `[listing]` | above 100 dB narrowband `[listing]` | not applicable | not applicable |
+| Dynamic range | up to 123 dB `[listing]` | above 100 dB vector, four independent receivers `[vendor]`; up to 90 dB for four parameters `[listing]` | above 100 dB narrowband `[listing]` | not applicable | not applicable |
 | Source capability | **up to 0 dBm** `[observed]`; lower limit -50 dBm `[listing]` | to verify | **up to +16 dBm** `[listing]` | none | none |
 | Calibration method | OSM, TOSM, one path two port `[listing]` | SOLT, and a built in quick calibration `[vendor]` | to verify | not applicable | not applicable |
 | Connector standard | **N female** `[observed]` | 3.5 mm kits documented `[inventory]`, port family to verify | to verify | to verify | to verify |
@@ -88,19 +88,30 @@ than a limitation. The 8714C can reach +16 dBm, which is above the radiated ceil
 this project must respect, so if it is ever used for a radiated measurement its output
 has to be set deliberately rather than left where it was found.
 
-**Option designations are not established.** Distributor listings give the analyser's
-options as K1 spectrum analysis, K2 distance to fault and K3 time domain analysis, and
-give the handheld analyser's four parameter capability as option 122. **Neither has
-been confirmed against manufacturer documentation**, and the one manufacturer datasheet
-passage that could be read here mentions option 122 in connection with an external
-generator measurement rather than with four S-parameters. So the designation may not
-mean what the listings say.
+**Option designations, now established against manufacturer sources.** Checked
+2026-09-21, bibliography `[T1a]` and `[T2]`:
 
-Nothing here depends on resolving that, because the action does not need it: **O8
-records the option list verbatim from the instrument**, and the meaning of each entry
-is settled afterwards, against the manual for whatever model O1 returns. An earlier
-draft of this document asserted the K3 mapping as a correction of fact. That assertion
-is withdrawn.
+| Designation | Meaning | Source |
+| --- | --- | --- |
+| K1 | spectrum analysis | manufacturer option listing, and a manufacturer manual titled for this option `[vendor]` |
+| K2 | distance to fault | manufacturer option listing `[vendor]` |
+| K3 | time domain analysis | manufacturer option listing `[vendor]` |
+| 122, handheld analyser | full two port S-parameters, adding S22 and S12 to the base S11 and S21, with full two port calibration | manufacturer options page and technical overview `[vendor]` |
+
+The distributor listings turned out to be right. An earlier draft of this document
+asserted the K3 mapping as a correction of fact, then withdrew the assertion for want
+of a source; the mapping is now carried on a manufacturer source rather than on either.
+The earlier doubt about option 122 came from reading a passage that mentions it
+alongside an external generator measurement, which is a different sentence about the
+same option, not a different meaning for it.
+
+**What this does not establish, and the distinction is the whole point.** Knowing what
+a designation means says nothing about **which options are installed on the unit on the
+bench**. That is still unread, it is still `O8`, and `O8` still records the option list
+**verbatim** rather than going looking for a designation it expects to find. The
+identification of the unit is still an inference from behaviour, so the manual to read
+each entry against is the manual for whatever model `O1` returns, not the one assumed
+here.
 
 **Safe input limits are unread for every instrument.** Our own levels are far too low
 to threaten anything, but the row says unread rather than safe.
@@ -115,7 +126,7 @@ instrument is `[inventory]` rather than confirmed.
 | --- | --- | --- | --- |
 | EXP-004, instrument audit | panel readings and option list | the analyser itself | manufacturer datasheet for the exact model |
 | EXP-005, repeatability | repeated transmission measurement and repeated detector reading | the observed analyser, S21 | **the on board AD8318 path**, which is genuinely independent: different receiver, different physics, already in the design |
-| Switched line phase verification, 45, 90 and 180 degree bits | S21 phase against commanded code word | the observed analyser, S21 phase | N9923A, conditional on presence and on whichever option enables four parameter measurement |
+| Switched line phase verification, 45, 90 and 180 degree bits | S21 phase against commanded code word | the observed analyser, S21 phase | N9923A, conditional on presence and on option 122 being installed |
 | Channel insertion loss | S21 magnitude per channel and per code word | the observed analyser | 8714C, conditional |
 | Wilkinson divider | S21 balance between arms, S11, port to port isolation | the observed analyser | N9923A, conditional on presence and option |
 | Antenna reflection | S11 at each element port | the observed analyser | N9923A, conditional |

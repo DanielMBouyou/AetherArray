@@ -1,12 +1,13 @@
 # Layout constraints carried by the symbolic transmission lines
 
-- Status: in progress, physical lengths blocked on EXP-004 and on the stack-up
-- Last reviewed: 2026-09-18
+- Status: in progress, frequency frozen, physical lengths blocked on the stack-up
+- Last reviewed: 2026-09-23
 
 The schematic contains 30 `TLINE_SYMBOLIC` parts. They are not components to buy.
 Each one is a piece of printed line whose **electrical** length is fixed by the
-design and whose **physical** length cannot be computed until the working frequency
-and the board stack-up are known. This file is the contract between the two.
+design and whose **physical** length cannot be computed until the board stack-up is
+known. The working frequency was the other input and is now fixed. This file is the
+contract between the two.
 
 Each symbol carries the constraint in its own fields, so it travels with the part
 rather than living only in prose:
@@ -33,14 +34,15 @@ l = \frac{\theta}{360}\,\lambda_g,
 | $\theta$ | electrical length required by the schematic field `EL_DEG` | degrees |
 | $\lambda_g$ | guided wavelength in the chosen stack-up | m |
 | $c$ | speed of light in vacuum | m/s |
-| $f_0$ | working frequency, still to be fixed by EXP-004 | Hz |
+| $f_0$ | working frequency, **fixed at 2.44 GHz by decision 0004** | Hz |
 | $\varepsilon_{\text{eff}}$ | effective permittivity of the microstrip, from the stack-up and the trace width | dimensionless |
 
 Worked example, to make the scale concrete and for no other purpose. On 1.6 mm FR4
-with $\varepsilon_{\text{eff}} \approx 3.3$ at $f_0 = 2.4$ GHz, the guided wavelength
-is about 69 mm, so a 45 degree section is about 8.6 mm and a 180 degree section is
-about 34 mm. Those numbers are an illustration, not a specification: the real ones
-follow from the fabricated stack-up and are computed at layout.
+with $\varepsilon_{\text{eff}} \approx 3.3$ at the now fixed $f_0 = 2.44$ GHz, the
+guided wavelength would be about 68 mm, so a 45 degree section about 8.5 mm and a
+180 degree section about 34 mm. **Those numbers remain an illustration, not a
+specification.** The frequency is now fixed, but the permittivity is still assumed, and
+the real lengths follow from the fabricated stack-up and are computed at layout.
 
 ## 2. The constraint is a difference, not a length
 
@@ -81,25 +83,27 @@ study.
 | Element port trace lengths from each channel output to its SMA are equal | otherwise the per element measurements carry an offset that the per element access was meant to remove |
 | Line width is constant within a given impedance class | a width change is an impedance step, which is a reflection |
 
-Equality here means to a tolerance that has to be set once $f_0$ is known. At
-2.4 GHz, 1 mm of microstrip is roughly 5 degrees, which sets the scale of what
-matters.
+Equality here means to a tolerance still to be set. At 2.44 GHz roughly 1 mm of
+microstrip is about 5 degrees, which sets the scale of what matters.
 
 ## 5. What is deliberately unresolved
 
-> **Reduced on 2026-09-19 by EXP-004.** There is one admissible radio frequency,
-> $f_0 = 2.44$ GHz, and the open question is whether the analyser reaches it, not which
-> band to use. The rule is fixed in `experiments/EXP-004-instrument-audit.md`. Nothing
-> in this file may be computed until observation O2 exists, because if the analyser
-> falls short the answer is a change of measurement mode or medium, and the lengths
-> here would then be for a board that is not being built.
+> **Frozen on 2026-09-23 by decision 0004: $f_0 = 2.44$ GHz.** The analyser on the
+> bench was observed to cover 9 kHz to 3 GHz with a complex S21 measurement, which is
+> what the frequency was waiting on. The free space wavelength is therefore
+> $\lambda_0 = 122.9$ mm.
+>
+> **The lengths in this file are still not computable, and the reason has changed.**
+> They need the guided wavelength, which needs the stack-up: the substrate, its
+> thickness and the resulting effective permittivity. The frequency is no longer the
+> blocker. Nothing here may be computed until a stack-up is chosen.
 
 | Item | Blocked on | Effect |
 | --- | --- | --- |
-| $f_0$, 2.44 GHz if the analyser reaches it | EXP-004 observation O2 | every physical length |
 | $\varepsilon_{\text{eff}}$ and the stack-up | choice of fabricator and material | every physical length, and the trace widths |
 | Trace width for 50 ohm and 70.7 ohm | stack-up | layout |
-| Matching tolerance between channels | $f_0$ | layout acceptance |
+| Matching tolerance between channels | a decision, not a measurement | layout acceptance |
 
-None of these changes the schematic. That separation is the reason decision 0003
-could authorise capture while the frequency was still open.
+None of these changes the schematic. That separation is the reason decision 0003 could
+authorise capture while the frequency was still open, and it is why freezing the
+frequency in decision 0004 changed no captured net.

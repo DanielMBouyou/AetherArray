@@ -86,7 +86,7 @@ Exported from the schematic, so it counts what is actually drawn.
 | 18k, 1k, 4k7 | 1, 2, 2 | temperature compensation, converter series, I2C pull ups |
 | Symbolic transmission lines | 30 | 24 in the channels, 6 in the divider; these are layout, not purchases |
 | SMA | 5 | four element ports and the common port |
-| Header | 1 | interface to the Nucleo |
+| Header | 1 | interface to the controller. **Superseded by decision 0005**, see below |
 
 **Delta against the architecture document.** Section 6 of
 `docs/architecture/rev-a-rf-architecture.md` costed 28 fitted switches. Capture added
@@ -108,9 +108,28 @@ loss in the common arm, and the two measurement paths become properly exclusive.
 
 | Rail | Source | Load |
 | --- | --- | --- |
-| 5 V | Nucleo, through `J905` | `U901` only, 68 mA typical |
-| 3V3 | Nucleo, through `J905` | 29 switches and 2 sensors, microamp parts |
+| 5 V | controller, through `J905` | `U901` only, 68 mA typical |
+| 3V3 | controller, through `J905` | 29 switches and 2 sensors, microamp parts |
 
-The Nucleo is the only source, so its pins on `J905` are the power outputs of the
+The controller is the only source, so its pins on `J905` are the power outputs of the
 design and every other supply pin is an input. That is what makes the rule check pass
 without a power flag anywhere.
+
+## Superseded by decision 0005, re-capture required
+
+The captured schematic predates the controller change and **no longer matches the
+architecture**. The radio frequency topology is unaffected: the divider, the switched
+line chains, the element ports and the detector are all unchanged, and so is the
+sixteen bit beam state.
+
+What must change when this project is re-captured:
+
+| Change | Reason |
+| --- | --- |
+| `J905` becomes a general controller interface, about 26 signal lines plus interleaved grounds, so a 2 by 20 rather than a 2 by 13 | `docs/architecture/control-architecture.md` section 7 |
+| Two registered buffers appear between `J905` and the switch control inputs, clocked by a new `STROBE` line | electrical compatibility is undemonstrated, and the beam state must apply at one instant at the board |
+| The two analogue return pins become a four wire serial converter interface | the fabric cannot sample an analogue voltage |
+| A serial converter is added beside `U901` | keeps a 2.5 mV per 0.1 dB signal off the ribbon cable |
+
+Until that is done, treat the schematic as the record of the radio frequency design and
+`docs/architecture/control-architecture.md` as the record of the control design.

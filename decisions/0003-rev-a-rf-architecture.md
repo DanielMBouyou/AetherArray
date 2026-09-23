@@ -1,6 +1,7 @@
 # 0003. Rev A is a two board, phase only, switched line array at three bits
 
-- Status: accepted, dimensions blocked on EXP-004
+- Status: accepted; **control path superseded by decision 0005**, frequency frozen by decision 0004, dimensions blocked on the stack-up
+- Note: the radio frequency architecture below stands unchanged. The controller named in it is an STM32G0 and is now a DE1-SoC, and the schematic needs re-capturing to match. The text is kept as written, because a decision record says what was decided at the time.
 - Date: 2026-09-18
 - Scope: the first radio frequency hardware revision, its topology, phase control and control interface
 

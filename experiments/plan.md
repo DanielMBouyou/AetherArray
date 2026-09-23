@@ -105,6 +105,37 @@ the uncertainty floor and decides whether pattern measurement is possible at all
 effect we want to measure, the strategy has to change immediately, before any
 purchase.
 
+### Added by decision 0005: compare the two converter paths
+
+This runs with a detector module and a ribbon cable, **before the board exists**, which
+is what makes it useful: it turns a precaution into a measurement while the decision it
+informs is still reversible.
+
+**Question**: does digitising the detector output at the far end of a ribbon cable
+introduce error correlated with the commanded state?
+
+**Method**: one detector output, sampled two ways at once. A local converter beside the
+detector, and the DE1-SoC onboard converter reached through the intended ribbon. Record
+both under three conditions: control lines idle, control lines toggling between
+measurements but static during each sample window, and control lines toggling freely
+including during the sample window.
+
+**Criterion**: the difference between the two paths, expressed against the repeatability
+floor measured above, and specifically whether any part of that difference correlates
+with the commanded word rather than looking like noise.
+
+**What each outcome decides**:
+
+| Outcome | Consequence |
+| --- | --- |
+| The two paths agree well inside the repeatability floor in all three conditions | the local converter is a precaution that was not needed. Demote it, use the DE1-SoC converter, and drop the four serial lines from the connector |
+| They agree only when the lines are static during the sample window | the quiet window in `docs/architecture/control-architecture.md` section 5.1 is load bearing rather than tidy, and it is what earns the fabric sequencer |
+| They differ in a way that tracks the commanded word | the local converter is necessary, and the precaution is retired in favour of a measurement |
+
+The third condition is deliberately the one the design forbids. It is measured anyway,
+because knowing the size of the effect the quiet window prevents is what tells us
+whether the quiet window is worth its complexity.
+
 ---
 
 ## EXP-007: demonstration of the problem
@@ -187,19 +218,35 @@ at all before anything is claimed from it.
 
 **Question**: can the array calibrate itself repeatedly, with no operator, for weeks?
 
-**Method**: drive the calibration sequence from a microcontroller already owned, read
-the sum port detector, log every measurement with its commanded code word, the board
-temperature, a timestamp, and a flag saying whether any connector was touched since
-the previous session. Requirements R3, R4, R5 and R8 in
-`docs/hardware/rev-a-requirements.md`.
+**Method**: the fabric of an external DE1-SoC executes the beam state sequence, applies
+each state at one instant through the registered buffer on the board, holds the control
+lines static through the sample window, triggers the converter after an exact settling
+delay and timestamps both from one clock. The processor on the same device drains the
+records to disk. Decision 0005 and `docs/architecture/control-architecture.md`.
+Requirements R3, R4, R5, R8 and R9 in `docs/hardware/rev-a-requirements.md`.
 
 **Criterion**: the rig completes a full classical calibration unattended, repeatedly,
 and the session to session spread is at or below the EXP-005 repeatability floor.
 
 **Deliverable**: the dataset. Not a result, a dataset, and it is the input to EXP-015.
 
+**The record schema is fixed, not discovered.** Every measurement writes the fields in
+`docs/architecture/control-architecture.md` section 6: session identifier, sequence
+index, commanded and read back beam state words, strobe and conversion timestamps, the
+settling delay applied, raw converter counts, the converter reference and channel, the
+two board temperatures and the detector die temperature, the gateware and software
+versions, the connector handling flag, and the analyser state if one was used.
+
+Three of those are easy to omit and expensive to lose. **Raw counts** must be kept
+because the noise model is estimated from them and scaling first discards what that
+needs. **The read back word** must be kept because it separates a control fault from a
+physical effect. **The version fields** must be kept because a timing change between
+sessions is otherwise invisible in the data.
+
 **Why the logging schema is part of the experiment**: a drift dataset cannot be
-reconstructed afterwards. A session logged without its temperature is a session lost.
+reconstructed afterwards. A session logged without its temperature is a session lost,
+and a session logged under a schema that changed mid-campaign is worse, because it
+looks usable.
 
 ---
 
@@ -210,9 +257,16 @@ below target using fewer physical measurements than calibrating from scratch?
 
 This is the project's central claim, stated as an experiment.
 
-**Method**: specification ML-B in `docs/architecture/ml-calibration.md` section 6. On
-each held out session, recalibrate from the prior using $P$ measurements, then run a
-full classical calibration immediately afterwards to supply the label.
+**Method**: specification ML-B in `docs/architecture/ml-calibration.md` section 6,
+posed formally in `docs/mathematics/inverse-calibration.md`. On each held out session,
+recalibrate from the prior using $P$ measurements, then run a full classical
+calibration immediately afterwards to supply the label.
+
+The prior is the learned part and enters only as $p(\mathbf{H}_t \mid \mathcal{D})$.
+The likelihood stays explicit physics, so a wrong prior costs measurements rather than
+giving a wrong answer quietly. Each fresh measurement is chosen by expected information
+gain over the reachable beam states, which is an enumeration at this array size, not a
+search.
 
 **Controls**: recalibrating from scratch, and applying the previous calibration
 unchanged.

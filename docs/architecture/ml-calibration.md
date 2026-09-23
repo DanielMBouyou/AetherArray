@@ -7,6 +7,12 @@ This document answers one question: can a learned or adaptive method reduce the
 number of physical measurements needed to reach a target calibrated beam, and if so,
 what must the first hardware revision expose for that claim to be testable.
 
+**The problem it selects is stated formally in `docs/mathematics/inverse-calibration.md`.**
+That document gives the forward model, the posterior being inferred, the place where
+learned history enters as a prior, and the information gain criterion for choosing the
+next measurement. This one decides where learning belongs; that one says what the
+problem is.
+
 It is written before any hardware exists, because the answer constrains the board.
 
 ---
@@ -241,9 +247,16 @@ from a model.
 Run only if $Q^{\,N-1}$ exceeds about 100. Otherwise the result is exhaustive search,
 and that is reported as the answer.
 
-**Condition met on 2026-09-18.** Decision 0003 gives $Q = 8$ and $N = 4$, so
-$Q^{\,N-1} = 512$. This track is scheduled. It has no experiment number yet, and needs
-one before it is worked on.
+**Condition met on 2026-09-18, then reinterpreted on 2026-09-23.** Decision 0003 gives
+$Q = 8$ and $N = 4$, so $Q^{\,N-1} = 512$.
+
+That figure was read as making a surrogate worth scheduling. It conflated two costs.
+Against an **estimated model**, enumerating 512 states is arithmetic, costs no
+measurement and returns the exact optimum, so it is the baseline rather than a problem.
+Only in the **model free** arm, where each of the 512 is a physical measurement, is
+there anything for a surrogate to improve. The track is therefore a control in that
+arm, not a contribution of its own, and the scheduled status is withdrawn. See
+`docs/mathematics/inverse-calibration.md` section 5.
 
 ---
 
@@ -291,7 +304,7 @@ These are not open questions to be worked around. Each one changes the architect
 | --- | --- | --- | --- |
 | G1 | can phase be measured, or only power | EXP-004, instrument audit | whether the $4N-4$ power only bound applies at all, or whether $2N-2$ complex measurements are available |
 | G2 | is drift over hours larger than the repeatability floor | EXP-005 then EXP-010 | **whether the M3 track exists**; if drift hides under the noise floor, the central claim is unmeasurable and must be abandoned rather than reported |
-| G3 | element count and phase shifter bit count | **closed 2026-09-18 by decision 0003**: four elements, three bits, so $Q^{\,N-1} = 512$ | M4 has the room the count allows at four elements, and **M5 is now scheduled rather than conditional**. Reducing either number reopens this gate and decision 0003 |
+| G3 | element count and phase shifter bit count | **closed 2026-09-18 by decision 0003**: four elements, three bits, so $Q^{\,N-1} = 512$ | M4 has the room the count allows at four elements. **M5 is a control in the model free arm, not a scheduled track**, because 512 states enumerate exactly against an estimated model. Reducing either number reopens this gate and decision 0003 |
 | G4 | is coupling significant at the chosen spacing, uncertainty I6 | EXP-011 then S parameter measurement | whether the unknown count is $2N-2$ or $2N^{2}$, which moves every number in section 2 |
 | G5 | does the budget allow per element access | costing against the 50 to 70 EUR rule, see `docs/hardware/rev-a-requirements.md` | whether B6 and the unattended dataset are possible |
 

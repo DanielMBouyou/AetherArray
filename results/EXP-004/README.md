@@ -1,7 +1,7 @@
 # EXP-004 results
 
-- Status: partial, five of nine observations complete, frequency inputs all passing
-- Last reviewed: 2026-09-21
+- Status: partial, five of nine complete; the frequency question inside it is closed
+- Last reviewed: 2026-09-23
 
 Plan and decision rule in `experiments/EXP-004-instrument-audit.md`.
 
@@ -51,7 +51,7 @@ distinction is kept in the last column.
 | O5 | Complex format available | complex and phase formats available | 2026-09-20 | **pass** |
 | O6 | Source power | capability up to 0 dBm. **The level to be used has not been chosen or recorded** | 2026-09-20 | **partial.** The capability is inside the window of -25 to +8 dBm, and the 0 dBm ceiling sits 8 dB below the radiated limit, so the instrument cannot breach it |
 | O7 | Calibration kit and connector type | ports are N female. **No calibration kit confirmed, no adapter confirmed** | 2026-09-20 | **partial, and the most consequential gap.** See `docs/hardware/measurement-bench.md` section 6 |
-| O8 | Time domain or gating present | not verified | | **outstanding.** Record the option list verbatim from the version and options page; do not go looking for one designation, because the published mappings are unconfirmed. Not a gate |
+| O8 | Time domain or gating present | not verified | not taken | **outstanding.** Record the option list verbatim from the version and options page. What the designations mean is settled, bibliography `[T1a]`; which are installed is not. Not a gate |
 | O9 | Remote interface | USB present on the instrument. **Enumeration on the computer not verified** | 2026-09-20 | **partial.** No instrument has ever enumerated on this computer, per result 1 |
 
 Also observed: the system impedance is 50 ohm, which matches the design.
@@ -59,20 +59,29 @@ Also observed: the system impedance is 50 ohm, which matches the design.
 ### What this settles
 
 The three observations that decide the working frequency, O2, O4 and O5, all pass. A
-3 GHz instrument with transmission and complex formats supports 2.44 GHz.
+3 GHz instrument with transmission and complex formats supports 2.44 GHz, and decision
+0004 freezes the frequency there on 2026-09-23.
 
-### What still prevents closure
+It also closes gate G1. Phase is measurable, so the orthogonal coding baseline B5 is
+available and the per element complex label that supervises the learned drift prior can
+be obtained as designed. Decision 0002 does not reopen.
 
-| Item | Why it blocks | Effort |
+### What still prevents closure of the experiment
+
+Reclassified on 2026-09-23 by decision 0004, which froze the working frequency on the
+observed capability rather than on model identification. **None of these blocks radio
+frequency dimensioning any more.**
+
+| Item | What it blocks now | Effort |
 | --- | --- | --- |
-| O1 exact model and serial | the pre-committed procedure requires every reading to be checked against the datasheet of the exact model, and "a ZVL" does not select a datasheet | read the rear label |
-| O7 calibration kit and adapters | without a kit and an N to 3.5 mm or N to SMA adapter there is no calibrated measurement at the board reference plane, whatever the frequency | look in the case |
-| O6 the level actually used | it is a procedure parameter, and the conducted and radiated cases want different values | set it and write it down |
-| O8 installed option list | decides the echo strategy for EXP-005 | one menu, the version and options page |
-| O9 enumeration on the computer | decides whether EXP-014 can run unattended | plug the cable in |
+| O1 exact model and serial | provenance, and the key to every accuracy specification. **The one reading that could still overturn the frequency**, if the model proves to be specified below 2.44 GHz | read the rear label |
+| O7 calibration kit and adapters | **calibrated hardware validation only.** Not simulation, not schematic work, not layout | look in the case |
+| O6 the level actually used | a procedure parameter. The observed 0 dBm ceiling already guarantees the radiated limit cannot be breached | set it and write it down |
+| O8 installed option list, copied verbatim | the echo strategy for EXP-005. Bench capability, not an architecture gate | one menu, the version and options page |
+| O9 enumeration on the computer | unattended running in EXP-014. Automation, not an architecture gate | plug the cable in |
 
-Only the first is a gate on the frequency decision. The rest are gates on measuring
-anything well.
+The experiment closes when all nine are recorded. The frequency question inside it is
+already closed.
 
 No cell in this table is filled from a catalogue, a memory or a guess. A reading that
 was not taken stays blank or is marked outstanding.

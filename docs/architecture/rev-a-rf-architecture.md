@@ -1,7 +1,7 @@
 # Rev A RF architecture
 
-- Status: selected and captured, dimensions still blocked on EXP-004
-- Last reviewed: 2026-09-18
+- Status: selected and captured, frequency frozen, dimensions blocked on the stack-up
+- Last reviewed: 2026-09-23
 
 > **Captured on 2026-09-18.** The schematic is in `hardware/rev-a/`, the electrical
 > rule check is clean, and the bill of materials in `hardware/rev-a/bom/` is exported
@@ -62,8 +62,8 @@ Separated because the architecture is only as good as the first column.
 
 | Assumption | Why it is reasonable | How it falls | Effect |
 | --- | --- | --- | --- |
-| Working frequency is 2.4 GHz | licence exempt, instruments almost certainly reach it, antennas are small, FR4 is still usable | the network analyser does not cover it, EXP-004 | line lengths and patch dimensions change; **topology does not** |
-| The network analyser has two ports covering the band | usual for any vector instrument | EXP-004 finds a one port instrument | the mutual coupling route closes, and R2 loses its value |
+| Working frequency is 2.4 GHz | **promoted to established on 2026-09-23.** Frozen at 2.44 GHz by decision 0004, from an observed analyser covering 9 kHz to 3 GHz with a complex S21 measurement | not applicable, it is no longer an assumption | line lengths still move with the stack-up; **topology does not** |
+| The network analyser has two ports covering the band | **promoted to established on 2026-09-23.** Two N female ports and an S21 measurement were observed | not applicable, it is no longer an assumption | the mutual coupling route stays open and R2 keeps its value |
 | PE4259 insertion loss at 2.4 GHz is near 0.5 dB rather than the quoted 0.35 dB | the quoted figure is not stated at this frequency | measurement | chain loss estimate moves by about 1 dB |
 | Switch state to state repeatability is better than the measurement floor | CMOS switches are deterministic | EXP-005 and repeated switching | **if false, the drift experiment measures the switches, not the array** |
 | Detector drift over a laboratory swing of a few degrees is far below the $\pm 0.5$ dB quoted over the full range | the quoted figure spans 125 degrees Celsius | the curve is strongly nonlinear near room temperature | more correction needed, which R4 already makes possible. **Inferred, not quoted: the data sheet gives the range figure, not a per degree slope** |
@@ -207,19 +207,26 @@ Sixteen general purpose lines carry the entire commanded state, so the code word
 data register is readable, so the commanded word is written and read back in software,
 and R8 logs it with the detector reading, the temperature and the timestamp.
 
-An STM32G0 Nucleo already owned supplies all of this.
+**Superseded on 2026-09-23 by decision 0005.** The controller is an external DE1-SoC,
+the sixteen bits are applied through a registered buffer on this board clocked by a
+single strobe, and the detector is digitised on this board rather than returned as an
+analogue voltage. The interface is defined in
+`docs/architecture/control-architecture.md` sections 3 and 7. The table above is kept
+because it records the signal count the design was captured around, which is unchanged
+at sixteen beam state bits.
 
 ### 5.5 Power rails
 
 | Rail | Source | Consumers | Requirement |
 | --- | --- | --- | --- |
-| 5 V | Nucleo or USB | AD8318 | **single 5 V supply, 68 mA typical**, bibliography V6. Size the rail for 100 mA to leave margin |
-| 3.3 V | Nucleo | 28 PE4259-63, 2 MCP9808 | PE4259 operates from 1.8 V to 3.3 V, microamp parts; MCP9808 about 200 microamp each |
+| 5 V | controller expansion header, or a separate supply | AD8318 and the converter | **single 5 V supply, 68 mA typical**, bibliography V6. Size the rail for 100 mA to leave margin. Whether the header can source it is an open item |
+| 3.3 V | controller expansion header, or a separate supply | 29 PE4259-63, 2 MCP9808, **and the registered buffers** | PE4259 operates from 1.8 V to 3.3 V, microamp parts; MCP9808 about 200 microamp each. The buffers share this rail so their outputs cannot exceed the switch supply |
 | Ground | | | one plane on the beamformer board |
 
 **The detector is 68 of the roughly 69 mA the board draws.** Everything else is
-negligible, so the power budget is the detector budget, and a Nucleo powered from USB
-supplies it with room to spare.
+negligible, so the power budget is the detector budget. The added buffers and converter
+are milliamp parts and do not change that. Whether the controller's expansion header can
+source it is recorded as open rather than assumed.
 
 What the schematic has to provide, all of it derived from V6 rather than assumed:
 
@@ -301,7 +308,7 @@ capture can proceed while EXP-004 is still outstanding.
 | F4 | Phase control only, no amplitude control, with a provision for a PE4312 later |
 | F5 | Switched line phase shifting, three bits of 45, 90 and 180 degrees, PE4259-63 |
 | F6 | Two measurement paths, the analyser for complex labels and an on board detector for unattended scalar readings |
-| F7 | Sixteen control lines from an STM32G0, commanded word read back from the output register |
+| F7 | Sixteen beam state lines plus a strobe, from an external controller, latched into a registered buffer on the board. **Amended by decision 0005**: the controller is a DE1-SoC and the word is applied synchronously at the board |
 | F8 | 5 V input, 3.3 V logic rail, single ground plane |
 
 ### 7.2 Blocked by EXP-004, the instrument audit
@@ -323,7 +330,7 @@ capture can proceed while EXP-004 is still outstanding.
 
 | | Question | What it changes |
 | --- | --- | --- |
-| E1 | Does the analyser reach 2500 MHz | **the only open input to the frequency decision.** At or above 2500 MHz freezes $f_0 = 2.44$ GHz. Below it, no compliant radiated radio option exists at this scale and the choice becomes conducted only or acoustic. Topology is unaffected in every case |
+| E1 | Does the analyser reach 2500 MHz | **closed 2026-09-23 by decision 0004.** The instrument was observed to cover 9 kHz to 3 GHz with a complex S21 measurement, so $f_0 = 2.44$ GHz is frozen. Line lengths now wait on the stack-up, not on the frequency |
 | E2 | Does the analyser have two ports | whether B6 can run at all, and therefore how much R2 is worth |
 | E3 | Is phase measurable, gate G1 | whether B5 joins the comparison |
 | E4 | Is there a source able to drive the probe antenna, or must the analyser supply it | whether the radiated path can run while the analyser is busy |

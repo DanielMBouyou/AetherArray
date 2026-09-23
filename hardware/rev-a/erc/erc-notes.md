@@ -24,7 +24,7 @@ shows the check is doing work.
 | Component origins off the 1.27 mm connection grid | 296 off grid endpoint warnings | every placement snapped to the grid |
 | Hierarchical sheet pin sides inverted, so no sheet pin connected | 24 unconnected pin errors and 24 dangling wire warnings | left edge pins are angle 180, right edge angle 0 |
 | Control inputs fed from a connector of passive pins | 16 undriven input errors | a real interface symbol whose pins are outputs, inputs and power outputs by function |
-| Two power flags on rails already driven | power output conflicts | flags removed; the Nucleo interface is the only source |
+| Two power flags on rails already driven | power output conflicts | flags removed; the controller interface is the only source |
 | Four channel sheets placed over the root components | every net merged into two | sheets moved to a clear band |
 | Detector filter capacitors sharing a grid cell with the divider isolation resistors | 3V3 shorted to ground, `ADC_DET` shorted to `CH2_RF` | capacitors moved to a free row |
 

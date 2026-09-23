@@ -39,9 +39,9 @@ better to know that immediately.
 | Oscilloscope | 1 | time domain measurement, coherence checks | **model, bandwidth and sample rate unknown** |
 | Function generator | 1 | source | **model and maximum frequency unknown** |
 | Software defined radio | unknown | digital option, coherent channels | **presence unknown** |
-| Terasic DE1-SoC | 3 | only if digital beamforming is chosen | confirmed |
-| Digilent Zybo | 1 | same, plus AXI and DDR if sampled channels are processed | confirmed |
-| STM32G0 Nucleo | 2 | phase shifter control, positioner control, sequencing | exact variant to record |
+| Terasic DE1-SoC | 3 | **the Rev A controller**, decision 0005: beam state application, sequencing, triggering and timestamps in fabric; orchestration, storage and inference on the processor. One of the three is enough | confirmed; expansion header current limit to verify |
+| Digilent Zybo | 1 | only if digital beamforming is chosen, which it is not for Rev A | confirmed |
+| STM32G0 Nucleo | 2 | **no longer the array controller**, decision 0005. Still the positioner controller | exact variant to record |
 | ESP32 | 3 | remote telemetry for long unattended runs | exact variant to record |
 | Gaming PC | 1 | optimisation, simulation sweeps | model to record |
 | Stepper motor and driver | 0 | rotating the array for pattern measurement | **to acquire, see the bill of materials** |

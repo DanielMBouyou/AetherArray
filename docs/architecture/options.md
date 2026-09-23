@@ -24,6 +24,12 @@ Direct consequence for this project: **the FPGA only matters in the digital or
 hybrid approaches.** In the analogue case a microcontroller is ample for driving
 phase shifters. That has to be decided consciously rather than inherited.
 
+**Amended on 2026-09-23 by decision 0005.** That paragraph is about forming a beam and
+remains true. Rev A nonetheless uses programmable logic, for a reason outside this
+comparison: the measurement needs a beam state applied at one instant, control lines
+held static while the detector is sampled, and a trigger and timestamp from one clock.
+The role of the FPGA rows below refer to beamforming only.
+
 ## 2. Implementation options
 
 ### Option A: analogue array with commanded phase shifters

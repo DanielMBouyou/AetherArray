@@ -1,6 +1,6 @@
 # EXP-004: instrument audit and the working frequency
 
-- Status: running, five of nine observations recorded, O2, O4 and O5 all passing
+- Status: running, frequency question closed by decision 0004, five of nine observations recorded
 - Date: 2026-09-19
 - Estimated effort: 2 days originally, now about 30 minutes at the bench
 - Results: `results/EXP-004/`
@@ -281,21 +281,48 @@ decision 0002 needs revisiting. Record this outcome loudly if it occurs.
 
 ## Conclusion
 
-**Not yet available, but much closer.** Update of 2026-09-20: a Rohde and Schwarz ZVL
-was observed on the bench, and the three observations that decide the frequency all
-pass. O2 is 3 GHz against a criterion of 2500 MHz, O4 gives a transmission
-measurement, and O5 gives complex formats.
+**The frequency question is closed. The experiment is not.**
 
-The frequency is still not frozen, for one reason only: **O1 has not been read.** The
-procedure above requires every reading to be checked against the datasheet of the exact
-model, and "a ZVL" does not identify a datasheet. The observed behaviour matches the
-ZVL3, the 3 GHz member of the family, but that is an inference from behaviour and the
-rear label settles it in seconds.
+Update of 2026-09-20: a Rohde and Schwarz ZVL was observed on the bench, and the three
+observations that decide the frequency all pass. O2 is 3 GHz against a criterion of
+2500 MHz, O4 gives a transmission measurement, and O5 gives complex formats.
 
-The remaining observations and the instrument assignment for every Rev A measurement
-are in `docs/hardware/measurement-bench.md`. The practical risk has moved: it is no
-longer the frequency, it is whether a calibration kit and the adapters to reach an SMA
-reference plane exist at all, which is observation O7.
+Update of 2026-09-23, decision 0004: **$f_0 = 2.44$ GHz is frozen**, and the closure
+logic above is amended.
+
+### The amendment, and why the earlier logic was wrong
+
+An earlier version of this document held the frequency open on the grounds that O1 had
+not been read, and that the procedure requires every reading to be checked against the
+datasheet of the exact model.
+
+That confused two kinds of evidence. **A datasheet says what a manufacturer specifies
+for a model family. A bench observation says what the unit in the room does.** For a
+question of feasibility, can this instrument reach 2.44 GHz and measure a complex S21,
+the observation is the stronger of the two and the datasheet cannot contradict it.
+
+The datasheet governs a different question, which is how well the instrument measures.
+That belongs to validating a built board, not to dimensioning one.
+
+So the rule is amended: **for feasibility, direct observation takes precedence over
+model identification.** The datasheet check remains required, as provenance and as the
+input to accuracy work, and it is no longer on the critical path for radio frequency
+design.
+
+### What each remaining observation now blocks
+
+| Observation | What it is | What it blocks |
+| --- | --- | --- |
+| O1, exact model and serial | provenance, and the key to every accuracy specification | **nothing in radio frequency dimensioning.** It is the one reading that could overturn decision 0004, if the model turns out to be specified below 2.44 GHz |
+| O7, calibration kit and adapters | whether a calibrated reference plane exists at the board | **calibrated hardware validation only.** Not simulation, not schematic work, not layout |
+| O6, the level actually used | a procedure parameter | nothing; the observed 0 dBm ceiling already guarantees the radiated limit cannot be breached |
+| O8, installed option list | bench capability | the echo strategy for EXP-005. Not an architecture gate |
+| O9, enumeration on the computer | automation | unattended running in EXP-014. Not an architecture gate |
+
+The practical risk has moved off the frequency and onto connectors: whether a
+calibration kit and the adapters to reach an SMA reference plane exist at all, which is
+observation O7. The instrument assignment for every Rev A measurement is in
+`docs/hardware/measurement-bench.md`.
 
 What is established is that no local evidence can identify the instrument. The search
 is recorded in `results/EXP-004/`, and it was exhaustive enough to be worth not

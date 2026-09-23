@@ -29,12 +29,13 @@ performance in any single calibration.
 | --- | --- | --- | --- | --- |
 | R1 | Each element individually accessible at a connector, upstream of any on board combining | B2, B6, per element characterisation, all labels measured on hardware | **no** | about 6 EUR |
 | R2 | Ability to drive one element and receive on another, using the two port analyser through R1 | B6, the mutual coupling route, therefore the unattended dataset | **no** | 0 EUR beyond R1 |
-| R3 | A permanently wired scalar power sense at the sum port, read by a microcontroller already owned | unattended repeat measurement without occupying the analyser | partly, as an external add on | about 12 EUR, already in the bill of materials |
+| R3 | A permanently wired scalar power sense at the sum port, **digitised on the board** and read by the controller | unattended repeat measurement without occupying the analyser | partly, as an external add on | about 12 EUR for the detector, plus a converter added by decision 0005 |
 | R4 | At least one temperature sensor on the board, sited near the phase shifting network, and one near the detector | separates array drift from instrument drift, supplies the ML-B input | **no** | about 2 EUR |
-| R5 | Commanded state written and read back as a code word, logged with every measurement | correct labelling of training data, since realised phase is not the requested phase | yes, in firmware | 0 EUR |
+| R5 | Commanded state written and read back as a code word, logged with every measurement | correct labelling of training data, since realised phase is not the requested phase | yes, in gateware | 0 EUR |
 | R6 | Element count of at least four | the ML track has no room at $N = 2$, see the architecture document section 8 | **no** | as costed |
 | R7 | A stable reference channel, identified and documented | every method here estimates relative quantities, so common mode drift is otherwise inseparable | **no** | 0 EUR |
-| R8 | Timestamped machine readable logging of code word, detector reading, temperature, and a connector handling flag | the drift dataset, which cannot be reconstructed after the fact | yes, in firmware | 0 EUR |
+| R8 | Timestamped machine readable logging of code word, detector reading, temperature, and a connector handling flag. **The record schema is fixed in `docs/architecture/control-architecture.md` section 6** | the drift dataset, which cannot be reconstructed after the fact | yes, in gateware | 0 EUR |
+| R9 | The beam state applied at one instant, the control lines static while the detector is sampled, and the trigger and timestamp taken from one clock | **added by decision 0005.** Removes timing scatter correlated with the commanded state, which would otherwise imitate a calibration coefficient | **no, this is why the controller changed.** It can however be demoted by EXP-005 without disturbing the radio frequency design, because it is a property of the control path alone | 0 EUR in parts, gateware effort |
 
 R1 and R2 are the same physical decision seen twice, and they are the decisive ones.
 
@@ -112,7 +113,7 @@ consulted 2026-09-18.
 | Accuracy | $\pm 1$ dB over a 55 dB range below 5.8 GHz | ample at any band this project would choose |
 | Logarithmic slope | nominally $-25$ mV/dB | 55 dB of range maps to about 1.4 V of output swing |
 | Stability over temperature | $\pm 0.5$ dB | bounded over the full 125 degree Celsius span, therefore small over a laboratory swing, and correctable in any case |
-| Supply | single 5 V, about 68 mA typical | the whole board draws about 69 mA, supplied by a Nucleo |
+| Supply | single 5 V, about 68 mA typical | the whole board draws about 69 mA. Supplied from the controller's expansion header if its current limit allows, which is an open item in `docs/architecture/control-architecture.md` section 8 |
 
 **The trap is closed, but only by R4.** The detector's own drift is bounded and
 correctable rather than unknown, which removes it as a confound on gate G2, and the
@@ -136,7 +137,7 @@ analysis.
 | More than three phase bits per channel | **corrected on 2026-09-18.** This row previously said more than two, which decision 0003 contradicts. Three bits is required, not optional: two bits degrades the B3 baseline that every measurement count is quoted against, and it drops $Q^{\,N-1}$ below the threshold that makes track M5 worth running. A fourth bit benefits only M5 and is not required |
 | Continuous analogue phase shifters | the quantisation is a study subject, and every method above tolerates coded states provided R5 holds |
 | Coherent multi channel reception | the digital route, option B, is not selected, and no method above needs it |
-| An FPGA | uncertainty I10 is answered plainly here: with an analogue array and a microcontroller control path, this project has no need of one |
+| ~~An FPGA~~ | **superseded on 2026-09-23 by decision 0005.** The statement was right about beamforming and wrong about measurement. An analogue array needs no programmable logic to form a beam; the drift experiment needs it to apply a beam state at one instant, hold the control lines static while sampling, and timestamp the trigger from one clock. Uncertainty I10 is re-answered there |
 | An anechoic environment | the mutual coupling and sum port routes are conducted or near field, and are far less sensitive to the room than pattern measurement |
 
 ---
