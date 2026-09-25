@@ -192,12 +192,14 @@ different chain from a different ground reference, which is exactly what makes a
 disagreement between the two informative. It also serves slow quantities such as supply
 monitoring.
 
-**EXP-005 turns this from an argument into a measurement**, and it can do so before the
-board exists: feed one detector output to a local converter and to the DE1-SoC converter
-through the intended ribbon, first with the control lines idle and then with them
-toggling, and compare. If the two paths agree to well inside the repeatability floor,
-the local converter is a precaution that was not needed and the requirement is demoted.
-That comparison is written into EXP-005.
+**EXP-005 Phase A turns this from an argument into a measurement**, and it does so
+before the board exists and without the detector. The protocol is in
+`experiments/EXP-005-repeatability-floor.md`: one stable direct source read
+simultaneously by a local converter and by a second converter at the far end of the
+intended ribbon, under four switching conditions, against decision rules fixed before
+any measurement. Both converters are the same type, on two of the three DE1-SoC boards
+owned, so a difference between the paths cannot be a difference between converters.
+Open item H3 is decided there, not here.
 
 ### 4.2 The temperature path
 

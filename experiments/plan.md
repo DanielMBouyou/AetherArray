@@ -16,7 +16,7 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 | 002 | simulation | Compare calibration methods in simulation | main theoretical result | 2 weeks | to do |
 | 003 | simulation | Sensitivity to noise and to measurement count | sizing the real campaigns | 1 week | to do |
 | 004 | hardware | Instrument and environment audit | all of the hardware track, and the working frequency | 30 minutes at the bench | **running**, see `EXP-004-instrument-audit.md` |
-| 005 | hardware | Repeatable power measurement trial | feasibility of any measurement | 2 days | to do |
+| 005 | hardware | Repeatability floor, and whether the control path disturbs it | R9 and H3, therefore re-capture and purchase | Phase A about 2 days | **planned**, see `EXP-005-repeatability-floor.md` |
 | 006 | hardware | Two element array | first real system | 2 weeks | to do |
 | 007 | hardware | Effect of a known cable error | demonstration of the problem | 1 day | to do |
 | 008 | hardware | First real calibration | main practical result | 1 week | to do |
@@ -90,51 +90,32 @@ then the physical line lengths in `hardware/rev-a/layout-constraints.md`.
 
 ---
 
-## EXP-005: repeatable power measurement
+## EXP-005: the repeatability floor, and whether the control path disturbs it
 
-**Question**: can received power be measured repeatably in the available
-environment?
+Expanded into its own document on 2026-09-25, because it now decides two Rev A
+requirements before re-capture or purchase: **`experiments/EXP-005-repeatability-floor.md`**.
 
-**Method**: fixed setup, measurement repeated over several minutes, then after
-moving an object in the room, then with somebody walking past.
+**Question, Phase A**: does digital traffic on the control cable produce error that is
+correlated with the commanded beam state, does the proposed quiet window remove it, and
+does carrying the analogue signal down the cable cost anything against converting it
+locally?
 
-**Criterion**: standard deviation of the repeated measurements. That number becomes
-the uncertainty floor and decides whether pattern measurement is possible at all.
+**Question, Phase B**: can received power be measured repeatably in the available
+environment? This is the original question and it is gated on a detector, a source,
+antennas and cables, none of which is owned.
 
-**Why it is a priority**: if the variation caused by the environment exceeds the
-effect we want to measure, the strategy has to change immediately, before any
-purchase.
+**Why Phase A runs now**: it needs no detector. The detector is only a source of a slow
+voltage, and a stable direct source substitutes for it, with the advantage that its true
+value is known to be constant. The local converter path is a **second DE1-SoC**, of
+which three are owned, so both paths use the same converter and the only difference is
+the cable.
 
-### Added by decision 0005: compare the two converter paths
+**What it decides**: requirement R9 and open item H3, both adopted in decision 0005 as
+precautions rather than findings. The decision rules are quantitative and were fixed
+before any measurement.
 
-This runs with a detector module and a ribbon cable, **before the board exists**, which
-is what makes it useful: it turns a precaution into a measurement while the decision it
-informs is still reversible.
-
-**Question**: does digitising the detector output at the far end of a ribbon cable
-introduce error correlated with the commanded state?
-
-**Method**: one detector output, sampled two ways at once. A local converter beside the
-detector, and the DE1-SoC onboard converter reached through the intended ribbon. Record
-both under three conditions: control lines idle, control lines toggling between
-measurements but static during each sample window, and control lines toggling freely
-including during the sample window.
-
-**Criterion**: the difference between the two paths, expressed against the repeatability
-floor measured above, and specifically whether any part of that difference correlates
-with the commanded word rather than looking like noise.
-
-**What each outcome decides**:
-
-| Outcome | Consequence |
-| --- | --- |
-| The two paths agree well inside the repeatability floor in all three conditions | the local converter is a precaution that was not needed. Demote it, use the DE1-SoC converter, and drop the four serial lines from the connector |
-| They agree only when the lines are static during the sample window | the quiet window in `docs/architecture/control-architecture.md` section 5.1 is load bearing rather than tidy, and it is what earns the fabric sequencer |
-| They differ in a way that tracks the commanded word | the local converter is necessary, and the precaution is retired in favour of a measurement |
-
-The third condition is deliberately the one the design forbids. It is measured anyway,
-because knowing the size of the effect the quiet window prevents is what tells us
-whether the quiet window is worth its complexity.
+**Why it is a priority**: two of the things a schematic re-capture would draw are
+exactly what this experiment decides.
 
 ---
 
