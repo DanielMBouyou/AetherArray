@@ -1,11 +1,82 @@
 # EXP-005 results
 
-- Status: empty, awaiting Phase A
+- Status: preparation logged, no measurement taken, C1 not executed
 - Last reviewed: 2026-09-25
 
 Protocol and decision rules in `experiments/EXP-005-repeatability-floor.md`. The rules
 in its section 7 were fixed before any measurement and are not adjusted against the
 data. A cell that was not measured stays `to measure`.
+
+---
+
+## Preparation log
+
+Not measurements. This records work done away from the bench, so the visit is shorter
+and so nobody repeats a lookup that has already failed.
+
+### P1, 2026-09-25: C1 not executed
+
+C1 requires wiring a source to a board, loading a configuration and reading a
+thermometer. None of that has happened. **Every field in sections 0 to 6 below remains
+`to measure`, and no validity precondition is established.**
+
+### P2, 2026-09-25: toolchain and board reachability
+
+| Check | Result |
+| --- | --- |
+| Design software installed | **yes**, Quartus 17.1, which covers the device on this board |
+| Any programmer ever attached to this computer | **no.** No programmer vendor identifier has ever been enumerated here |
+| Design project or converter example on this computer | none found |
+
+The second row is consistent with the instrument findings in `results/EXP-004/`: no
+laboratory hardware has ever been connected to this machine. It means the harness has
+to be built and loaded from scratch, and that the first bench session includes bringing
+the board up at all.
+
+### P3, 2026-09-25: item B1, the analogue input path, **advanced but not closed**
+
+Protocol item B1 requires the analogue input header, its channel assignment, any
+network in front of the converter, and the safe input range, taken from the board
+documentation rather than assumed.
+
+| Established | Value |
+| --- | --- |
+| Converter | LTC2308, eight channels, 12 bit, up to 500 ksps |
+| Input range quoted at the header | 0 V to 4.096 V |
+| Converter internal reference | 2.5 V |
+| Serial interface signal names | chip select, data in, data out and clock, at 3.3 V |
+
+| Still required | Why it matters |
+| --- | --- |
+| The header reference designator and pin by pin channel assignment | wiring cannot be done without it |
+| Whether any divider, buffer, filter or protection network sits between header and converter | see the discrepancy below |
+| The absolute maximum input voltage at the header | safety of the source connection |
+
+**A discrepancy worth resolving before wiring.** The converter has a 2.5 V internal
+reference, yet the header range is quoted as 0 V to 4.096 V. Those two statements are
+only compatible if something sits between them: either an external reference, or
+attenuation in front of the converter input. **So a network probably does exist**, which
+is exactly what B1 was written to catch.
+
+If it is a resistive divider, it has a consequence for the source specification S1. The
+impedance the converter's sampling capacitor sees is then the divider's output
+impedance, not the source's, so an S1 source that is stiff at the header may still be
+driving the converter from a high impedance. In that case the sample rate is reduced
+until the reading stops depending on it, which is a check the operator can make
+directly by sweeping the rate and watching the mean.
+
+**This does not change any threshold or decision rule.** It is B1 doing its job.
+
+Two attempts to retrieve the board user manual from mirrors failed here, one by timeout
+and one by a dropped connection. **The operator has the manual locally**, and closing
+B1 is a page lookup rather than research.
+
+### P4, 2026-09-25: item B2, the converter example
+
+Not selected. Published examples for this exact board and converter exist, including a
+university laboratory note written for this board and a separate course tutorial, and
+the board vendor ships demonstrations. **The operator picks one, records which, and
+records its version**, as B2 requires. No example has been read or tested here.
 
 ---
 
