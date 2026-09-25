@@ -1,7 +1,7 @@
 # Calibration architecture: where learning belongs, and what it costs the hardware
 
 - Status: in progress, decision recorded in `decisions/0002-learning-as-a-drift-prior.md`
-- Last reviewed: 2026-09-17
+- Last reviewed: 2026-09-25
 
 This document answers one question: can a learned or adaptive method reduce the
 number of physical measurements needed to reach a target calibrated beam, and if so,
@@ -304,7 +304,7 @@ These are not open questions to be worked around. Each one changes the architect
 
 | Gate | Question | Settled by | What it decides |
 | --- | --- | --- | --- |
-| G1 | can phase be measured, or only power | EXP-004, instrument audit | whether the $4N-4$ power only bound applies at all, or whether $2N-2$ complex measurements are available |
+| G1 | can phase be measured, or only power | EXP-004, instrument audit. **Closed 2026-09-23 by decision 0004**: phase is measurable | whether the $4N-4$ power only bound applies at all, or whether $2N-2$ complex measurements are available |
 | G2 | is drift over hours larger than the repeatability floor | EXP-005 then EXP-010 | **whether the M3 track exists**; if drift hides under the noise floor, the central claim is unmeasurable and must be abandoned rather than reported |
 | G3 | element count and phase shifter bit count | **closed 2026-09-18 by decision 0003**: four elements, three bits, so $Q^{\,N-1} = 512$ | M4 has the room the count allows at four elements. **M5 is a control in the model free arm, not a scheduled track**, because 512 states enumerate exactly against an estimated model. Reducing either number reopens this gate and decision 0003 |
 | G4 | is coupling significant at the chosen spacing, uncertainty I6 | EXP-011 then S parameter measurement | whether the unknown count is $2N-2$ or $2N^{2}$, which moves every number in section 2 |
@@ -312,6 +312,11 @@ These are not open questions to be worked around. Each one changes the architect
 
 G2 is the decisive one, and it costs nothing to answer. It is answered with
 instruments already owned, before any purchase.
+
+**Corrected on 2026-09-25 by decision 0006.** Neither half of that holds. The floor needs
+EXP-005 Phase B, which needs a detector, antennas and interconnect that are not owned,
+and the drift needs the built array. The floor is now answered before fabrication and
+the drift after it. G2 remains the decisive gate for the M3 track.
 
 ---
 

@@ -1,7 +1,7 @@
 # Experiment plan
 
 - Status: in progress
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-25
 
 As in the RF modelling project, the work runs on two tracks: a simulation track that
 starts immediately, and a hardware track constrained by purchases and fabrication.
@@ -102,7 +102,8 @@ locally?
 
 **Question, Phase B**: can received power be measured repeatably in the available
 environment? This is the original question and it is gated on a detector, a source,
-antennas and cables, none of which is owned.
+antennas and cables, none of which is owned. Those purchases are staged by decision
+0006, and the Rev A order waits on this phase as its gate F3.
 
 **Why Phase A runs now**: it needs no detector. The detector is only a source of a slow
 voltage, and a stable direct source substitutes for it, with the advantage that its true

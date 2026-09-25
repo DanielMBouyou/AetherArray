@@ -1,7 +1,7 @@
 # Rev A requirements imposed by the calibration experiments
 
-- Status: proposal, blocked on the instrument audit and on gate G2
-- Last reviewed: 2026-09-17
+- Status: proposal; ordering is gated by decision 0006
+- Last reviewed: 2026-09-25
 
 What the first board must expose so that the experiments in
 `docs/architecture/ml-calibration.md` remain possible. Nothing here is about routing
@@ -146,10 +146,16 @@ analysis.
 
 | Gate | Blocks | Settled by |
 | --- | --- | --- |
-| G1, can phase be measured | whether B5 is available at all, and how R1 is exercised | EXP-004 |
-| G2, is drift measurable above the floor | **whether R1, R3, R4 and R8 are worth their cost** | EXP-005 then EXP-010 |
-| G3, element count and bit count | R6, and the scale of the switch budget | architecture decision, not yet taken |
+| G1, can phase be measured | whether B5 is available at all, and how R1 is exercised | EXP-004. **Closed 2026-09-23 by decision 0004**: phase is measurable |
+| G2, is drift measurable above the floor | **whether R1, R3, R4 and R8 are worth their cost** | EXP-005 then EXP-010. Since decision 0006 the floor half is answered before fabrication and the drift half after it |
+| G3, element count and bit count | R6, and the scale of the switch budget | **closed 2026-09-18 by decision 0003**: four elements, three bits |
 | G5, budget | the swap proposed in section 4 | costing at order time |
 
 Nothing here should be ordered before G1 and G2 are answered. Both are answerable with
 instruments already owned.
+
+**Superseded on 2026-09-25 by decision 0006.** G1 is answered. G2 is not answerable with
+instruments already owned: its floor needs EXP-005 Phase B, which needs a detector,
+antennas and interconnect, and its drift half needs the built array. Purchases are
+staged by class there, and the drift half gates the learning track rather than the
+order.

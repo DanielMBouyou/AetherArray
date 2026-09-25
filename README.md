@@ -4,12 +4,13 @@ A small electronically steered antenna array, and above all a study of what happ
 when you try to make it behave the way theory says it should.
 
 - Status: architecture research and feasibility study
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-25
 
-> Nothing is built yet: no array, no measurement bench, no calibration. This
-> repository is a public lab notebook. The working frequency, and even the kind of
-> wave used, are still open: those choices depend on what the measurement
-> environment actually allows, and that has not been audited yet.
+> Nothing is built yet: no array, no calibration. This repository is a public lab
+> notebook. The first board is settled on paper: radio frequency at 2.44 GHz,
+> decisions 0003 and 0004, driven by an external DE1-SoC, decision 0005. Its schematic
+> is captured and awaits re-capture for the controller change. Nothing is ordered, and
+> decision 0006 sets what each purchase waits for.
 
 ---
 
@@ -252,6 +253,11 @@ and not only by what its rivals managed.
 ---
 
 ## What is still open
+
+**Updated 2026-09-25.** For the first board, points 1 to 3 are settled by decisions 0003
+and 0004, and point 4 by decision 0005, which chose an external DE1-SoC for measurement
+reasons rather than for beamforming. Points 5 and 6 remain open. The list is kept as
+written.
 
 1. The working frequency, and even the kind of wave used.
 2. The number of elements. Four is probably the right starting compromise.

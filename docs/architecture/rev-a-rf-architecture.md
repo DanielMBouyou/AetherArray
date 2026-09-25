@@ -1,7 +1,7 @@
 # Rev A RF architecture
 
 - Status: selected and captured, frequency frozen, dimensions blocked on the stack-up
-- Last reviewed: 2026-09-23
+- Last reviewed: 2026-09-25
 
 > **Captured on 2026-09-18.** The schematic is in `hardware/rev-a/`, the electrical
 > rule check is clean, and the bill of materials in `hardware/rev-a/bom/` is exported
@@ -289,6 +289,9 @@ delay the order, not to quietly shrink the array.
 
 Prices are indicative and were taken from distributor listings on 2026-09-18. They are
 re-checked before ordering, and nothing is ordered before section 7 clears.
+**Superseded on 2026-09-25 by decision 0006**: E6 in section 7.3 needs fitted switches
+and cannot clear before an order. The order now waits on the pre-fabrication gate F1
+to F5 there, which includes E5.
 
 ---
 
@@ -342,11 +345,15 @@ capture can proceed while EXP-004 is still outstanding.
 | E5 | Does the detector path reach the repeatability needed for unattended runs | if not, every measurement needs the analyser, the unattended dataset dies, and decision 0002 fails with it |
 | E6 | Is switch state repeatability below the measurement floor | if not, the drift experiment measures the switches |
 
+Since 2026-09-25, decision 0006: E5 is EXP-005 Phase B and belongs to the
+pre-fabrication gate. E6 needs fitted switches, so it is measured on the built board
+and gates the drift experiment rather than the order.
+
 ### 7.4 Closed since the first draft
 
 | | Item |
 | --- | --- |
-| E7 | **Resolved.** The AD8318 figures were confirmed against revision E of the manufacturer data sheet, bibliography V6. They are recorded in section 2.1 and turned into schematic requirements in section 5.5. Three consequences follow. The detector works anywhere from 1 MHz to well past any band this project would choose, so it does not constrain the outcome of EXP-004. Its temperature stability is a bounded, correctable term rather than an unknown, which removes it as a confound on gate G2, **provided a temperature sensor sits next to it**. And the 68 mA figure makes the power budget trivially satisfied by the Nucleo. This item no longer blocks ordering |
+| E7 | **Resolved.** The AD8318 figures were confirmed against revision E of the manufacturer data sheet, bibliography V6. They are recorded in section 2.1 and turned into schematic requirements in section 5.5. Three consequences follow. The detector works anywhere from 1 MHz to well past any band this project would choose, so it does not constrain the outcome of EXP-004. Its temperature stability is a bounded, correctable term rather than an unknown, which removes it as a confound on gate G2, **provided a temperature sensor sits next to it**. And the 68 mA figure makes the power budget trivially satisfied by the Nucleo. **Since decision 0005 the supply is the DE1-SoC expansion header, whose current limit is open item H2.** This item no longer blocks ordering |
 
 ---
 

@@ -1,7 +1,7 @@
 # Hardware and measurement means
 
 - Status: in progress, the measurement environment is the critical point
-- Last reviewed: 2026-08-21
+- Last reviewed: 2026-09-25
 
 ---
 
@@ -32,12 +32,15 @@ better to know that immediately.
 > reading has yet been checked against a datasheet. And the instruments documented in
 > the laboratory inventory, which do not include this one, have **not** been confirmed
 > to be physically present; they are treated as conditional cross checks only.
+>
+> Quantities below are what the first planning assumed. Only the rows marked observed
+> or confirmed have evidence behind them today. Purchases are staged by decision 0006.
 
 | Item | Quantity | Role here | Status |
 | --- | --- | --- | --- |
 | Vector network analyser | 1 | channel measurement, coupling between elements, complex per element labels | **observed 2026-09-20**: Rohde and Schwarz ZVL, 9 kHz to 3 GHz, N female, complex formats, source to 0 dBm. Exact model, calibration kit, adapters and installed options still outstanding |
-| Oscilloscope | 1 | time domain measurement, coherence checks | **model, bandwidth and sample rate unknown** |
-| Function generator | 1 | source | **model and maximum frequency unknown** |
+| Oscilloscope | 1, not confirmed | time domain measurement, coherence checks | **presence not confirmed**; model, bandwidth and sample rate unknown |
+| Function generator | 1, not confirmed | source | **presence not confirmed**; model and maximum frequency unknown |
 | Software defined radio | unknown | digital option, coherent channels | **presence unknown** |
 | Terasic DE1-SoC | 3 | **the Rev A controller**, decision 0005: beam state application, sequencing, triggering and timestamps in fabric; orchestration, storage and inference on the processor. One of the three is enough | confirmed; expansion header current limit to verify |
 | Digilent Zybo | 1 | only if digital beamforming is chosen, which it is not for Rev A | confirmed |

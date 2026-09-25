@@ -320,6 +320,13 @@ repeatably in the available environment.
 none of which is owned. It is not scheduled and no part of the Rev A decision set waits
 on it.
 
+**Purchases, 2026-09-25.** Staged by decision 0006, which also carries the dependency
+graph for this phase. No Rev A decision waits on Phase B; the Rev A order does, as gate
+F3 there. The observed analyser already serves as the radio frequency source, so a
+source is not a purchase, and it measures received power through its own receiver, so
+the fixed geometry rows can run before a detector exists. The detector purchase waits
+for C1 with V1 to V4 holding.
+
 | Phase B measurement | Needs |
 | --- | --- |
 | Repeated received power at a fixed geometry | detector, source, antennas |

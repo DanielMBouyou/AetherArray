@@ -1,7 +1,7 @@
 # Proposed hardware to buy
 
 - Status: **partly superseded by decision 0003**, nothing ordered, blocked on the measurement audit
-- Last reviewed: 2026-09-18
+- Last reviewed: 2026-09-25
 
 > **Superseded on five points.** Decision 0003 and
 > `docs/architecture/rev-a-rf-architecture.md` replace the two bit phase shifting, the
@@ -122,11 +122,17 @@ Prices are indicative and must be re-checked before ordering.
 
 - [ ] Measurement audit done, so we know whether radiated measurement is viable at
       all
-- [ ] Decision made between the radio frequency and the acoustic route, since it
-      changes every line above
-- [ ] Working frequency chosen, since it determines the switches, the antenna
-      geometry and the board material
-- [ ] Element count decided, since it scales the switch count directly
+- [x] Decision made between the radio frequency and the acoustic route, since it
+      changes every line above. Radio frequency, decisions 0003 and 0004
+- [x] Working frequency chosen, since it determines the switches, the antenna
+      geometry and the board material. 2.44 GHz, decision 0004
+- [x] Element count decided, since it scales the switch count directly. Four,
+      decision 0003
 - [ ] Board order grouped with the RF modelling project
 
 Until the first two boxes are ticked, ordering RF parts would be guessing.
+
+**Since 2026-09-25 the ordering rule is decision 0006**, which stages purchases by class
+and gives the Rev A order a pre-fabrication gate, F1 to F5. This checklist is kept as
+the record of what the first draft required. Its first box, the measurement audit, is
+still running as EXP-004.

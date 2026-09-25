@@ -134,7 +134,10 @@ in `docs/architecture/rev-a-rf-architecture.md`.
   sensitivity metric become native experiments rather than contrived ones.
 - `docs/hardware/bom-proposal.md` is superseded on five points, listed in section 8 of
   the architecture document.
-- Nothing is ordered until EXP-004 and EXP-005 have run.
+- Nothing is ordered until EXP-004 and EXP-005 have run. **Superseded on 2026-09-25 by
+  decision 0006.** Read literally, this waited on EXP-005 Phase B, which itself needs
+  purchases. Purchases are now staged by class, and the Rev A order waits on the
+  pre-fabrication gate F1 to F5 recorded there.
 - The detector is settled. Revision E of the AD8318 data sheet, bibliography V6, gives
   1 MHz to 8 GHz, $\pm 1$ dB over 55 dB below 5.8 GHz, a nominal $-25$ mV/dB slope,
   $\pm 0.5$ dB stability over temperature, a single 5 V supply and about 68 mA typical.

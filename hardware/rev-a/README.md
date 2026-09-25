@@ -1,7 +1,7 @@
 # Rev A beamformer board, schematic
 
 - Status: captured, electrical rule check clean, ready for review
-- Last reviewed: 2026-09-18
+- Last reviewed: 2026-09-25
 
 The schematic for the board selected in `decisions/0003-rev-a-rf-architecture.md`.
 Layout has not started and is not authorised by that decision.
@@ -133,3 +133,8 @@ What must change when this project is re-captured:
 
 Until that is done, treat the schematic as the record of the radio frequency design and
 `docs/architecture/control-architecture.md` as the record of the control design.
+
+Re-capture waits on EXP-005 Phase A, which decides the last two rows through open item
+H3 and can reopen decision 0005 through R9 (`experiments/EXP-005-repeatability-floor.md`
+section 10). Board release also waits on H1. The full gate for the order is F1 to F5 in
+decision 0006.

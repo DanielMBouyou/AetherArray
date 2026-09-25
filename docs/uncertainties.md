@@ -1,7 +1,7 @@
 # What is established, assumed, or still to verify
 
 - Status: in progress
-- Last reviewed: 2026-09-21
+- Last reviewed: 2026-09-25
 
 ---
 
@@ -67,7 +67,10 @@ board that happened to be on the shelf.
 
 I12 is the most consequential open question in the repository. Decision 0002 commits
 the project to a learning track that does not exist if the answer is no, and the
-answer costs nothing but bench time with instruments already owned.
+answer costs nothing but bench time with instruments already owned. **Corrected on
+2026-09-25 by decision 0006**: the floor needs EXP-005 Phase B, which needs hardware
+not owned, and the drift needs the built array, so the two halves are answered either
+side of fabrication.
 
 ## 4. Reasoning traps to avoid
 
