@@ -214,6 +214,21 @@ of its own, and the earlier "scheduled" status is withdrawn.
 
 ---
 
+## 5.1 How the numbers get here
+
+The forward model above consumes complex per channel transfers, and those arrive
+through one path: `tools/rfkit`, described in `docs/architecture/rf-data-layer.md`.
+It turns Touchstone exports from the electromagnetic solver, the circuit simulator
+and the analyser into the diagonal state of section 2.1, keeping the raw complex
+values and the provenance of every trace.
+
+Three of its guarantees matter to this document specifically. Traces are compared
+only over the frequency range they share, so a likelihood is never evaluated
+against an extrapolated measurement. Phase differences are taken on the circle, so
+a channel near the wrap point does not acquire a spurious 360 degrees. And the
+`ArrayState` object carries the full coupling matrix form as well as the diagonal
+one, so the extension in section 2.2 needs no change of data structure.
+
 ## 6. What this formalisation commits the hardware to
 
 Each of these already exists in `docs/architecture/control-architecture.md`, and this

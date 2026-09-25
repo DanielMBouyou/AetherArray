@@ -1,0 +1,32 @@
+name: rf
+
+# The documentation workflow says simulation and synthesis CI arrives when there
+# is code to build. There now is: tools/rfkit is the shared RF data layer, and
+# its tests run on analytically constructed networks, so they need no hardware
+# and no measured data.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  rfkit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run the RF tests
+        working-directory: tools
+        run: python -m pytest rfkit/tests -q
+
+      - name: Run the worked example end to end
+        working-directory: tools
+        run: python -m rfkit.cli example --out "${RUNNER_TEMP}/rfkit-example"

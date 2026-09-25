@@ -63,7 +63,7 @@ project as well.
 | 3D electromagnetic simulator (HFSS) | full wave simulation of the array | **can produce a physically grounded coupling matrix, rather than an invented one** |
 | Electromagnetic scripting (PyAEDT) | automating the above | makes geometry sweeps realistic |
 | Circuit simulator (ADS) | feed network, phase shifters, matching | designs the distribution network before fabrication |
-| S parameter library (scikit-rf) | measurement processing, de-embedding | the measurement backbone |
+| S parameter library (scikit-rf) | measurement processing, de-embedding | **the shared radio frequency data layer**, pinned in `requirements.txt` and wrapped by `tools/rfkit`. Every S parameter from the solver, the circuit simulator and the analyser enters the project through it. See `docs/architecture/rf-data-layer.md` |
 | MATLAB | array processing, optimisation | cross check on the algorithms |
 
 The first row matters more than it looks. The project's simulator needs a coupling

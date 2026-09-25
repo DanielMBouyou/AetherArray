@@ -25,6 +25,7 @@ question without reading everything else.
 | `docs/references/` | Where are the sources and the vocabulary? |
 | `decisions/` | What was decided, on what evidence, and when should we revisit it? |
 | `hardware/` | The design files themselves: schematics, symbol libraries, generators |
+| `tools/` | Checks and analysis code the repository runs on itself |
 
 Two choices deserve a justification, because they depart from a flat list.
 
@@ -39,6 +40,13 @@ Putting design files under `docs/` would make the documentation tree unreadable,
 putting the prose next to the design files would bury it. This directory was added on
 2026-09-18, when decision 0003 authorised schematic capture; before that there were no
 design files to hold.
+
+**`tools/` holds code the repository runs on itself**, not code that is the subject
+of study. `tools/check-docs.sh` checks these conventions and `tools/rfkit/` is the
+shared radio frequency data layer described in `docs/architecture/rf-data-layer.md`.
+Python dependencies are pinned in one file, `requirements.txt`, at the top level.
+If a second package list ever appears, delete it: two lists that disagree are worse
+than one that is out of date.
 
 **`experiments/` (the plan) and `results/` (the measurements) are separate.** An
 experiment plan is written once and rarely revised. Results accumulate, grow, and

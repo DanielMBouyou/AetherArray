@@ -7,7 +7,9 @@ This document answers one question: can a learned or adaptive method reduce the
 number of physical measurements needed to reach a target calibrated beam, and if so,
 what must the first hardware revision expose for that claim to be testable.
 
-**The problem it selects is stated formally in `docs/mathematics/inverse-calibration.md`.**
+**The problem it selects is stated formally in `docs/mathematics/inverse-calibration.md`,**
+and the measurements that feed it arrive through the shared data layer in
+`docs/architecture/rf-data-layer.md`.
 That document gives the forward model, the posterior being inferred, the place where
 learned history enters as a prior, and the information gain criterion for choosing the
 next measurement. This one decides where learning belongs; that one says what the

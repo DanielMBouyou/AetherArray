@@ -1,0 +1,18 @@
+# Python dependencies for AetherArray.
+#
+# This is the project's only package list. If a second one ever appears,
+# delete it: two lists that disagree are worse than one that is out of date.
+#
+# Install with:
+#     python -m pip install -r requirements.txt
+#
+# Versions are pinned to what the analysis was developed and tested against on
+# 2026-09-25, with Python 3.12. Raise a pin deliberately and re-run the tests,
+# rather than letting it float.
+
+scikit-rf==1.12.0      # the RF data layer: Touchstone, Network, NetworkSet
+numpy==2.4.6           # required by scikit-rf, and used directly
+scipy==1.17.1          # required by scikit-rf
+
+# Development and verification only.
+pytest==9.1.1          # cd tools && python -m pytest rfkit/tests -q
