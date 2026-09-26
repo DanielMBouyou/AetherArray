@@ -1,7 +1,7 @@
 # What is established, assumed, or still to verify
 
 - Status: in progress
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-26
 
 ---
 
@@ -37,7 +37,7 @@
 | I3 | How large are the reflections in the available environment? | EXP-005 | choice of measurement strategy |
 | I4 | Can we measure phase, or only power? | EXP-004 observations O4 and O5 | **closed 2026-09-23: phase is measurable.** Complex and phase formats were observed on the instrument, so **gate G1 passes**, B5 is available and the per element complex label that supervises the learned drift prior can be obtained as designed. Decision 0002 does not reopen |
 | I5 | How large are channel errors in a home built assembly? | EXP-006 | calibration sizing |
-| I6 | Is coupling significant at the chosen spacing? | S parameters between elements, and simulation | complexity of the model |
+| I6 | Is coupling significant at the chosen spacing? | EXP-011, by the test fixed in decision 0008 before any data | complexity of the model, gate G4 |
 | I7 | What do commandable phase shifters cost? | component search | architecture choice |
 | I8 | How long does a calibration stay valid? | EXP-010 | practical use of the system |
 | I9 | Is an angular positioner necessary, and can we build one? | trial | feasibility of pattern measurement |

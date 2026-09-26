@@ -132,7 +132,8 @@ c_{nm} & \text{if } n \neq m, \quad \text{coupling between elements } n \text{ a
 If coupling is negligible, $\mathbf{H}$ is diagonal and calibration reduces to $N$
 independent corrections. That is the easy case, and whether it applies has to be
 checked rather than assumed. The available full wave simulator can answer that
-question before any hardware exists.
+question before any hardware exists. The check is gate G4, and decision 0008 fixes
+how it is judged.
 
 ## 6. The inverse problem
 

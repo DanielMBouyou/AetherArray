@@ -97,6 +97,11 @@ repository has to be recomputed. **This is the extension, not the starting point
 Uncertainty I6 decides when it becomes necessary, and EXP-011 supplies the coupling
 matrix from full wave simulation rather than from a guess.
 
+Since 2026-09-26 the test is fixed, in decision 0008. If it fails, the first promotion
+does not estimate coupling: it freezes a measured coupling matrix $\mathbf{C}$ in the
+forward model, which keeps the unknowns at $2N-2$ as long as $\mathbf{C}$ does not
+drift. The order $2N^{2}$ count applies only if that also fails.
+
 ---
 
 ## 3. Inverse objective

@@ -67,6 +67,35 @@ VARIANCE_FRACTION = 0.10
 OPERATING_BAND_HZ = (BAND_START_HZ, BAND_STOP_HZ)
 OPERATING_F0_HZ = F0_HZ
 
+# ------------------------------------------------------------------- gate G4
+G4_DECISION = "decisions/0008-coupling-model-adequacy.md"
+
+#: Decision 0008. The same policy as decision 0007, a separate allocation: the
+#: error left by neglecting coupling is a real error in the calibrated beam, and
+#: it adds to the design errors 0007 already budgets rather than sharing them.
+COUPLING_VARIANCE_FRACTION = 0.10
+
+
+@dataclass(frozen=True)
+class G4Protocol:
+    """Every parameter of the G4 evaluation, fixed by decision 0008 before any data."""
+
+    #: Steering angles judged, in degrees: the benchmark set is inside it.
+    steering_deg: tuple = tuple(float(a) for a in range(-45, 46))
+    #: Every common command origin; the steering table's choice is not assumed.
+    origins: int = 8
+    #: Probe direction of the calibration, as the bench places it.
+    probe_deg: float = 0.0
+    #: Beam search grid; parabolic interpolation refines the maximum.
+    theta_span_deg: float = 80.0
+    theta_step_deg: float = 0.1
+    #: Guarded verdict for measured data.
+    guard_draws: int = 32
+    guard_seed: int = 20260926
+
+
+G4 = G4Protocol()
+
 
 @dataclass(frozen=True)
 class Threshold:

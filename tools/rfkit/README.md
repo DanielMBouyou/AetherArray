@@ -57,6 +57,19 @@ python -m rfkit.cli budget --json ../results/rf/processed/budget.json
 Prints the sensitivity study and the derivation of every provisional threshold,
 decision 0007. Every seed is fixed, so two runs print the same text.
 
+## Gate G4, coupling
+
+```bash
+cd tools
+python -m rfkit.cli g4 --antenna final.s4p --source hfss \
+    --previous-pass previous.s4p --patterns patterns.npz --json g4.json
+python -m rfkit.cli g4-chart
+```
+
+The first applies decision 0008 to one antenna matrix; what each stage must supply is
+in `experiments/EXP-011-coupling-model-adequacy.md`. The second prints G4 against
+**synthetic** nearest neighbour coupling, which is not a prediction of any array.
+
 ## Build the array state
 
 ```bash
@@ -93,6 +106,7 @@ its source.
 | `budget` | from an RF error to its array level consequence, and the derivation of every threshold |
 | `thresholds` | limits by metric and comparison class, each provisional, unresolved or not a limit |
 | `compare` | pairwise agreement, and state by state agreement on what calibration cannot absorb |
+| `coupling` | gate G4: the coupled forward model, the diagonal model it is judged against, and the rules of decision 0008 |
 | `state` | per channel S21 to the array state, diagonal now, full supported |
 | `dataset` | repeated measurements with metadata, and the inference record |
 | `calibration` | interfaces that refuse until standards exist |

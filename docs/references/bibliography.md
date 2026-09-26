@@ -1,7 +1,7 @@
 # Bibliography
 
 - Status: in progress, first entries verified
-- Last reviewed: 2026-09-21
+- Last reviewed: 2026-09-26
 
 `research/state-of-the-art.md` holds the leads and why they matter. This file holds
 the exact reference once it has been checked.
@@ -90,6 +90,25 @@ that source is quoted elsewhere as established.
      Consulted 2026-09-17, preprint full text. Note: not yet written.
      Source for the statement that the classical rotating element method consumes K
      times N measurements, with K at least three.
+```
+
+Bibliographic details checked on 2026-09-26, for gate G4 and decision 0008.
+
+```
+[A23] W. K. Kahn, H. Kurss. Minimum-scattering antennas. IEEE Transactions on Antennas
+     and Propagation, 13(5), 671-675, 1965. doi:10.1109/TAP.1965.1138529.
+     Consulted 2026-09-26, bibliographic details and abstract only.
+     Defines the canonical minimum scattering antenna, invisible when its terminals are
+     open circuited, so that it radiates according to its port current. The
+     approximation behind the coupled forward model of decision 0008.
+
+[A24] W. Wasylkiwskyj, W. K. Kahn. Theory of mutual coupling among minimum-scattering
+     antennas. IEEE Transactions on Antennas and Propagation, 18(2), 204-216, 1970.
+     doi:10.1109/TAP.1970.1139649.
+     Consulted 2026-09-26, bibliographic details and abstract only.
+     Expresses the mutual coupling of such antennas through their radiation patterns
+     alone. The reason an S parameter matrix can stand in for the embedded element
+     patterns, and the reason the simulation stage checks that it does.
 ```
 
 ## Vendor documentation, checked 2026-09-18

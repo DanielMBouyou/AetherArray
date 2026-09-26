@@ -243,7 +243,8 @@ Fixed now, before any real HFSS, ADS or analyser data exist:
   before their data.
 - **The coupling comparison of EXP-011 is not covered.** It compares coupling between
   element ports, which the diagonal model this budget rests on excludes by construction.
-  Its acceptance belongs with gate G4, and it has no limit from this record.
+  Its acceptance belongs with gate G4, and it has no limit from this record. Decision
+  0008 now fixes that test.
 - The pair comparison no longer judges plain S21 differences; its verdicts read
   `not applicable` and point to the state by state comparison, `compare_states` in the
   library and `compare-states` on the command line.

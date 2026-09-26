@@ -89,6 +89,45 @@ def cmd_compare_states(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_g4(args: argparse.Namespace) -> int:
+    from . import coupling as c
+
+    data = c.coupling_from_trace(load_touchstone(args.antenna, source=args.source))
+    prev = None
+    if args.previous_pass:
+        prev = c.coupling_from_trace(load_touchstone(args.previous_pass, source=args.source))
+    agreed = {"yes": True, "no": False, None: None}[args.stage1_routes_agreed]
+    report = c.run_g4(
+        data, stage=args.stage, previous_pass=prev, u_abs=args.uncertainty,
+        beamformer=c.load_beamformer_npz(args.beamformer) if args.beamformer else None,
+        patterns=c.load_patterns_npz(args.patterns) if args.patterns else None,
+        repeatability_floor=args.repeatability_floor, stage1_routes_agreed=agreed,
+    )
+    text = report.to_text()
+    print(text)
+    _write(text, args.report, "report")
+    _write(json.dumps(report.as_dict(), indent=2, default=float) + "\n", args.json, "json")
+    return 0
+
+
+def cmd_g4_chart(args: argparse.Namespace) -> int:
+    from . import coupling as c
+
+    rows = c.synthetic_chart()
+    lines = ["G4 against nearest neighbour coupling, SYNTHETIC uniform matrices",
+             "  dB   phase  broadside p/g   best p/g   outcome   screen"]
+    for r in rows:
+        lines.append(f"  {r['coupling_db']:5.0f} {r['phase_deg']:5.0f}   "
+                     f"{r['broadside_pointing']:5.2f}/{r['broadside_gain']:5.2f}   "
+                     f"{r['best_pointing']:5.2f}/{r['best_gain']:5.2f}   {r['outcome']:<12} "
+                     f"{'pass' if r['screen_passes'] else 'no'}")
+    text = "\n".join(lines) + "\n"
+    print(text)
+    _write(text, args.report, "report")
+    _write(json.dumps(rows, indent=2) + "\n", args.json, "json")
+    return 0
+
+
 def cmd_budget(args: argparse.Namespace) -> int:
     from . import budget
 
@@ -134,6 +173,32 @@ def build_parser() -> argparse.ArgumentParser:
     cs.add_argument("--json", type=Path, default=None)
     cs.add_argument("--report", type=Path, default=None)
     cs.set_defaults(func=cmd_compare_states)
+
+    g4 = sub.add_parser("g4", help="gate G4: is the diagonal state adequate under coupling")
+    g4.add_argument("--antenna", required=True, metavar="FILE.s4p",
+                    help="the antenna board at the element connectors")
+    g4.add_argument("--source", required=True, help="hfss, vna or synthetic")
+    g4.add_argument("--stage", default=None, choices=("simulation", "measurement"),
+                    help="only for synthetic data; otherwise inferred from the source")
+    g4.add_argument("--previous-pass", default=None, metavar="FILE.s4p",
+                    help="simulation: the previous adaptive pass")
+    g4.add_argument("--patterns", default=None, metavar="FILE.npz",
+                    help="simulation: embedded element patterns, f_hz, theta_deg, g")
+    g4.add_argument("--uncertainty", type=float, default=None,
+                    help="measurement: expanded uncertainty of each S term, linear")
+    g4.add_argument("--beamformer", default=None, metavar="FILE.npz",
+                    help="measurement: f_hz, output_match, isolation")
+    g4.add_argument("--stage1-routes-agreed", default=None, choices=("yes", "no"))
+    g4.add_argument("--repeatability-floor", type=float, default=None,
+                    help="relative floor from EXP-005 Phase B, once it exists")
+    g4.add_argument("--json", type=Path, default=None)
+    g4.add_argument("--report", type=Path, default=None)
+    g4.set_defaults(func=cmd_g4)
+
+    gc = sub.add_parser("g4-chart", help="G4 against synthetic nearest neighbour coupling")
+    gc.add_argument("--json", type=Path, default=None)
+    gc.add_argument("--report", type=Path, default=None)
+    gc.set_defaults(func=cmd_g4_chart)
 
     bu = sub.add_parser("budget", help="the error budget study and threshold derivation")
     bu.add_argument("--trials", type=int, default=2000,

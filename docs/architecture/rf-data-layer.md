@@ -83,7 +83,10 @@ only as decision 0007 section "How later data may, and may not, change these val
 allows, which was written before any data existed.
 
 The coupling comparison of EXP-011 is **not** covered: the diagonal model the budget
-rests on excludes coupling, and its acceptance belongs with gate G4.
+rests on excludes coupling, and its acceptance belongs with gate G4. Since 2026-09-26
+G4 has its own criterion, decision 0008, in `rfkit.coupling`: it ingests the antenna
+board's `.s4p`, or assembles it from six two port measurements, and judges the
+calibrated diagonal model against the coupled array on every steered beam.
 
 ## 5. Instrument control is deliberately outside
 
@@ -112,6 +115,7 @@ cd tools
 python -m pytest rfkit/tests -q
 python -m rfkit.cli example --out /tmp/rfkit-example
 python -m rfkit.cli budget --json /tmp/budget.json --report /tmp/budget.txt
+python -m rfkit.cli g4-chart
 ```
 
 The example writes Touchstone files, a comparison report and an array state.

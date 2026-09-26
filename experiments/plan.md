@@ -22,7 +22,7 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 | 008 | hardware | First real calibration | main practical result | 1 week | to do |
 | 009 | hardware | Extend to four elements | resolution and coupling | 2 weeks | to do |
 | 010 | hardware | How long a calibration stays valid | original angle | calendar time | to do |
-| 011 | simulation | Electromagnetic simulation of the real geometry | physically grounded coupling model | 1 week | to do |
+| 011 | simulation, then hardware | Coupling of the real geometry, and gate G4 | physically grounded coupling model, and whether the diagonal state survives it | Stage 1 one solver campaign, Stage 2 one day | **planned**, criterion fixed, see `EXP-011-coupling-model-adequacy.md` |
 | 012 | simulation | Measurement count bound against the classical baselines | sizing every later claim | 3 days | to do |
 | 013 | simulation | Learned estimator for first calibration, as a control | ML-A, the learned control | 1 week | to do |
 | 014 | hardware | Unattended recalibration rig and its logging schema | ML-B, the drift dataset | 1 week then calendar time | to do |
@@ -152,10 +152,11 @@ one. Later, comparing simulated coupling against coupling measured on the fabric
 array is a result in itself, and it is something most projects at this scale cannot
 produce.
 
-**Acceptance**: none yet, deliberately. Decision 0007 sets provisional limits for
-comparing two simulations of the channel state responses, and not for coupling: the
-diagonal model it rests on excludes coupling, so a coupling acceptance limit belongs
-with gate G4 and has to be written before this comparison's data exist.
+**Acceptance**: fixed on 2026-09-26, before any data, by decision 0008, with the full
+protocol in `experiments/EXP-011-coupling-model-adequacy.md`. It is a model adequacy
+test, not a coupling limit: the calibrated diagonal model is compared with the coupled
+array on every steered beam, against the budget policy of decision 0007 with its own
+allocation. Decision 0007's agreement limits do not apply to coupling.
 
 ---
 
