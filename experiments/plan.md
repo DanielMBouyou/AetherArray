@@ -152,6 +152,11 @@ one. Later, comparing simulated coupling against coupling measured on the fabric
 array is a result in itself, and it is something most projects at this scale cannot
 produce.
 
+**Acceptance**: none yet, deliberately. Decision 0007 sets provisional limits for
+comparing two simulations of the channel state responses, and not for coupling: the
+diagonal model it rests on excludes coupling, so a coupling acceptance limit belongs
+with gate G4 and has to be written before this comparison's data exist.
+
 ---
 
 ## EXP-012: where the measurement count bound actually sits

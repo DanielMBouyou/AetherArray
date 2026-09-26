@@ -243,7 +243,8 @@ def test_comparison_phase_difference_wraps():
     assert abs(c.s21_phase_diff_deg_at_f0) == pytest.approx(2.0, abs=1e-6)
 
 
-def test_verdicts_are_unresolved_while_no_threshold_exists():
+def test_verdicts_without_a_comparison_class_are_unresolved():
+    # Synthetic traces carry no comparison class unless told one, see test_budget.py.
     f = np.linspace(2.4e9, 2.5e9, 11)
     c = rfkit.compare_pair(trace(f, 0.5), trace(f, 0.4), f0_hz=2.44e9)
     assert set(c.verdicts.values()) == {"unresolved"}

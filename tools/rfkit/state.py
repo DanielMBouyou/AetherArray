@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
+from . import thresholds as th
 from .grid import interp_complex
 from .io import RfTrace
 from .metrics import amplitude_imbalance_db, phase_spread_deg, wrap_deg
@@ -97,6 +98,22 @@ class ArrayState:
     def phase_spread_deg(self) -> float:
         return phase_spread_deg(self.diagonal)
 
+    def verdicts(self) -> dict:
+        """The design checks that apply to one array state, decision 0007.
+
+        Amplitude imbalance has a provisional limit, because phase only control
+        cannot correct it. Phase spread deliberately has none: it is what the
+        calibration removes, so its verdict reads ``not applicable``.
+        """
+        return {
+            "amplitude_imbalance_db": th.get("amplitude_imbalance_db", th.DESIGN).verdict(
+                self.amplitude_imbalance_db()
+            ),
+            "channel_phase_spread_deg": th.get("channel_phase_spread_deg", th.DESIGN).verdict(
+                self.phase_spread_deg()
+            ),
+        }
+
     def summary(self) -> str:
         g = self.relative_gain_db()
         p = self.relative_phase_deg()
@@ -108,8 +125,16 @@ class ArrayState:
         ]
         for n in range(self.n_channels):
             rows.append(f"  {n:<4} {g[n]:>16.4f} {p[n]:>20.3f}")
-        rows.append(f"amplitude imbalance: {self.amplitude_imbalance_db():.4f} dB")
-        rows.append(f"phase spread       : {self.phase_spread_deg():.3f} deg")
+        v = self.verdicts()
+        imb = th.get("amplitude_imbalance_db", th.DESIGN)
+        rows.append(
+            f"amplitude imbalance: {self.amplitude_imbalance_db():.4f} dB, "
+            f"{v['amplitude_imbalance_db']} against {imb.value} {imb.unit} ({imb.status})"
+        )
+        rows.append(
+            f"phase spread       : {self.phase_spread_deg():.3f} deg, "
+            f"{v['channel_phase_spread_deg']}, corrected by calibration"
+        )
         return "\n".join(rows)
 
     def as_dict(self) -> dict:
@@ -125,6 +150,7 @@ class ArrayState:
             "relative_phase_deg": self.relative_phase_deg().tolist(),
             "amplitude_imbalance_db": self.amplitude_imbalance_db(),
             "phase_spread_deg": self.phase_spread_deg(),
+            "verdicts": self.verdicts(),
             "provenance": [p.as_dict() for p in self.provenance],
             "note": self.note,
         }

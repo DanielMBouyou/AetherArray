@@ -35,7 +35,8 @@ cheaper than remembering them in each notebook.
 | The comparison grid is the **coarsest** contributing sweep unless overridden | `rfkit.grid.common_grid` | resolution invented that no input had |
 | Phase differences taken on the circle | `rfkit.metrics.phase_error_deg` | 359 against 1 reported as 358 degrees |
 | Phase spread across channels taken about the circular mean | `rfkit.metrics.phase_spread_deg` | a set clustered at the wrap point reporting a spurious 360 degrees |
-| **No invented thresholds.** A limit cites its document or every verdict is `unresolved` | `rfkit.thresholds` | a tool printing PASS against a number nobody decided |
+| **No invented thresholds.** A limit is derived from its array level consequence and marked provisional, or every verdict against it is `unresolved` | `rfkit.thresholds`, `rfkit.budget`, decision 0007 | a tool printing PASS against a number nobody decided |
+| S21 limits judged only on the state dependent difference, which the array state cannot absorb | `rfkit.compare.compare_states` | a constant offset, removed by any calibration, failing a comparison |
 | No calibration claimed until standards exist | `rfkit.calibration` | raw data being consumed as corrected |
 | Raw complex values preserved through to the array state | `rfkit.state` | a gauge choice destroying the measurement |
 | Repeated measurements keep session, time and temperature | `rfkit.dataset` | statistics that flatten away what made them repeats |
@@ -55,23 +56,34 @@ default anywhere. `ArrayState.as_matrix()` embeds a diagonal state into the
 matrix form, so code written for the extension works unchanged when a full state
 arrives, and uncertainty I6 decides when that is needed.
 
-## 4. Thresholds, and a gap this made visible
+## 4. Thresholds
 
-The comparison tool applies limits from `rfkit.thresholds`, and **every one of
-them is currently empty**, so every verdict reads `unresolved`. That is not a
-placeholder to be filled in quietly: it is a real gap the tool surfaces.
+Until 2026-09-25 every limit in `rfkit.thresholds` was empty and every verdict read
+`unresolved`. **Decision 0007 now derives them** from what a discrepancy would do to
+pointing, coherent gain and the error sidelobe floor, relative to what the three bit
+quantisation of decision 0003 already costs, with one declared fraction $\eta = 0.10$.
+The derivation is `rfkit.budget`, and `python -m rfkit.cli budget` prints it.
 
-| Threshold needed | Currently |
-| --- | --- |
-| Agreement in S21 magnitude between solver, simulator and analyser | no value recorded anywhere |
-| Agreement in S21 phase | no value recorded anywhere |
-| Agreement in S11 magnitude | no value recorded anywhere |
-| Acceptable amplitude imbalance across channels | measured quantity in the benchmark contract, no limit set |
-| Acceptable phase spread across channels | no limit set |
+Thresholds are keyed by metric and by comparison class, because the uncertainty
+sources differ:
 
-EXP-011 plans to compare simulated coupling against measured coupling and fixes
-no acceptance limit for that comparison. **Setting these belongs in a decision
-record or in the benchmark specification, not in a tool.**
+| Metric | Design | HFSS against ADS | Simulation against analyser |
+| --- | --- | --- | --- |
+| S21 phase, state dependent part | | 2.29 deg, provisional | unresolved: needs the analyser uncertainty, EXP-004 O1 and O7 |
+| S21 magnitude, state dependent part | | 0.40 dB, provisional | unresolved, same reason |
+| S11 magnitude | | unresolved: no array level consequence in these units | unresolved |
+| Amplitude imbalance across channels | 0.82 dB peak to peak, provisional | | |
+| Phase spread across channels | **not a limit**: calibration removes it | | |
+
+Three rules come with them. A plain difference between two traces is not judged
+against the S21 limits, because part of it is common to every state and the array
+state absorbs it; `compare_states` keeps only the state dependent part. A band the
+traces do not both cover is `unresolved`, never extrapolated. And the values may change
+only as decision 0007 section "How later data may, and may not, change these values"
+allows, which was written before any data existed.
+
+The coupling comparison of EXP-011 is **not** covered: the diagonal model the budget
+rests on excludes coupling, and its acceptance belongs with gate G4.
 
 ## 5. Instrument control is deliberately outside
 
@@ -99,6 +111,7 @@ python -m pip install -r requirements.txt
 cd tools
 python -m pytest rfkit/tests -q
 python -m rfkit.cli example --out /tmp/rfkit-example
+python -m rfkit.cli budget --json /tmp/budget.json --report /tmp/budget.txt
 ```
 
 The example writes Touchstone files, a comparison report and an array state.

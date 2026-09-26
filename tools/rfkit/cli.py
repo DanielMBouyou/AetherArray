@@ -2,7 +2,10 @@
 
     cd tools
     python -m rfkit.cli compare --hfss a.s2p --ads b.s2p --vna c.s2p --f0 2.44e9
+    python -m rfkit.cli compare-states --a-source hfss --a 0=s0.s2p --a 1=s1.s2p \
+        --b-source ads --b 0=t0.s2p --b 1=t1.s2p
     python -m rfkit.cli state --channel 0=ch0.s2p --channel 1=ch1.s2p --f0 2.44e9
+    python -m rfkit.cli budget --json budget.json --report budget.txt
     python -m rfkit.cli example --out /tmp/rfkit-example
 
 Every run writes machine readable JSON alongside the human readable report, and
@@ -16,7 +19,7 @@ import json
 import sys
 from pathlib import Path
 
-from .compare import compare_all
+from .compare import compare_all, compare_states
 from .io import load_touchstone
 from .state import state_from_channel_traces
 
@@ -64,6 +67,38 @@ def cmd_state(args: argparse.Namespace) -> int:
     return 0
 
 
+def _state_map(items, source: str) -> dict:
+    out = {}
+    for item in items:
+        if "=" not in item:
+            raise SystemExit(f"expected STATE=PATH, got {item!r}")
+        idx, path = item.split("=", 1)
+        out[int(idx)] = load_touchstone(path, source=source)
+    return out
+
+
+def cmd_compare_states(args: argparse.Namespace) -> int:
+    a = _state_map(args.a, args.a_source)
+    b = _state_map(args.b, args.b_source)
+    result = compare_states(a, b, reference_state=args.reference_state,
+                            f0_hz=args.f0, n_points=args.points)
+    text = result.to_text()
+    print(text)
+    _write(text, args.report, "report")
+    _write(json.dumps(result.as_dict(), indent=2) + "\n", args.json, "json")
+    return 0
+
+
+def cmd_budget(args: argparse.Namespace) -> int:
+    from . import budget
+
+    text = budget.study(trials=args.trials)
+    print(text)
+    _write(text, args.report, "report")
+    _write(json.dumps(budget.summary(), indent=2) + "\n", args.json, "json")
+    return 0
+
+
 def cmd_example(args: argparse.Namespace) -> int:
     from .example import run_example
 
@@ -84,6 +119,28 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--json", type=Path, default=None)
     c.add_argument("--report", type=Path, default=None)
     c.set_defaults(func=cmd_compare)
+
+    cs = sub.add_parser(
+        "compare-states",
+        help="compare two tools state by state, on the state dependent difference",
+    )
+    cs.add_argument("--a-source", required=True, help="hfss, ads or vna")
+    cs.add_argument("--a", action="append", required=True, metavar="STATE=FILE")
+    cs.add_argument("--b-source", required=True, help="hfss, ads or vna")
+    cs.add_argument("--b", action="append", required=True, metavar="STATE=FILE")
+    cs.add_argument("--reference-state", type=int, default=0)
+    cs.add_argument("--f0", type=float, default=2.44e9, help="frequency in Hz")
+    cs.add_argument("--points", type=int, default=None, help="force a uniform grid size")
+    cs.add_argument("--json", type=Path, default=None)
+    cs.add_argument("--report", type=Path, default=None)
+    cs.set_defaults(func=cmd_compare_states)
+
+    bu = sub.add_parser("budget", help="the error budget study and threshold derivation")
+    bu.add_argument("--trials", type=int, default=2000,
+                    help="Monte Carlo trials per seed, the seeds are fixed")
+    bu.add_argument("--json", type=Path, default=None)
+    bu.add_argument("--report", type=Path, default=None)
+    bu.set_defaults(func=cmd_budget)
 
     s = sub.add_parser("state", help="build the array state from per channel traces")
     s.add_argument("--channel", action="append", required=True, metavar="INDEX=FILE")

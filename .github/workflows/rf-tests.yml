@@ -30,3 +30,7 @@ jobs:
       - name: Run the worked example end to end
         working-directory: tools
         run: python -m rfkit.cli example --out "${RUNNER_TEMP}/rfkit-example"
+
+      - name: Run the error budget and threshold derivation
+        working-directory: tools
+        run: python -m rfkit.cli budget --trials 500 --json "${RUNNER_TEMP}/budget.json"
