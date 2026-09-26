@@ -7,3 +7,8 @@
 # in a Windows working copy.
 *.sh text eol=lf
 *.yml text eol=lf
+
+# Generated documents and images are binary: never converted, never diffed as text.
+# The runbook PDFs are built from their Markdown sources, docs/runbooks/README.md.
+*.pdf binary
+*.png binary

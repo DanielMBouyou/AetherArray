@@ -1,0 +1,27 @@
+name: runbooks
+
+# Every school runbook is a Markdown source and a PDF built from it. This checks that
+# each PDF exists, was built from its current source, has the same content as a fresh
+# build, keeps every word and image inside the printable area, and that the register
+# never calls a school task ready without its PDF. docs/runbooks/README.md.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  runbooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Build and check the runbooks
+        run: python tools/runbooks/build.py --check

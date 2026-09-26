@@ -1,7 +1,10 @@
 # Experiment plan
 
 - Status: in progress
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-26
+
+The last column says where each experiment runs; `docs/runbooks/register.md` holds the
+detail and the readiness of every school task.
 
 As in the RF modelling project, the work runs on two tracks: a simulation track that
 starts immediately, and a hardware track constrained by purchases and fabrication.
@@ -10,23 +13,23 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 
 ## Overview
 
-| N | Track | Title | Unblocks | Effort | Status |
-| --- | --- | --- | --- | --- | --- |
-| 001 | simulation | Array simulator with injected defects | all of the simulation track | 1 week | to do |
-| 002 | simulation | Compare calibration methods in simulation | main theoretical result | 2 weeks | to do |
-| 003 | simulation | Sensitivity to noise and to measurement count | sizing the real campaigns | 1 week | to do |
-| 004 | hardware | Instrument and environment audit | all of the hardware track, and the working frequency | 30 minutes at the bench | **running**, see `EXP-004-instrument-audit.md` |
-| 005 | hardware | Repeatability floor, and whether the control path disturbs it | R9 and H3, therefore re-capture and purchase | Phase A about 2 days | **planned**, see `EXP-005-repeatability-floor.md` |
-| 006 | hardware | Two element array | first real system | 2 weeks | to do |
-| 007 | hardware | Effect of a known cable error | demonstration of the problem | 1 day | to do |
-| 008 | hardware | First real calibration | main practical result | 1 week | to do |
-| 009 | hardware | Extend to four elements | resolution and coupling | 2 weeks | to do |
-| 010 | hardware | How long a calibration stays valid | original angle | calendar time | to do |
-| 011 | simulation, then hardware | Coupling of the real geometry, and gate G4 | physically grounded coupling model, and whether the diagonal state survives it | Stage 1 one solver campaign, Stage 2 one day | **planned**, criterion fixed, see `EXP-011-coupling-model-adequacy.md` |
-| 012 | simulation | Measurement count bound against the classical baselines | sizing every later claim | 3 days | to do |
-| 013 | simulation | Learned estimator for first calibration, as a control | ML-A, the learned control | 1 week | to do |
-| 014 | hardware | Unattended recalibration rig and its logging schema | ML-B, the drift dataset | 1 week then calendar time | to do |
-| 015 | hardware | Learned drift prior against from scratch recalibration | **the project's central claim** | 2 weeks after 014 | to do |
+| N | Track | Title | Unblocks | Effort | Status | Where |
+| --- | --- | --- | --- | --- | --- | --- |
+| 001 | simulation | Array simulator with injected defects | all of the simulation track | 1 week | to do | `LOCAL` |
+| 002 | simulation | Compare calibration methods in simulation | main theoretical result | 2 weeks | to do | `LOCAL` |
+| 003 | simulation | Sensitivity to noise and to measurement count | sizing the real campaigns | 1 week | to do | `LOCAL` |
+| 004 | hardware | Instrument and environment audit | all of the hardware track, and the working frequency | 30 minutes at the bench | **running**, see `EXP-004-instrument-audit.md` | `SCHOOL-BENCH`, SCH-001 |
+| 005 | hardware | Repeatability floor, and whether the control path disturbs it | R9 and H3, therefore re-capture and purchase | Phase A about 2 days | **planned**, see `EXP-005-repeatability-floor.md` | `LOCAL` Phase A, `SCHOOL-BENCH` Phase B |
+| 006 | hardware | Two element array | first real system | 2 weeks | to do | `SCHOOL-BENCH` |
+| 007 | hardware | Effect of a known cable error | demonstration of the problem | 1 day | to do | `SCHOOL-BENCH` |
+| 008 | hardware | First real calibration | main practical result | 1 week | to do | `SCHOOL-BENCH` |
+| 009 | hardware | Extend to four elements | resolution and coupling | 2 weeks | to do | `SCHOOL-BENCH` |
+| 010 | hardware | How long a calibration stays valid | original angle | calendar time | to do | `EITHER` |
+| 011 | simulation, then hardware | Coupling of the real geometry, and gate G4 | physically grounded coupling model, and whether the diagonal state survives it | Stage 1 one solver campaign, Stage 2 one day | **planned**, criterion fixed, see `EXP-011-coupling-model-adequacy.md` | `EITHER` Stage 1, `SCHOOL-BENCH` Stage 2 |
+| 012 | simulation | Measurement count bound against the classical baselines | sizing every later claim | 3 days | to do | `LOCAL` |
+| 013 | simulation | Learned estimator for first calibration, as a control | ML-A, the learned control | 1 week | to do | `LOCAL` |
+| 014 | hardware | Unattended recalibration rig and its logging schema | ML-B, the drift dataset | 1 week then calendar time | to do | `EITHER` |
+| 015 | hardware | Learned drift prior against from scratch recalibration | **the project's central claim** | 2 weeks after 014 | to do | `LOCAL` |
 
 Experiments 012 to 015 come from `docs/architecture/ml-calibration.md` and decision
 0002. They are the learning track, and 015 is the one the project's research question

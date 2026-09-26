@@ -1,7 +1,12 @@
 # Roadmap
 
 - Status: proposal, revised after each phase
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-26
+
+Work that needs school resources is listed with its readiness in
+`docs/runbooks/register.md`. **A school task counts as ready only when its runbook PDF
+exists and passes `python tools/runbooks/build.py --check`**, and no item below that
+depends on a school task can be ticked before the task is done.
 
 ## Phase 0: theory and simulator
 

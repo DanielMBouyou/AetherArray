@@ -1,7 +1,7 @@
 # Hardware and measurement means
 
 - Status: in progress, the measurement environment is the critical point
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-26
 
 ---
 
@@ -38,7 +38,7 @@ better to know that immediately.
 
 | Item | Quantity | Role here | Status |
 | --- | --- | --- | --- |
-| Vector network analyser | 1 | channel measurement, coupling between elements, complex per element labels | **observed 2026-09-20**: Rohde and Schwarz ZVL, 9 kHz to 3 GHz, N female, complex formats, source to 0 dBm. Exact model, calibration kit, adapters and installed options still outstanding |
+| Vector network analyser | 1, in the school laboratory | channel measurement, coupling between elements, complex per element labels. Every task using it is `SCHOOL-BENCH`, `docs/runbooks/register.md` | **observed 2026-09-20**: Rohde and Schwarz ZVL, 9 kHz to 3 GHz, N female, complex formats, source to 0 dBm. Exact model, calibration kit, adapters and installed options still outstanding |
 | Oscilloscope | 1, not confirmed | time domain measurement, coherence checks | **presence not confirmed**; model, bandwidth and sample rate unknown |
 | Function generator | 1, not confirmed | source | **presence not confirmed**; model and maximum frequency unknown |
 | Software defined radio | unknown | digital option, coherent channels | **presence unknown** |
@@ -63,9 +63,9 @@ project as well.
 
 | Tool | Role | Consequence for this project |
 | --- | --- | --- |
-| 3D electromagnetic simulator (HFSS) | full wave simulation of the array | **can produce a physically grounded coupling matrix, rather than an invented one** |
+| 3D electromagnetic simulator (HFSS) | full wave simulation of the array | **can produce a physically grounded coupling matrix, rather than an invented one**. HFSS Student locally, within its documented limits, bibliography V7; the full licence at school, only for a model that exceeds them |
 | Electromagnetic scripting (PyAEDT) | automating the above | makes geometry sweeps realistic |
-| Circuit simulator (ADS) | feed network, phase shifters, matching | designs the distribution network before fabrication |
+| Circuit simulator (ADS) | feed network, phase shifters, matching | designs the distribution network before fabrication. **At school only, and optional**: scikit-rf's transmission line media give a local circuit route, `docs/runbooks/README.md` |
 | S parameter library (scikit-rf) | measurement processing, de-embedding | **the shared radio frequency data layer**, pinned in `requirements.txt` and wrapped by `tools/rfkit`. Every S parameter from the solver, the circuit simulator and the analyser enters the project through it. See `docs/architecture/rf-data-layer.md` |
 | MATLAB | array processing, optimisation | cross check on the algorithms |
 

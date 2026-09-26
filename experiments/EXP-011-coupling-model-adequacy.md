@@ -41,6 +41,11 @@ decision 0005's command word. Element 0 is the phase origin of the far field.
 Runs once the antenna geometry exists. **Nothing here designs it**; spacing and
 frequency are fixed by decisions 0003 and 0004.
 
+Where it runs: HFSS Student locally, by default. It moves to the full licence at school,
+school task SCH-004, only if the converged mesh, the last two adaptive passes giving
+the same verdict, needs more than the Student limit of 64,000 volume elements,
+`docs/runbooks/README.md` rule 2.
+
 | Deliverable | Specification |
 | --- | --- |
 | Antenna board S matrix | four ports at the connector plane, 50 ohm, full $4 \times 4$ matrix, Touchstone real and imaginary format, `.s4p` |
@@ -65,6 +70,9 @@ Record in `results/EXP-011/` the verdict, its reasons, and **whether the two far
 routes agreed**, which Stage 2 needs.
 
 ## 4. Stage 2, measurement, after fabrication
+
+Everything in this stage uses the school analyser: school task SCH-005, whose runbook
+cannot be written until Rev A exists and O1 and O7 are recorded.
 
 ### 4.1 The antenna board
 

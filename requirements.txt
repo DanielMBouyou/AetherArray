@@ -16,3 +16,11 @@ scipy==1.17.1          # required by scikit-rf
 
 # Development and verification only.
 pytest==9.1.1          # cd tools && python -m pytest rfkit/tests -q
+
+# School runbooks: Markdown sources built into PDF, docs/runbooks/README.md.
+# python tools/runbooks/build.py --check
+mistune==3.2.1         # parses the Markdown sources
+reportlab==5.0.0       # lays out the PDF, deterministically
+matplotlib==3.10.9     # mathtext renders the equations, and ships the DejaVu fonts
+pillow==12.2.0         # image sizes for the equations
+pymupdf==1.27.2.3      # validates every page, and renders page images

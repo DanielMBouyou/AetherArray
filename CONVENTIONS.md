@@ -20,6 +20,7 @@ question without reading everything else.
 | `benchmarks/` | How do we measure, and with which metrics? |
 | `experiments/` | Which concrete experiments are planned, and in what order? |
 | `docs/hardware/` | What hardware is needed, available, or missing? |
+| `docs/runbooks/` | Which work needs school resources, and exactly how is each such task done? |
 | `docs/verification/` | How do we know a result is correct? |
 | `results/` | What did we actually measure? |
 | `docs/references/` | Where are the sources and the vocabulary? |
@@ -42,7 +43,8 @@ putting the prose next to the design files would bury it. This directory was add
 design files to hold.
 
 **`tools/` holds code the repository runs on itself**, not code that is the subject
-of study. `tools/check-docs.sh` checks these conventions and `tools/rfkit/` is the
+of study. `tools/check-docs.sh` checks these conventions, `tools/runbooks/` builds and checks
+the school runbooks, and `tools/rfkit/` is the
 shared radio frequency data layer described in `docs/architecture/rf-data-layer.md`.
 Python dependencies are pinned in one file, `requirements.txt`, at the top level.
 If a second package list ever appears, delete it: two lists that disagree are worse
@@ -52,6 +54,16 @@ than one that is out of date.
 experiment plan is written once and rarely revised. Results accumulate, grow, and
 are sometimes versioned differently (see `results/README.md`). Mixing the two
 makes the git history unreadable.
+
+**`docs/runbooks/` exists because some work can only happen at school**, where the
+network analyser, the full HFSS licence and ADS are. Its `README.md` classifies every
+action as `LOCAL`, `SCHOOL-SOFTWARE`, `SCHOOL-BENCH` or `EITHER`, and its `register.md`
+lists them. Work runs where it is scientifically sufficient, not where the most
+powerful tool is: HFSS Student is the default HFSS path within its documented limits,
+ADS is optional, and Python with scikit-rf and `rfkit` never depends on a school
+licence. **A school task cannot be marked ready without its runbook PDF**, built from
+a Markdown source kept beside it by `tools/runbooks/build.py`, whose `--check` CI runs.
+No PDF is kept without its source.
 
 ## 2. Document status
 

@@ -170,6 +170,16 @@ readable datasheet here.
      value before being recorded.
      Requirement R3. These figures close item E7 of the Rev A architecture and are
      turned into schematic requirements in section 5.5 of that document.
+
+[V7] Ansys. HFSS Student Limitations. Ansys Electromagnetics Suite 2025 R1 help,
+     ansyshelp.ansys.com, Electronics v251, HFSS, Getting Started.
+     Consulted 2026-09-26, manufacturer documentation, full page.
+     3D volume mesh 64,000 elements, 3D surface 8,000, 2D 2,000 triangles; DXF and
+     STEP import only; local solve only; HPC limited to 4 cores; SBR+, mesh
+     assemblies, circuit model generation from S parameters, geometry export,
+     optiSLang, Workbench, beta features and Linux not supported. No port limit is
+     stated. Sets the escalation rule of docs/runbooks/README.md; another release
+     must be checked again.
 ```
 
 ## Instrument sources, checked 2026-09-20
