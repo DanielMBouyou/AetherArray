@@ -1,10 +1,10 @@
 # rfkit
 
 - Status: implemented and tested against synthetic traces only
-- Last reviewed: 2026-09-25, error budget and provisional thresholds added
+- Last reviewed: 2026-09-28
 
-The shared RF data layer. Architecture and rationale in
-`docs/architecture/rf-data-layer.md`; this file is how to run it.
+The shared RF data layer. The why is in `docs/architecture/rf-data-layer.md`. This file
+is the how.
 
 ## Install and test
 
@@ -27,13 +27,13 @@ python -m rfkit.cli compare \
     --report ../results/rf/processed/comparison.txt
 ```
 
-The source of each file is given on the command line and never inferred from its
-path. Comparison happens on the band all inputs share; a frequency outside it is
-an error, not an extrapolation.
+You give each file's source on the command line. It's never guessed from the path.
+The comparison only happens over the band all the inputs share, and asking for a
+frequency outside it is an error, not an extrapolation.
 
-This compares plain differences, and its S21 verdicts read `not applicable`: part of
-a plain difference is common to every state, and the array state absorbs it. To judge
-against the S21 limits, compare the same channel in every state:
+This compares plain differences, so its S21 verdicts say `not applicable`. Here's why:
+part of a plain difference is the same in every state, and the array state absorbs it.
+To judge against the S21 limits, compare the same channel in every state instead:
 
 ```bash
 cd tools
@@ -44,8 +44,8 @@ python -m rfkit.cli compare-states \
     --json ../results/rf/processed/states.json
 ```
 
-It is judged over all of band 57a, both edges and $f_0$, and reads `unresolved` if the
-files do not cover the band.
+It's judged over the whole of band 57a, both edges and $f_0$. If the files don't cover
+the band, it says `unresolved`.
 
 ## The error budget and the thresholds
 
@@ -54,8 +54,8 @@ cd tools
 python -m rfkit.cli budget --json ../results/rf/processed/budget.json
 ```
 
-Prints the sensitivity study and the derivation of every provisional threshold,
-decision 0007. Every seed is fixed, so two runs print the same text.
+This prints the sensitivity study, and how every provisional threshold is derived,
+decision 0007. All the random seeds are fixed, so two runs print exactly the same text.
 
 ## Gate G4, coupling
 
@@ -66,9 +66,10 @@ python -m rfkit.cli g4 --antenna final.s4p --source hfss \
 python -m rfkit.cli g4-chart
 ```
 
-The first applies decision 0008 to one antenna matrix; what each stage must supply is
-in `experiments/EXP-011-coupling-model-adequacy.md`. The second prints G4 against
-**synthetic** nearest neighbour coupling, which is not a prediction of any array.
+The first command applies decision 0008 to one antenna matrix. What each stage has to
+supply is in `experiments/EXP-011-coupling-model-adequacy.md`. The second prints G4
+against **synthetic** nearest neighbour coupling, which isn't a prediction of any real
+array.
 
 ## Build the array state
 
@@ -83,7 +84,7 @@ python -m rfkit.cli state \
     --json ../results/rf/processed/state.json
 ```
 
-Each channel trace is that channel measured alone, which on Rev A means one
+Each channel trace is that channel measured on its own. On Rev A, that means one
 channel enabled and the others terminated.
 
 ## Worked example, synthetic
@@ -92,8 +93,8 @@ channel enabled and the others terminated.
 cd tools && python -m rfkit.cli example --out /tmp/rfkit-example
 ```
 
-**Every number it produces is synthetic** and every trace carries `synthetic` as
-its source.
+**Every number it produces is synthetic**, and every trace carries `synthetic` as its
+source.
 
 ## Modules
 
@@ -114,10 +115,11 @@ its source.
 
 ## Two rules worth repeating
 
-**Nothing invents a threshold.** A value exists only if `rfkit.budget` derives it
-and decision 0007 adopted it, and the tests fail if the two part company. If a
-verdict reads `unresolved`, a term the limit needs is unknown, and the note on the
-threshold names it.
+**Nothing makes up a threshold.** A value only exists if `rfkit.budget` derives it and
+decision 0007 adopted it, and the tests fail if the two ever disagree. If a verdict
+says `unresolved`, it's because a term the limit needs is still unknown, and the note
+on that threshold says which one.
 
-**Nothing claims a calibration.** `apply_calibration` raises. No kit, adapters
-or fixture have been confirmed to exist, which is EXP-004 observation O7.
+**Nothing pretends to be calibrated.** `apply_calibration` raises an error. No
+calibration kit, adapters or fixture have been confirmed to exist yet, and that's
+EXP-004 reading O7.

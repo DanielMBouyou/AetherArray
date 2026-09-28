@@ -1,40 +1,39 @@
 # Decision log
 
-This directory records the structural technical decisions of the project.
+This folder keeps the project's big technical decisions, one file each.
 
 ## Why
 
-In six months the question will not be "what did we choose". It will be "why did
-we choose that, and does the reason still hold". A choice with no recorded
-justification ends up being repeated out of habit, long after the context has
-changed.
+Six months from now, nobody will ask "what did we choose?". They'll ask "why did we
+choose that, and is the reason still true?". A choice with no written reason gets
+repeated out of habit, long after the situation that justified it has changed.
 
 ## What belongs here
 
-A decision goes in if at least one of these is true:
+A decision gets a file if at least one of these is true:
 
-- it is expensive to undo (hardware bought, RTL architecture committed, data
-  format frozen),
-- it rules out a family of solutions,
+- it's expensive to undo (hardware bought, RTL architecture committed, data format
+  frozen),
+- it rules out a whole family of solutions,
 - it rests on an assumption that could turn out to be wrong,
-- someone competent could reasonably make the opposite call.
+- someone competent could reasonably have chosen the opposite.
 
-A choice that can be reversed in an hour does not need a record.
+If a choice can be reversed in an hour, it doesn't need a file.
 
 ## Format
 
-One file per decision: `NNNN-short-title.md`, starting at `0001`. Numbers never go
-backwards. A cancelled decision is not deleted: its status becomes
-`superseded by NNNN`, and the new record explains what changed.
+One file per decision: `NNNN-short-title.md`, starting at `0001`. Numbers only go up.
+A cancelled decision isn't deleted. Its status becomes `superseded by NNNN`, and the
+new file explains what changed.
 
 Statuses: `proposed`, `accepted`, `rejected`, `superseded`, `on hold`.
 
-The template is in `0000-template.md`.
+The template is `0000-template.md`.
 
 ## One rule that matters during this phase
 
-The project is in its study phase. Most of the big questions should not be settled
-yet. A decision record written too early, with no measurement behind it, is a way
-of freezing an intuition and calling it a choice. If a decision has to be made
-without evidence (schedule or budget pressure), the evidence section must say so
-rather than invent a technical justification.
+The project is still in its study phase, so most of the big questions shouldn't be
+settled yet. A decision written too early, with no measurement behind it, is just an
+intuition frozen and called a choice. If a decision really has to be made without
+evidence (because of time or money), its evidence section says so plainly. It doesn't
+invent a technical reason after the fact.

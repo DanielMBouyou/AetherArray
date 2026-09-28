@@ -1,7 +1,7 @@
 # Results
 
-This directory holds measurements that were actually taken, not measurements we
-hope to take.
+This folder holds measurements that were actually taken. Not the ones we're hoping to
+take.
 
 ## Layout
 
@@ -15,23 +15,23 @@ results/
     notes.md         what went wrong during the session
 ```
 
-`raw/` is read-only by convention. If a raw measurement is wrong, we do not fix
-it: we add a note and take the measurement again.
+`raw/` is read only, by convention. If a raw measurement is wrong, we don't fix it. We
+add a note and take the measurement again.
 
 ## Metadata rule
 
-A measurement without metadata is lost. `SOURCE.md` must contain at least:
+A measurement without its metadata is lost. `SOURCE.md` has to contain at least:
 
 - date and time,
-- hardware used, with identifiers,
+- the hardware used, with identifiers,
 - software, bitstream or firmware versions,
-- conditions (ambient temperature where relevant, supply, cabling),
-- calibration procedure and its date,
-- anything anomalous that was noticed.
+- conditions (room temperature where it matters, supply, cabling),
+- the calibration procedure and its date,
+- anything odd that was noticed.
 
 ## Large file policy
 
-To be decided before the first serious measurement campaign.
+This gets decided before the first serious measurement campaign.
 
 | Option | Advantage | Drawback | Status |
 | --- | --- | --- | --- |
@@ -40,11 +40,10 @@ To be decided before the first serious measurement campaign.
 | Data outside the repository, hashes inside | light repository | needs reliable external storage | to evaluate |
 | Subsample in git, raw outside | compromise | risk of the two drifting apart | to evaluate |
 
-Until this is decided, files stay in the low megabytes and compressible text
-formats are preferred.
+Until then, files stay in the low megabytes, and compressible text formats win.
 
 ## Reproducibility
 
-Every figure published in the README or in a document must be regenerable by a
-script in this repository, from the data in `raw/`. A figure with no associated
-script is labelled as illustrative.
+Every figure in the README or in a document has to be regenerable by a script in this
+repository, from the data in `raw/`. A figure without a script is labelled as an
+illustration.

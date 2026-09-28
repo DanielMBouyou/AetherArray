@@ -1,15 +1,16 @@
 # EXP-004 results
 
-- Status: partial, five of nine complete; the frequency question inside it is closed
-- Last reviewed: 2026-09-23
+- Status: partial, four of nine complete, four partial and one not taken; the frequency question inside it is closed
+- Last reviewed: 2026-09-28
 
-Plan and decision rule in `experiments/EXP-004-instrument-audit.md`.
+The plan and its decision rule are in `experiments/EXP-004-instrument-audit.md`. The
+visit that finishes it has a step by step runbook, SCH-001, in `docs/runbooks/`.
 
 ## Result 1, 2026-09-19: no local evidence identifies the instruments
 
-A negative result, recorded so that the search is not repeated. Every avenue that
-could have identified the network analyser without walking to the bench was tried and
-none carried information.
+This is a negative result, written down so nobody repeats the search. We tried every
+way of identifying the network analyser without walking over to the bench, and none of
+them told us anything.
 
 | Avenue | Method | Outcome |
 | --- | --- | --- |
@@ -22,25 +23,24 @@ none carried information.
 
 ### What this rules out
 
-The analyser has never been connected to this computer. That is consistent with the
-inventory, and it means the remote interface, observation O9, is unproven as well as
-the rest.
+The analyser has never been plugged into this computer. That fits the inventory, and
+it means the remote interface, reading O9, is unproven like everything else.
 
 ### What it does not rule out
 
-An instrument that exists, works, and has simply never been plugged in. Nothing here
-is evidence about the instrument itself, only about its absence from this machine.
+An instrument that exists, works, and just hasn't ever been plugged in. None of this
+says anything about the instrument itself. It only says it has never met this machine.
 
 ### Consequence
 
-The bench visit is unavoidable. It is also now short: the analysis in the experiment
-document reduces the frequency decision to one reading, observation O2.
+The bench visit can't be avoided. It's short now, though: the analysis in the
+experiment document boils the frequency decision down to one reading, O2.
 
 ## Result 2, 2026-09-20: partial bench observations
 
-Reported by the operator from a Rohde and Schwarz ZVL on the bench. These are panel
-observations relayed to this record, not readings taken from a datasheet, and the
-distinction is kept in the last column.
+Reported by the operator, from a Rohde and Schwarz ZVL on the bench. These are what the
+panel showed, passed on to this record. They aren't figures from a datasheet, and the
+last column keeps that difference visible.
 
 | N | Observation | Reading | Date | Against the expected value |
 | --- | --- | --- | --- | --- |
@@ -54,23 +54,23 @@ distinction is kept in the last column.
 | O8 | Time domain or gating present | not verified | not taken | **outstanding.** Record the option list verbatim from the version and options page. What the designations mean is settled, bibliography `[T1a]`; which are installed is not. Not a gate |
 | O9 | Remote interface | USB present on the instrument. **Enumeration on the computer not verified** | 2026-09-20 | **partial.** No instrument has ever enumerated on this computer, per result 1 |
 
-Also observed: the system impedance is 50 ohm, which matches the design.
+Also seen: the system impedance is 50 ohm, which matches the design.
 
 ### What this settles
 
-The three observations that decide the working frequency, O2, O4 and O5, all pass. A
-3 GHz instrument with transmission and complex formats supports 2.44 GHz, and decision
-0004 freezes the frequency there on 2026-09-23.
+The three readings that decide the working frequency, O2, O4 and O5, all pass. A 3 GHz
+instrument with transmission and complex formats handles 2.44 GHz, and decision 0004
+fixed the frequency there on 2026-09-23.
 
-It also closes gate G1. Phase is measurable, so the orthogonal coding baseline B5 is
-available and the per element complex label that supervises the learned drift prior can
-be obtained as designed. Decision 0002 does not reopen.
+It also closes gate G1. Phase can be measured, so the orthogonal coding baseline B5 is
+available, and the per element complex label that supervises the learned drift prior
+can be obtained as planned. Decision 0002 doesn't reopen.
 
 ### What still prevents closure of the experiment
 
-Reclassified on 2026-09-23 by decision 0004, which froze the working frequency on the
-observed capability rather than on model identification. **None of these blocks radio
-frequency dimensioning any more.**
+Decision 0004 reclassified these on 2026-09-23, when it fixed the frequency from what
+the instrument was seen to do rather than from its exact model. **None of them blocks
+the RF design any more.**
 
 | Item | What it blocks now | Effort |
 | --- | --- | --- |
@@ -80,8 +80,8 @@ frequency dimensioning any more.**
 | O8 installed option list, copied verbatim | the echo strategy for EXP-005. Bench capability, not an architecture gate | one menu, the version and options page |
 | O9 enumeration on the computer | unattended running in EXP-014. Automation, not an architecture gate | plug the cable in |
 
-The experiment closes when all nine are recorded. The frequency question inside it is
+The experiment closes once all nine are recorded. The frequency question inside it is
 already closed.
 
-No cell in this table is filled from a catalogue, a memory or a guess. A reading that
-was not taken stays blank or is marked outstanding.
+No cell in this table comes from a catalogue, a memory or a guess. A reading that
+wasn't taken stays blank or is marked outstanding.

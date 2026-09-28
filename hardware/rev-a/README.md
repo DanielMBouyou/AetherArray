@@ -1,10 +1,10 @@
 # Rev A beamformer board, schematic
 
 - Status: captured, electrical rule check clean, ready for review
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-28
 
-The schematic for the board selected in `decisions/0003-rev-a-rf-architecture.md`.
-Layout has not started and is not authorised by that decision.
+This is the schematic for the board chosen in `decisions/0003-rev-a-rf-architecture.md`.
+The layout hasn't started, and that decision doesn't allow it yet.
 
 ## Files
 
@@ -22,15 +22,16 @@ Layout has not started and is not authorised by that decision.
 
 ## The four channels are identical by construction
 
-`rf-channel.kicad_sch` is a single hierarchical sheet instantiated four times. There
-is no second copy to drift out of step, and the identity is a property of the file
-structure rather than of anyone's care in editing. It is checked as well: the net
-topology signature of the four channels is compared after generation and must match.
+`rf-channel.kicad_sch` is one hierarchical sheet, used four times. There's no second
+copy that could drift out of step, so the four channels match because of how the files
+are built, not because somebody edited carefully. It's checked anyway: after
+generation, the net layout of the four channels is compared, and it has to match.
 
 ## Reading the schematic
 
-Signal flow on the root sheet, drawn for transmit. The network is passive and
-reciprocal, so in receive the divider is a combiner and the element ports are inputs.
+Here's the signal flow on the root sheet, drawn for transmit. The network is passive
+and works the same both ways, so in receive the divider becomes a combiner and the
+element ports become inputs.
 
 ```
 J904 common port --- U900 path select --- 4-way Wilkinson --- CH0..CH3 --- J900..J903
@@ -38,16 +39,16 @@ J904 common port --- U900 path select --- 4-way Wilkinson --- CH0..CH3 --- J900.
                      U901 AD8318
 ```
 
-`U900` selects which measurement path sees the common node: the analyser on one
-throw, the on board detector on the other. That is the two path arrangement in
-section 5.3 of `docs/architecture/rev-a-rf-architecture.md`.
+`U900` picks which measurement path sees the common node: the analyser on one side,
+the on board detector on the other. That's the two path setup from section 5.3 of
+`docs/architecture/rev-a-rf-architecture.md`.
 
-Each channel contains, in order: an enable switch that either passes the signal on or
-terminates the channel in 50 ohm, then three cascaded switched line bits of 45, 90 and
-180 degrees. Seven switches per channel, 28 in total, plus `U900`.
+Each channel has, in order: an enable switch, which either passes the signal on or
+terminates the channel in 50 ohm, then three switched line bits in a row, of 45, 90
+and 180 degrees. Seven switches per channel, 28 in total, plus `U900`.
 
-Connectivity is expressed with labels rather than long drawn nets. Every pin carries a
-short stub and a net name, so the netlist is read from the names and no net depends on
+Connections are made with labels instead of long drawn wires. Every pin gets a short
+stub and a net name, so the netlist comes from the names, and no connection depends on
 two lines happening to touch.
 
 ## Regenerating
@@ -56,9 +57,9 @@ two lines happening to touch.
 python tools/generate-schematic.py
 ```
 
-The generator is the source of truth. Editing the schematic by hand in the editor
-works, but the next run of the generator will overwrite it, so a change that should
-persist belongs in the generator.
+The generator is the real source. You can edit the schematic by hand in KiCad, but the
+next run of the generator will overwrite it. So a change that should stick belongs in
+the generator.
 
 ## Checks
 
@@ -71,7 +72,7 @@ Current result: **0 violations**. See `erc/erc-notes.md`.
 
 ## What the bill of materials says
 
-Exported from the schematic, so it counts what is actually drawn.
+It's exported from the schematic, so it counts what's actually drawn.
 
 | Part | Quantity | Note |
 | --- | --- | --- |
@@ -88,12 +89,13 @@ Exported from the schematic, so it counts what is actually drawn.
 | SMA | 5 | four element ports and the common port |
 | Header | 1 | interface to the controller. **Superseded by decision 0005**, see below |
 
-**Delta against the architecture document.** Section 6 of
-`docs/architecture/rev-a-rf-architecture.md` costed 28 fitted switches. Capture added
-one, `U900`, so that the detector and the analyser do not both sit on the common node
-permanently. Hard wiring both would load the path and split the signal whether or not
-the detector was in use. The cost is about 0.5 EUR and roughly 0.5 dB of insertion
-loss in the common arm, and the two measurement paths become properly exclusive.
+**One difference from the architecture document.** Section 6 of
+`docs/architecture/rev-a-rf-architecture.md` budgeted for 28 switches. Drawing the
+schematic added one, `U900`, so the detector and the analyser don't both hang off the
+common node all the time. Wiring both in permanently would load the path and split the
+signal even when the detector isn't being used. It costs about 0.5 EUR and roughly
+0.5 dB of loss in the common arm, and in return the two measurement paths are properly
+exclusive.
 
 ## Interfaces
 
@@ -111,18 +113,18 @@ loss in the common arm, and the two measurement paths become properly exclusive.
 | 5 V | controller, through `J905` | `U901` only, 68 mA typical |
 | 3V3 | controller, through `J905` | 29 switches and 2 sensors, microamp parts |
 
-The controller is the only source, so its pins on `J905` are the power outputs of the
-design and every other supply pin is an input. That is what makes the rule check pass
+The controller is the only power source. So its pins on `J905` are the design's power
+outputs, and every other supply pin is an input. That's why the rule check passes
 without a power flag anywhere.
 
 ## Superseded by decision 0005, re-capture required
 
-The captured schematic predates the controller change and **no longer matches the
-architecture**. The radio frequency topology is unaffected: the divider, the switched
-line chains, the element ports and the detector are all unchanged, and so is the
-sixteen bit beam state.
+This schematic was drawn before the controller changed, and **it doesn't match the
+architecture any more**. The radio side is fine: the divider, the switched line chains,
+the element ports and the detector are all unchanged, and so is the sixteen bit beam
+state.
 
-What must change when this project is re-captured:
+Here's what has to change when it's redrawn:
 
 | Change | Reason |
 | --- | --- |
@@ -131,10 +133,10 @@ What must change when this project is re-captured:
 | The two analogue return pins become a four wire serial converter interface | the fabric cannot sample an analogue voltage |
 | A serial converter is added beside `U901` | keeps a 2.5 mV per 0.1 dB signal off the ribbon cable |
 
-Until that is done, treat the schematic as the record of the radio frequency design and
+Until that's done, treat this schematic as the record of the radio design, and
 `docs/architecture/control-architecture.md` as the record of the control design.
 
-Re-capture waits on EXP-005 Phase A, which decides the last two rows through open item
-H3 and can reopen decision 0005 through R9 (`experiments/EXP-005-repeatability-floor.md`
-section 10). Board release also waits on H1. The full gate for the order is F1 to F5 in
-decision 0006.
+The redraw waits on EXP-005 Phase A. That experiment decides the last two rows, through
+open item H3, and it can reopen decision 0005 through R9
+(`experiments/EXP-005-repeatability-floor.md` section 10). Releasing the board also
+waits on H1. The full gate for ordering is F1 to F5 in decision 0006.

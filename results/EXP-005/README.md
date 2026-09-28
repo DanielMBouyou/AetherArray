@@ -1,24 +1,24 @@
 # EXP-005 results
 
 - Status: preparation logged, no measurement taken, C1 not executed
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-09-28
 
-Protocol and decision rules in `experiments/EXP-005-repeatability-floor.md`. The rules
-in its section 7 were fixed before any measurement and are not adjusted against the
-data. A cell that was not measured stays `to measure`.
+The protocol and its decision rules are in `experiments/EXP-005-repeatability-floor.md`.
+The rules in its section 7 were fixed before any measurement, and they don't get
+adjusted to fit the data. A cell that hasn't been measured stays `to measure`.
 
 ---
 
 ## Preparation log
 
-Not measurements. This records work done away from the bench, so the visit is shorter
-and so nobody repeats a lookup that has already failed.
+These aren't measurements. They record work done away from the bench, so the session
+itself is shorter, and so nobody repeats a lookup that already failed.
 
 ### P1, 2026-09-25: C1 not executed
 
-C1 requires wiring a source to a board, loading a configuration and reading a
-thermometer. None of that has happened. **Every field in sections 0 to 6 below remains
-`to measure`, and no validity precondition is established.**
+C1 means wiring a source to a board, loading a configuration and reading a thermometer.
+None of that has happened yet. **Every field in sections 0 to 6 below is still
+`to measure`, and no validity precondition has been established.**
 
 ### P2, 2026-09-25: toolchain and board reachability
 
@@ -28,16 +28,15 @@ thermometer. None of that has happened. **Every field in sections 0 to 6 below r
 | Any programmer ever attached to this computer | **no.** No programmer vendor identifier has ever been enumerated here |
 | Design project or converter example on this computer | none found |
 
-The second row is consistent with the instrument findings in `results/EXP-004/`: no
-laboratory hardware has ever been connected to this machine. It means the harness has
-to be built and loaded from scratch, and that the first bench session includes bringing
-the board up at all.
+The second row fits what `results/EXP-004/` found for the instruments: no lab hardware
+has ever been plugged into this machine. So the harness has to be built and loaded from
+scratch, and the first bench session starts with getting the board to come up at all.
 
 ### P3, 2026-09-25: item B1, the analogue input path, **advanced but not closed**
 
-Protocol item B1 requires the analogue input header, its channel assignment, any
-network in front of the converter, and the safe input range, taken from the board
-documentation rather than assumed.
+Protocol item B1 asks for the analogue input header, its channel assignment, any
+circuit in front of the converter, and the safe input range, all taken from the board
+documentation instead of assumed.
 
 | Established | Value |
 | --- | --- |
@@ -52,31 +51,31 @@ documentation rather than assumed.
 | Whether any divider, buffer, filter or protection network sits between header and converter | see the discrepancy below |
 | The absolute maximum input voltage at the header | safety of the source connection |
 
-**A discrepancy worth resolving before wiring.** The converter has a 2.5 V internal
-reference, yet the header range is quoted as 0 V to 4.096 V. Those two statements are
-only compatible if something sits between them: either an external reference, or
-attenuation in front of the converter input. **So a network probably does exist**, which
-is exactly what B1 was written to catch.
+**Something to sort out before wiring anything.** The converter has a 2.5 V internal
+reference, but the header range is quoted as 0 V to 4.096 V. Both can only be true if
+something sits in between: either an external reference, or attenuation in front of the
+converter input. **So there's probably a circuit there**, and catching exactly that is
+what B1 was written for.
 
-If it is a resistive divider, it has a consequence for the source specification S1. The
-impedance the converter's sampling capacitor sees is then the divider's output
-impedance, not the source's, so an S1 source that is stiff at the header may still be
-driving the converter from a high impedance. In that case the sample rate is reduced
-until the reading stops depending on it, which is a check the operator can make
-directly by sweeping the rate and watching the mean.
+If it's a resistive divider, that matters for the source specification S1. The
+converter's sampling capacitor would then see the divider's output impedance, not the
+source's. So an S1 source that's stiff at the header could still be driving the
+converter through a high impedance. If that happens, the sample rate gets lowered until
+the reading stops depending on it. The operator can check this directly by sweeping the
+rate and watching the mean.
 
-**This does not change any threshold or decision rule.** It is B1 doing its job.
+**This doesn't change any threshold or decision rule.** It's just B1 doing its job.
 
-Two attempts to retrieve the board user manual from mirrors failed here, one by timeout
-and one by a dropped connection. **The operator has the manual locally**, and closing
-B1 is a page lookup rather than research.
+Two attempts to download the board's user manual from mirror sites failed here, one on
+a timeout and one on a dropped connection. **The operator has the manual locally**, so
+closing B1 is a matter of looking up a page, not doing research.
 
 ### P4, 2026-09-25: item B2, the converter example
 
-Not selected. Published examples for this exact board and converter exist, including a
-university laboratory note written for this board and a separate course tutorial, and
-the board vendor ships demonstrations. **The operator picks one, records which, and
-records its version**, as B2 requires. No example has been read or tested here.
+Not picked yet. Published examples exist for this exact board and converter, including
+a university lab note written for this board and a separate course tutorial, and the
+board maker ships demos too. **The operator picks one, and writes down which one and
+its version**, as B2 requires. None of them has been read or tested here.
 
 ---
 
@@ -102,7 +101,7 @@ Filled in once, at the start of Phase A.
 
 ## 1. Validity preconditions
 
-None of the decision rules applies unless all four pass.
+None of the decision rules counts unless all four of these pass.
 
 | | Precondition | Threshold | Measured | Pass |
 | --- | --- | --- | --- | --- |
@@ -113,8 +112,9 @@ None of the decision rules applies unless all four pass.
 
 ## 2. Main table
 
-One row per path and condition, aggregated over the cycles. All voltages in mV. The dB
-column uses the detector slope of $-25$ mV/dB and is a convenience, not a measurement.
+One row per path and condition, averaged over the cycles. All voltages are in mV. The dB
+column uses the detector slope of $-25$ mV/dB. It's there for convenience, and it isn't
+a measurement.
 
 | Path | Condition | Mean | Within state spread | Between state spread | State correlated error | Equivalent dB | Cycles |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -131,8 +131,8 @@ column uses the detector slope of $-25$ mV/dB and is a convenience, not a measur
 
 ## 3. Settling sweep
 
-Condition C3, far path. The knee is the shortest delay beyond which the mean stops
-moving by more than 0.5 mV.
+Condition C3, far path. The knee is the shortest delay after which the mean stops moving
+by more than 0.5 mV.
 
 | Strobe to conversion delay | Mean, local | Mean, far | Difference |
 | --- | --- | --- | --- |
@@ -171,8 +171,8 @@ moving by more than 0.5 mV.
 
 ## 6. Outcome
 
-Applied from section 7 of the protocol. **Copy the rule that fired, do not paraphrase
-it.**
+Applied from section 7 of the protocol. **Copy the rule that fired word for word. Don't
+paraphrase it.**
 
 | Question | Rule that fired | Outcome |
 | --- | --- | --- |
@@ -183,8 +183,8 @@ it.**
 
 ### Consequences to apply
 
-Left blank until the outcome exists. Each of these is a document to edit, named here so
-the follow-up is not reconstructed from memory.
+Left blank until there's an outcome. Each one is a document to edit, named here so the
+follow up doesn't have to be pieced together from memory.
 
 | If | Then edit |
 | --- | --- |
@@ -195,5 +195,7 @@ the follow-up is not reconstructed from memory.
 
 ## 7. Phase B
 
-Not started. Gated on a detector, a radio frequency source, antennas and cables, none
-of which is owned. See section 9 of the protocol.
+Not started. It needs a detector, antennas and cables, and none of them is owned. It
+doesn't need a separate RF source: decision 0006 notes that the analyser already plays
+that role. What each purchase waits for is in decision 0006, and the rest is in section
+9 of the protocol.

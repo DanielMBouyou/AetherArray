@@ -1,12 +1,12 @@
 # EXP-011 results
 
 - Status: no data; the criterion was fixed on 2026-09-26, before any
-- Last reviewed: 2026-09-26
+- Last reviewed: 2026-09-28
 
-Protocol in `experiments/EXP-011-coupling-model-adequacy.md`, decision rules in decision
-0008. They are applied as written and not adjusted against the data. A cell that was not
-obtained stays `to obtain`. **Nothing here is filled from a catalogue, a memory or a
-synthetic matrix.**
+The protocol is in `experiments/EXP-011-coupling-model-adequacy.md`, and the decision
+rules are in decision 0008. They get applied exactly as written, never adjusted to fit
+the data. A cell that hasn't been obtained stays `to obtain`. **Nothing here comes from
+a catalogue, a memory or a synthetic matrix.**
 
 ---
 
@@ -61,5 +61,5 @@ synthetic matrix.**
 
 ## What follows
 
-The consequence of each outcome is fixed in decision 0008, section "What follows from
-each outcome". Record here which one applied and what it reopened.
+What each outcome leads to is fixed in decision 0008, in the section "What follows from
+each outcome". Write down here which one happened, and what it reopened.
