@@ -1,0 +1,155 @@
+{
+  "schema": "aetherarray-stackup/1",
+  "id": "reva-stackup-r1",
+  "revision": 1,
+  "status": "selected",
+  "date": "2026-10-03",
+  "decision": "decisions/0009-rev-a-stack-up.md",
+  "design_frequency_ref": "decision 0004; read from rfkit.budget.F0_HZ, never repeated here",
+  "status_vocabulary": {
+    "guaranteed": "a published fabrication or laminate specification limit or tolerance",
+    "typical": "a laminate vendor's typical value, never a tolerance",
+    "nominal": "a value a design tool or a fabricator's calculator uses",
+    "assumed": "an engineering assumption made in decision 0009",
+    "unbounded": "tolerances only: no source bounds it, and no number is guessed"
+  },
+  "sources": {
+    "V8": {"kind": "fabricator", "title": "JLCPCB, Controlled Impedance PCB Layer Stackup", "url": "https://jlcpcb.com/impedance", "revision": "no date shown", "consulted": "2026-10-03"},
+    "V9": {"kind": "fabricator", "title": "JLCPCB, User Guide to the JLCPCB Impedance Calculator", "url": "https://jlcpcb.com/help/article/user-guide-to-the-jlcpcb-impedance-calculator", "revision": "last updated 2026-09-16", "consulted": "2026-10-03"},
+    "V10": {"kind": "fabricator", "title": "JLCPCB, Multi-Layer PCB Standard Laminated Structures", "url": "https://jlcpcb.com/help/article/multi-layer-pcb-standard-laminated-structures", "revision": "last updated 2026-09-09", "consulted": "2026-10-03"},
+    "V11": {"kind": "fabricator", "title": "JLCPCB, PCB Manufacturing and Assembly Capabilities", "url": "https://jlcpcb.com/capabilities/pcb-capabilities", "revision": "no date shown", "consulted": "2026-10-03"},
+    "V12": {"kind": "laminate_vendor", "title": "Nan Ya Plastics, NP-155F data sheet", "url": "https://cclqc.npc.com.tw/cclfile/pdt/Datasheet_NP-155F_1761637097200.pdf", "revision": "issued 2008-03-01, new 2025-10-27", "consulted": "2026-10-03"},
+    "V13": {"kind": "fabricator", "title": "JLCPCB, surface finish article", "url": "https://jlcpcb.com/help/article/jlcpcb-surface-finish", "revision": "last updated 2026-09-09", "consulted": "2026-10-03"},
+    "V14": {"kind": "fabricator", "title": "JLCPCB, UL certification and laminate classes", "url": "https://jlcpcb.com/help/article/ul-certification", "revision": "last updated 2026-09-09", "consulted": "2026-10-03"},
+    "V15": {"kind": "laminate_vendor", "title": "Kingboard KB6167F data sheet, as hosted by OSH Park", "url": "https://docs.oshpark.com/resources/two-layer-substrate-Kingboard-KB6167F.pdf", "revision": "Rev 20200616", "consulted": "2026-10-03"},
+    "V16": {"kind": "fabricator", "title": "JLCPCB, PCB fabrication services and production time", "url": "https://jlcpcb.com/help/article/pcb-fabrication-services-and-production-time", "revision": "last updated 2026-09-09", "consulted": "2026-10-03"},
+    "D0009": {"kind": "repository", "title": "Decision 0009, the Rev A stack-up", "url": "decisions/0009-rev-a-stack-up.md", "revision": "2026-10-03", "consulted": "2026-10-03"}
+  },
+  "materials": {
+    "copper": {
+      "kind": "conductor",
+      "designation": "electrodeposited copper, foil type not published by the fabricator",
+      "conductivity": {"value": 5.8e7, "unit": "S/m", "status": "assumed", "source": "D0009", "note": "annealed copper standard; plated and foil copper may be lower, which enters the bounded loss study"}
+    },
+    "fr4_prepreg_7628": {
+      "kind": "dielectric",
+      "designation": "7628 glass prepreg, resin content 49 per cent, in the fabricator's NP-155F based stack-up; brand not guaranteed per order",
+      "permittivity": {"value": 4.4, "unit": "1", "status": "nominal", "source": "V8", "frequency_hz": null, "method": "fabricator impedance calculator value, no frequency stated"},
+      "loss_tangent": {"value": 0.015, "unit": "1", "status": "typical", "source": "V12", "frequency_hz": 1.0e9, "method": "IPC-TM-650 2.5.5.9", "note": "middle of 0.014 to 0.016 quoted for NP-155F 0.062 inch laminate at 1 GHz; nothing published at 2.44 GHz"}
+    },
+    "fr4_core_np155f": {
+      "kind": "dielectric",
+      "designation": "NP-155F core assumed by the fabricator's calculator",
+      "permittivity": {"value": 4.6, "unit": "1", "status": "nominal", "source": "V8", "frequency_hz": null, "method": "fabricator impedance calculator value, no frequency stated", "note": "V9 gives 4.43 for NP-155F cores above 0.70 mm; the conflict is recorded, and no RF trace references this core"},
+      "loss_tangent": {"value": 0.015, "unit": "1", "status": "typical", "source": "V12", "frequency_hz": 1.0e9, "method": "IPC-TM-650 2.5.5.9"}
+    },
+    "fr4_two_layer": {
+      "kind": "dielectric",
+      "designation": "two layer FR-4 core; brand not fixed by the fabricator, one of NP-140F, KB-6164, S1141 or S1000H (V14)",
+      "permittivity": {"value": 4.5, "unit": "1", "status": "nominal", "source": "V11", "frequency_hz": null, "method": "fabricator capability page value for two layer boards, no frequency stated"},
+      "loss_tangent": {"value": 0.015, "unit": "1", "status": "assumed", "source": "D0009", "frequency_hz": null, "note": "no value published for the two layer laminate; taken equal to the NP-155F figure at 1 GHz, and Kingboard KB6167F gives 0.014 at 2 GHz"}
+    },
+    "lpi_soldermask": {
+      "kind": "dielectric",
+      "designation": "liquid photoimageable solder mask",
+      "permittivity": {"value": 3.8, "unit": "1", "status": "nominal", "source": "V8", "frequency_hz": null, "method": "fabricator impedance calculator value"}
+    }
+  },
+  "constructions": {
+    "beamformer": {
+      "board": "RF beamformer and control interface board",
+      "fabrication": {
+        "fabricator": "JLCPCB",
+        "process": "4 layer FR-4, 1.6 mm, controlled impedance stack-up JLC04161H-7628",
+        "service_tier": "standard multilayer; impedance control at no extra charge (V8); impedance tolerance stated as 10 per cent on V11 and 20 per cent for the free tier on V10, a conflict to settle at order time",
+        "ordering_notes": "order with impedance control so that the published stack-up is used; declare the RF nets as uncoated microstrip and confirm that RF widths are not adjusted for a coated model",
+        "lead_time": "2 to 5 days for 5 pieces up to 100 x 100 mm, V16",
+        "cost_class": "low; no quote obtained, the instant quote needs a browser; boards up to 102 x 102 mm are priced specially"
+      },
+      "layer_count": 4,
+      "finished_thickness": {"value": 1.6, "unit": "mm", "status": "nominal", "source": "V8"},
+      "layers": [
+        {"name": "L1", "kind": "conductor", "material": "copper", "role": "RF microstrip, RF components, local escapes outside RF keep-out", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V8", "note": "finished outer copper, V10 says stack-up copper is finished copper"}},
+        {"name": "PP1", "kind": "dielectric", "material": "fr4_prepreg_7628", "role": "RF substrate", "thickness": {"value": 0.2104, "unit": "mm", "status": "nominal", "source": "V8"}},
+        {"name": "L2", "kind": "conductor", "material": "copper", "role": "continuous RF reference plane, no routing, no splits", "thickness": {"value": 0.0152, "unit": "mm", "status": "nominal", "source": "V8"}},
+        {"name": "CORE", "kind": "dielectric", "material": "fr4_core_np155f", "role": "core", "thickness": {"value": 1.065, "unit": "mm", "status": "nominal", "source": "V8"}},
+        {"name": "L3", "kind": "conductor", "material": "copper", "role": "power rails and slow digital: beam state lines, strobe, I2C, converter", "thickness": {"value": 0.0152, "unit": "mm", "status": "nominal", "source": "V8"}},
+        {"name": "PP2", "kind": "dielectric", "material": "fr4_prepreg_7628", "role": "lower prepreg", "thickness": {"value": 0.2104, "unit": "mm", "status": "nominal", "source": "V8"}},
+        {"name": "L4", "kind": "conductor", "material": "copper", "role": "digital and connector routing, ground pour stitched to L2", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V8"}}
+      ],
+      "rf_line": {"signal_layer": "L1", "reference_layer": "L2", "substrate_layers": ["PP1"]},
+      "rf_keepout": "L2 continuous beneath every RF trace, divider and switch, with at least three PP1 thicknesses of plane either side; vias through L2 there are ground stitching only; a signal on L3 or L4 crossing beneath an RF trace is shielded by L2 and may not change reference layer there",
+      "soldermask": {
+        "over_rf_microstrip": "opened",
+        "modelled_in_nominal": false,
+        "permittivity": {"value": 3.8, "unit": "1", "status": "nominal", "source": "V8"},
+        "thickness_above_trace": {"value": 0.01524, "unit": "mm", "status": "nominal", "source": "V8", "note": "0.6 mil in the calculator"},
+        "thickness_above_substrate": {"value": 0.03048, "unit": "mm", "status": "nominal", "source": "V8", "note": "1.2 mil in the calculator"},
+        "minimum_thickness": {"value": 0.010, "unit": "mm", "status": "guaranteed", "source": "V11"}
+      },
+      "surface_finish": {"type": "ENIG", "detail": "nickel about 3 to 6 um, V13; gold 1 or 2 microinch, V11", "modelled_in_nominal": false},
+      "rules": {
+        "min_trace": {"value": 0.09, "unit": "mm", "status": "guaranteed", "source": "V11", "note": "multilayer, 1 oz"},
+        "min_space": {"value": 0.09, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "min_via_hole": {"value": 0.15, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "min_via_pad": {"value": 0.25, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "min_annular_ring": {"value": 0.15, "unit": "mm", "status": "guaranteed", "source": "V11", "note": "absolute minimum; 0.20 mm recommended"},
+        "max_board_x": {"value": 663, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "max_board_y": {"value": 593, "unit": "mm", "status": "guaranteed", "source": "V11"}
+      }
+    },
+    "antenna": {
+      "board": "four element antenna array board",
+      "fabrication": {
+        "fabricator": "JLCPCB",
+        "process": "2 layer FR-4, 1.6 mm, 1 oz finished copper",
+        "service_tier": "standard two layer; controlled impedance is not offered on two layer boards (V11)",
+        "ordering_notes": "laminate brand not fixed; record the material reported with the order",
+        "lead_time": "about 1 to 2 days for small quantities up to 100 x 100 mm, V16; this board is larger",
+        "cost_class": "low; no quote obtained; above the 102 x 102 mm special price and below the 650 square centimetre surcharge"
+      },
+      "layer_count": 2,
+      "finished_thickness": {"value": 1.6, "unit": "mm", "status": "nominal", "source": "V11"},
+      "layers": [
+        {"name": "L1", "kind": "conductor", "material": "copper", "role": "patches, feed lines, SMA launches", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V11", "note": "1 oz finished outer copper"}},
+        {"name": "CORE", "kind": "dielectric", "material": "fr4_two_layer", "role": "RF substrate", "thickness": {"value": 1.53, "unit": "mm", "status": "assumed", "source": "D0009", "note": "1.6 mm finished board less two 0.035 mm copper layers; the core thickness is not published"}},
+        {"name": "L2", "kind": "conductor", "material": "copper", "role": "continuous ground under every patch and feed, no routing", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V11"}}
+      ],
+      "rf_line": {"signal_layer": "L1", "reference_layer": "L2", "substrate_layers": ["CORE"]},
+      "rf_keepout": "the board is passive; L2 is one unbroken ground",
+      "soldermask": {
+        "over_rf_microstrip": "opened over patches and feed lines",
+        "modelled_in_nominal": false,
+        "minimum_thickness": {"value": 0.010, "unit": "mm", "status": "guaranteed", "source": "V11"}
+      },
+      "surface_finish": {"type": "ENIG", "detail": "as the beamformer board", "modelled_in_nominal": false},
+      "rules": {
+        "min_trace": {"value": 0.10, "unit": "mm", "status": "guaranteed", "source": "V11", "note": "one and two layer, 1 oz"},
+        "min_space": {"value": 0.10, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "max_board_x": {"value": 670, "unit": "mm", "status": "guaranteed", "source": "V11"},
+        "max_board_y": {"value": 600, "unit": "mm", "status": "guaranteed", "source": "V11"}
+      }
+    }
+  },
+  "tolerances": {
+    "beamformer": {
+      "rf_dielectric_thickness": {"parameter": "h", "kind": "relative", "minus": 0.10, "plus": 0.10, "unit": "1", "status": "assumed", "source": "V11", "basis": "the published finished board tolerance, 10 per cent for boards of 1.0 mm and above, applied to the L1 to L2 prepreg; no prepreg tolerance is published"},
+      "rf_dielectric_permittivity": {"parameter": "er", "kind": "absolute", "minus": 0.2, "plus": 0.2, "unit": "1", "status": "assumed", "source": "D0009", "basis": "envelope of published values for 7628 rich FR-4 from brands the fabricator names: NP-155F 4.2 to 4.4 at 1 GHz (V12), KB6167F 4.6 at 2 GHz (V15), calculator 4.4 (V8)", "note": "not a guarantee; the coupon extraction is the authority once a board exists"},
+      "rf_copper_thickness": {"parameter": "t", "kind": "absolute", "minus": 0.0, "plus": 0.0056, "unit": "mm", "status": "assumed", "source": "V9", "basis": "the fabricator publishes 0.035 mm on its stack-up page and 1.6 mil, 0.0406 mm, in its calculator; no copper tolerance is published"},
+      "etched_width": {"parameter": "w", "kind": "relative", "minus": 0.20, "plus": 0.20, "unit": "1", "status": "guaranteed", "source": "V11", "basis": "published track width tolerance"}
+    },
+    "antenna": {
+      "rf_dielectric_thickness": {"parameter": "h", "kind": "relative", "minus": 0.10, "plus": 0.10, "unit": "1", "status": "assumed", "source": "V11", "basis": "the published finished board tolerance applied to the core, which is nearly the whole board"},
+      "rf_dielectric_permittivity": {"parameter": "er", "kind": "absolute", "minus": 0.3, "plus": 0.1, "unit": "1", "status": "assumed", "source": "D0009", "basis": "envelope of NP-155F 4.2 to 4.4 at 1 GHz (V12), KB6167F 4.6 at 2 GHz (V15) and the 4.5 the fabricator states (V11)", "note": "data for NP-140F, KB-6164, S1141 and S1000H were not retrieved; the patch resonance measured on the board is the authority"},
+      "rf_copper_thickness": {"parameter": "t", "kind": "absolute", "minus": null, "plus": null, "unit": "mm", "status": "unbounded", "source": "V11", "note": "no copper tolerance is published; bounded by cross section only if SIM shows the antenna sensitive to it"},
+      "etched_width": {"parameter": "w", "kind": "relative", "minus": 0.20, "plus": 0.20, "unit": "1", "status": "guaranteed", "source": "V11", "basis": "published track width tolerance"}
+    }
+  },
+  "simulation_model": {
+    "dielectric_dispersion": {"model": "frequency invariant", "status": "assumed", "source": "D0009", "note": "each permittivity and loss tangent is used as given; no source gives these laminates at 2.44 GHz"},
+    "copper_roughness": {"model": "smooth", "status": "assumed", "source": "D0009", "loss_factor_low": 1.0, "loss_factor_high": 2.0, "note": "no fabricator roughness data; conductor loss is bounded between smooth and the Hammerstad and Jensen asymptote of twice smooth; no roughness parameter is asserted, and the apparent permittivity rise of rough foil is left to the coupon extraction"},
+    "soldermask_on_rf": {"model": "absent", "status": "assumed", "source": "D0009", "note": "follows the fabrication rule that mask is opened over RF microstrip; checked by inspection of the fabricated board"},
+    "surface_finish_on_rf": {"model": "not modelled", "status": "assumed", "source": "D0009", "note": "ENIG nickel adds conductor loss; it enters the bounded loss study and the coupon attenuation extraction"},
+    "reference_plane": {"model": "finite conductivity boundary at the copper conductivity", "status": "assumed", "source": "D0009", "note": "the 15.2 um inner copper is about eleven skin depths thick at f0, so its thickness is not modelled"}
+  }
+}

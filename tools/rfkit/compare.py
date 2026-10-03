@@ -20,6 +20,7 @@ from . import thresholds as th
 from .grid import Band, align, common_band, common_grid, interp_complex
 from .io import RfTrace
 from .metrics import extract_at, mag_db, phase_error_deg, wrap_deg
+from .provenance import stackup_mismatch
 
 
 @dataclass(frozen=True)
@@ -154,8 +155,11 @@ class ComparisonReport:
             lines.append(
                 f"            {p.n_points} points, "
                 f"{p.f_start_hz / 1e9:.4g} to {p.f_stop_hz / 1e9:.4g} GHz, "
-                f"z0={p.z0_ohm:g}, cal={p.calibration}"
+                f"z0={p.z0_ohm:g}, cal={p.calibration}, stackup={p.stackup or 'none'}"
             )
+        mismatch = stackup_mismatch(self.inputs)
+        if mismatch:
+            lines += ["", mismatch]
         lines += ["", "pairwise agreement", "------------------"]
         for c in self.pairs:
             lines.append(f"  {c.a}  against  {c.b}  ({c.comparison or 'no comparison class'})")
@@ -261,6 +265,9 @@ class StateComparison:
         lines.append(f"judged band  : {self.band}"
                      + ("" if self.band_covered else "  NOT COVERED, in band verdicts unresolved"))
         lines.append(f"points       : {self.points_judged}, including both edges and f0")
+        mismatch = stackup_mismatch(self.provenance)
+        if mismatch:
+            lines += ["", mismatch]
         lines += ["", "state dependent difference, largest over the band", "-" * 50]
         for s, v in self.per_state.items():
             lines.append(f"  state {s}: phase {_fmt(v['phase_deg_max'])} deg, "

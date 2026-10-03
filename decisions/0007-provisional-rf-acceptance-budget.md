@@ -265,6 +265,10 @@ Fixed now, before any real HFSS, ADS or analyser data exist:
   while its actual beam shift at the benchmark angles is at most 0.33 degrees, about half
   the budget. The bound covers every pattern because a two tool comparison cannot know
   which pattern a steering table will produce. Rule 4 is the remedy if this bites.
+- **Erratum, 2026-10-03, decision 0009.** The bullet above means a one per cent common
+  difference in electrical length, which is what the computation scales. One per cent of
+  effective permittivity gives half of that, about 1.6 degrees on state 7. No value in this
+  record changes; the wording above is kept as written.
 - The floor treats quantisation as independent and uniform across channels. For one
   steering angle the rounding is deterministic; the floor is its average over angles.
 - First order sensitivities throughout. They are checked exactly at the recorded values

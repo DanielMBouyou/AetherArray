@@ -1,7 +1,7 @@
 # School runbooks
 
 - Status: in force since 2026-09-26
-- Last reviewed: 2026-09-28
+- Last reviewed: 2026-10-03
 
 Some of this project's work can only happen at school, because that's where the
 network analyser, the full HFSS licence and ADS are. This folder makes that split
@@ -32,7 +32,9 @@ Four rules decide which class a task gets.
    limit, or if it needs one of the listed features.** "Converged" means whatever the
    experiment using the model says it means. For EXP-011, that's the last two adaptive
    passes giving the same verdict. Write down which Student release is installed. If
-   it isn't 2025 R1, read its limits again before trusting these.
+   it isn't 2025 R1, read its limits again before trusting these. **Recorded on
+   2026-10-03:** the installed release is 2025 R2, and its limits, read that day, are the
+   same, with optiSLang and LSDSO both unsupported, bibliography V23.
 3. **ADS is optional.** It's a useful independent circuit model, and the simulator
    comparison in decision 0007 is written for it, but nothing in the repository needs it
    to be reproduced. The portable circuit route is scikit-rf's transmission line

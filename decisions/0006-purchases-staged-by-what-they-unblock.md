@@ -170,7 +170,7 @@ Class 3 clears when all five hold. Each is answerable before fabrication.
 | F2 | EXP-005 Phase A complete, with the R9 and H3 outcomes applied. An escalation of R9 reopens decision 0005, and F2 does not clear until it is re-decided | EXP-005 sections 7.4, 7.5 and 10 |
 | F3 | EXP-005 Phase B complete on both routes, the analyser route for uncertainties I1 and I3 and the detector route for E5, each judged by a rule written before its data | EXP-005 section 9; `docs/architecture/rev-a-rf-architecture.md` section 7.3 |
 | F4 | the schematic re-captured to decision 0005, open items H1 to H4 closed, and H5 decided | `hardware/rev-a/README.md`; `docs/architecture/control-architecture.md` section 8 |
-| F5 | the stack-up chosen, and the line lengths derived from it | `hardware/rev-a/layout-constraints.md`; decision 0004 |
+| F5 | the stack-up chosen, and the line lengths derived from it. **Half met on 2026-10-03: the stack-up is chosen, decision 0009; the lengths are not derived yet** | `hardware/rev-a/layout-constraints.md`; decision 0004 |
 
 **Not in the gate**, because each needs the fabricated array: the drift half of G2,
 which is EXP-010; switch state repeatability, E6; and the control polarity of the

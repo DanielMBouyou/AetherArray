@@ -52,7 +52,7 @@ the same verdict, needs more than the Student limit of 64,000 volume elements,
 | Frequency grid | 2.30 to 2.60 GHz, uniform, step no coarser than 2.5 MHz, so at least 34 points fall inside band 57a |
 | Previous adaptive pass | the same matrix from the pass before the final one, same grid, `.s4p` |
 | Embedded element patterns | complex co polar far field in the plane containing the array axis, $\theta$ from $-90$ to $+90$ degrees in steps no coarser than one degree, each port excited alone with the others matched, phase referred to element 0's position, at 2400.0, 2440.0 and 2483.5 MHz |
-| Metadata | solver and version, geometry file and its checksum, adaptive pass count, final change in S between passes, solution frequency, boundary conditions, port definitions, substrate constants used |
+| Metadata | solver and version, geometry file and its checksum, adaptive pass count, final change in S between passes, solution frequency, boundary conditions, port definitions, substrate constants used, and the stack-up fingerprint of decision 0009 |
 
 The patterns are packed into one `.npz` container holding `f_hz` (3), `theta_deg` (G) and
 complex `g` of shape (3, 4, G). The conversion from the solver's own export format is

@@ -1,7 +1,7 @@
 # The RF data layer
 
 - Status: implemented, no measured or simulated data yet
-- Last reviewed: 2026-09-25
+- Last reviewed: 2026-10-03
 
 One library sits between every producer of S parameters and every consumer of
 them. It is `scikit-rf`, wrapped by a small package in `tools/rfkit/`.
@@ -30,7 +30,7 @@ cheaper than remembering them in each notebook.
 
 | Guarantee | Where it lives | What it prevents |
 | --- | --- | --- |
-| No trace without provenance: source, path, checksum, ports, reference impedance, sweep, calibration state | `rfkit.provenance`, `rfkit.io` | a number in a document that cannot be traced to a file |
+| No trace without provenance: source, path, checksum, ports, reference impedance, sweep, calibration state, and the stack-up it was simulated on or measured from | `rfkit.provenance`, `rfkit.io` | a number in a document that cannot be traced to a file, or a VNA file compared with a model of another stack-up |
 | Comparison only over the shared band, **never extrapolated** | `rfkit.grid` | agreement manufactured by padding one sweep to another |
 | The comparison grid is the **coarsest** contributing sweep unless overridden | `rfkit.grid.common_grid` | resolution invented that no input had |
 | Phase differences taken on the circle | `rfkit.metrics.phase_error_deg` | 359 against 1 reported as 358 degrees |
@@ -116,9 +116,21 @@ python -m pytest rfkit/tests -q
 python -m rfkit.cli example --out /tmp/rfkit-example
 python -m rfkit.cli budget --json /tmp/budget.json --report /tmp/budget.txt
 python -m rfkit.cli g4-chart
+python -m rfkit.cli stackup --json /tmp/stackup.json --check-docs
 ```
 
 The example writes Touchstone files, a comparison report and an array state.
 **Everything it produces is synthetic**, built from a formula in
 `tools/rfkit/example.py`, and every trace carries `synthetic` in its provenance
 so it cannot later be read as a measurement.
+
+## 8. The stack-up every model shares
+
+Since 2026-10-03, decision 0009, the board stack-up is one file,
+`hardware/rev-a/stackup/reva-stackup.json`, read through `rfkit.stackup`. HFSS, ADS,
+scikit-rf and PyAEDT models take their substrate and copper values from it and never
+retype them; the SIM-001 builder in `tools/sim/` is the first. A trace loaded with
+`load_touchstone(path, source, stackup=fingerprint)` carries the fingerprint in its
+provenance; comparison reports print it, and warn when their inputs come from different
+stack-ups. How each tool reads the file is in `hardware/rev-a/stackup/README.md`
+section 6.

@@ -7,6 +7,7 @@
     python -m rfkit.cli state --channel 0=ch0.s2p --channel 1=ch1.s2p --f0 2.44e9
     python -m rfkit.cli budget --json budget.json --report budget.txt
     python -m rfkit.cli example --out /tmp/rfkit-example
+    python -m rfkit.cli stackup --json stackup.json --check-docs
 
 Every run writes machine readable JSON alongside the human readable report, and
 the JSON carries the provenance of every input, so a figure in a document can be
@@ -138,6 +139,33 @@ def cmd_budget(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_stackup(args: argparse.Namespace) -> int:
+    from . import stackup
+
+    st = stackup.load(args.file) if args.file else stackup.load()
+    cand = stackup.load_candidates()
+    text = "\n".join(f"## {name}\n\n{render(st, cand)}"
+                     for name, render in stackup.SECTIONS.items())
+    print(f"stack-up {st.fingerprint}, decision {st.raw['decision']}\n")
+    print(text)
+    summary = {
+        "stackup": st.fingerprint,
+        "label": "INITIALISATION ONLY: seeds and estimates, never final geometry",
+        "seeds": {k: stackup.seed(st, k) for k in st.constructions},
+        "sensitivity": {k: stackup.sensitivity(st, k) for k in st.constructions},
+        "patch_sanity": {k: stackup.patch_sanity(st, k) for k in st.constructions},
+        "sim001": stackup.sim001_parameters(st),
+    }
+    _write(json.dumps(summary, indent=2) + "\n", args.json, "json")
+    if args.write_docs or args.check_docs:
+        stale = stackup.check_docs(st, cand, write=args.write_docs)
+        for rel in stale:
+            print(f"{'rewrote' if args.write_docs else 'STALE'}: {rel}", file=sys.stderr)
+        if stale and args.check_docs and not args.write_docs:
+            return 1
+    return 0
+
+
 def cmd_example(args: argparse.Namespace) -> int:
     from .example import run_example
 
@@ -215,6 +243,15 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--json", type=Path, default=None)
     s.add_argument("--report", type=Path, default=None)
     s.set_defaults(func=cmd_state)
+
+    su = sub.add_parser("stackup", help="the Rev A stack-up: seeds, sensitivity, SIM-001 inputs")
+    su.add_argument("--file", type=Path, default=None, help="default: the canonical file")
+    su.add_argument("--json", type=Path, default=None)
+    su.add_argument("--check-docs", action="store_true",
+                    help="fail if a generated table in the documentation is stale")
+    su.add_argument("--write-docs", action="store_true",
+                    help="regenerate the tables in the documentation")
+    su.set_defaults(func=cmd_stackup)
 
     e = sub.add_parser("example", help="run the synthetic end to end example")
     e.add_argument("--out", type=Path, required=True)

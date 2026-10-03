@@ -96,12 +96,25 @@ cd tools && python -m rfkit.cli example --out /tmp/rfkit-example
 **Every number it produces is synthetic**, and every trace carries `synthetic` as its
 source.
 
+## The stack-up
+
+```bash
+python -m rfkit.cli stackup --json stackup.json --check-docs
+```
+
+Reads `hardware/rev-a/stackup/reva-stackup.json`, decision 0009, and prints the seeds,
+the tolerance sensitivity, the loss and patch sanity checks, and the SIM-001 inputs. Every
+width and length it prints is a seed or an estimate, labelled INITIALISATION ONLY.
+`--check-docs` fails if a generated table in the documentation no longer matches the file;
+`--write-docs` regenerates them.
+
 ## Modules
 
 | Module | Holds |
 | --- | --- |
 | `provenance` | where a trace came from, and its checksum |
 | `io` | Touchstone loading, and synthetic construction for tests |
+| `stackup` | the canonical Rev A stack-up: validation, SIM-001 seeds and inputs, sensitivity, and the generated documentation tables |
 | `grid` | shared band, common grid, refusal to extrapolate |
 | `metrics` | extraction at a point and over a band, phase on the circle |
 | `budget` | from an RF error to its array level consequence, and the derivation of every threshold |

@@ -42,6 +42,10 @@ class Provenance:
     f_stop_hz: float | None = None
     n_points: int | None = None
     calibration: str = "none"
+    #: Fingerprint of the stack-up the trace was simulated on or measured from,
+    #: ``rfkit.stackup.Stackup.fingerprint``. It ties a VNA file to the HFSS
+    #: model of the same board revision. None where no board is involved.
+    stackup: str | None = None
     loaded_at: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
     )
@@ -64,6 +68,20 @@ class Provenance:
     def summary(self) -> str:
         where = self.path if self.path else "in memory"
         return f"{self.source}:{where}"
+
+
+def stackup_mismatch(items) -> str | None:
+    """A warning when traces in one comparison come from different stack-ups.
+
+    ``items`` are :class:`Provenance` objects or their dictionaries. Traces with
+    no stack-up recorded are ignored, since synthetic traces have none.
+    """
+    seen = {(p.stackup if isinstance(p, Provenance) else p.get("stackup")) for p in items}
+    seen.discard(None)
+    if len(seen) > 1:
+        return ("WARNING: inputs come from different stack-ups, "
+                + ", ".join(sorted(seen)) + "; the difference includes the stack-up change")
+    return None
 
 
 def dump_provenance(items, path: Path | str) -> None:

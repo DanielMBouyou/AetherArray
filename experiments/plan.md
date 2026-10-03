@@ -1,7 +1,7 @@
 # Experiment plan
 
 - Status: in progress
-- Last reviewed: 2026-09-26
+- Last reviewed: 2026-10-03
 
 The last column says where each experiment runs; `docs/runbooks/register.md` holds the
 detail and the readiness of every school task.
@@ -30,6 +30,10 @@ starts immediately, and a hardware track constrained by purchases and fabricatio
 | 013 | simulation | Learned estimator for first calibration, as a control | ML-A, the learned control | 1 week | to do | `LOCAL` |
 | 014 | hardware | Unattended recalibration rig and its logging schema | ML-B, the drift dataset | 1 week then calendar time | to do | `EITHER` |
 | 015 | hardware | Learned drift prior against from scratch recalibration | **the project's central claim** | 2 weeks after 014 | to do | `LOCAL` |
+
+Simulation tasks that fix a design input, rather than test a hypothesis about the array,
+are numbered SIM-NNN. **SIM-001**, a 50 ohm microstrip on the stack-up of decision 0009, is
+ready and runs `LOCAL`, see `SIM-001-microstrip-50-ohm.md`.
 
 Experiments 012 to 015 come from `docs/architecture/ml-calibration.md` and decision
 0002. They are the learning track, and 015 is the one the project's research question

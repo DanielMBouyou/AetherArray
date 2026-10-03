@@ -1,7 +1,7 @@
 # What is established, assumed, or still to verify
 
 - Status: in progress
-- Last reviewed: 2026-09-26
+- Last reviewed: 2026-10-03
 
 ---
 
@@ -55,6 +55,10 @@
 | I19 | Is a calibration kit present, and are there adapters from N to the board's SMA plane? | EXP-004 observation O7 | **blocks calibrated hardware validation only.** It does not block simulation, schematic work or layout, which is the split decision 0004 makes explicit. Without a kit and adapters there is no calibrated measurement at the board reference plane. The kits named in the laboratory inventory are 3.5 mm and belong to a different instrument |
 | I20 | Which options are installed on the analyser? | EXP-004 observation O8 records the list verbatim | decides the echo strategy for EXP-005 and whether a spectrum cross check exists without a second instrument. **What the designations mean is now settled** against manufacturer sources on 2026-09-21, K1 spectrum analysis, K2 distance to fault, K3 time domain analysis, bibliography `[T1a]`. **Which of them are installed is not**, and O8 still records the list verbatim rather than looking for an expected entry |
 | I21 | Are the instruments in the laboratory inventory physically present? | look for them | every cross check in `docs/hardware/measurement-bench.md` is conditional on this. The measurement plan is built so that the observed analyser alone is sufficient |
+| I24 | What is the effective permittivity of each Rev A board at 2.44 GHz? | the model value from SIM-001; the board value from coupons C1 and C2 by the two line method, SCH-012 | the accuracy of every printed length. A priori the beamformer permittivity is known only to an assumed plus or minus 0.2, about three times what the 2.29 degree state phase requirement needs, decision 0009 |
+| I25 | Do channels on one beamformer board see different permittivity, through the 7628 glass weave? | channel by channel state phases at the bench, SCH-006, against the coupon value | whether coupons calibrate every channel. It is the one material effect a coupon cannot remove |
+| I26 | Does FR-4 loss keep the amplitude imbalance of one array state within 0.82 dB? | a simulation of the switched line channel, then the coupon attenuation | decision 0009, which reopens toward a low loss laminate if not; estimated at 0.59 to 0.86 dB for the longest state alone |
+| I27 | Where does the first antenna board's patch resonate? | its coupons and its measured reflection | whether a second antenna board is ordered; the two layer laminate brand is not fixed per order |
 
 Question I10 deserved to be asked bluntly, and the blunt answer was given: with an
 analogue array, no method in the calibration architecture needs programmable logic to

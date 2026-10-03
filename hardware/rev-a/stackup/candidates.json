@@ -1,0 +1,102 @@
+{
+  "schema": "aetherarray-stackup/1",
+  "id": "reva-stackup-candidates",
+  "revision": 1,
+  "status": "evidence",
+  "date": "2026-10-03",
+  "decision": "decisions/0009-rev-a-stack-up.md",
+  "design_frequency_ref": "decision 0004; read from rfkit.budget.F0_HZ",
+  "purpose": "Alternatives compared by decision 0009 and not selected. Evidence only: no simulation, layout or fabrication reads this file. The selected constructions are in reva-stackup.json.",
+  "sources": {
+    "V11": {"kind": "fabricator", "title": "JLCPCB, PCB Manufacturing and Assembly Capabilities", "url": "https://jlcpcb.com/capabilities/pcb-capabilities", "revision": "no date shown", "consulted": "2026-10-03"},
+    "V17": {"kind": "laminate_vendor", "title": "Rogers Corporation, RO4000 Series High Frequency Circuit Materials data sheet, RO4003C and RO4350B", "url": "https://www.rogerscorp.com/-/media/project/rogerscorp/documents/advanced-electronics-solutions/english/data-sheets/ro4000-laminates-ro4003c-and-ro4350b---data-sheet.pdf", "revision": "PUB 92-004, revised 080322", "consulted": "2026-10-03"},
+    "V19": {"kind": "fabricator", "title": "JLCPCB, High Frequency PCB", "url": "https://jlcpcb.com/pcb-fabrication/high-frequency-pcb", "revision": "no date shown", "consulted": "2026-10-03"},
+    "V20": {"kind": "fabricator", "title": "OSH Park, Four Layer service", "url": "https://docs.oshpark.com/services/four-layer/", "revision": "page shows 28-JAN-2026", "consulted": "2026-10-03"},
+    "V21": {"kind": "laminate_vendor", "title": "Isola, FR408HR Dk and Df tables", "url": "https://www.isola-group.com/wp-content/uploads/data-sheets/fr408hr-laminate-and-prepreg__Dk_Df_Tables.pdf", "revision": "Revision G, 2026-01-05", "consulted": "2026-10-03"},
+    "D0009": {"kind": "repository", "title": "Decision 0009, the Rev A stack-up", "url": "decisions/0009-rev-a-stack-up.md", "revision": "2026-10-03", "consulted": "2026-10-03"}
+  },
+  "materials": {
+    "copper": {
+      "kind": "conductor",
+      "designation": "electrodeposited copper",
+      "conductivity": {"value": 5.8e7, "unit": "S/m", "status": "assumed", "source": "D0009"}
+    },
+    "ro4350b": {
+      "kind": "dielectric",
+      "designation": "Rogers RO4350B, standard electrodeposited foil",
+      "permittivity": {"value": 3.66, "unit": "1", "status": "typical", "source": "V17", "frequency_hz": null, "method": "design Dk, differential phase length method, 8 to 40 GHz", "note": "process Dk is 3.48 plus or minus 0.05 at 10 GHz, clamped stripline; data sheet chart 2 reads about 3.75 near 2.5 GHz for a 20 mil core with standard foil"},
+      "loss_tangent": {"value": 0.0031, "unit": "1", "status": "typical", "source": "V17", "frequency_hz": 2.5e9, "method": "IPC-TM-650 2.5.5.5"}
+    },
+    "fr408hr_2113": {
+      "kind": "dielectric",
+      "designation": "Isola FR408HR, 2113 prepreg, resin content 57.5 per cent, spread glass",
+      "permittivity": {"value": 3.61, "unit": "1", "status": "typical", "source": "V21", "frequency_hz": 2.0e9, "method": "Bereskin stripline, per the Isola tables"},
+      "loss_tangent": {"value": 0.0090, "unit": "1", "status": "typical", "source": "V21", "frequency_hz": 2.0e9, "method": "Bereskin stripline, per the Isola tables"}
+    }
+  },
+  "constructions": {
+    "ro4350b_thin_2l": {
+      "board": "beamformer, RF laminate alternative",
+      "fabrication": {"fabricator": "JLCPCB", "process": "2 layer RO4350B, 0.51 mm core, finished 0.6 mm, 1 oz, ENIG", "service_tier": "RF laminate service, two layer only; controlled impedance not stated", "cost_class": "medium: from 47 USD on V19, 99.5 USD for 5 pieces within 10 x 10 cm in the 2023 launch article; no quote obtained"},
+      "layer_count": 2,
+      "finished_thickness": {"value": 0.6, "unit": "mm", "status": "nominal", "source": "V19"},
+      "layers": [
+        {"name": "L1", "kind": "conductor", "material": "copper", "role": "RF and everything else", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V19"}},
+        {"name": "CORE", "kind": "dielectric", "material": "ro4350b", "role": "RF substrate", "thickness": {"value": 0.508, "unit": "mm", "status": "nominal", "source": "V17"}},
+        {"name": "L2", "kind": "conductor", "material": "copper", "role": "ground, which control routing would have to cross", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V19"}}
+      ],
+      "rf_line": {"signal_layer": "L1", "reference_layer": "L2", "substrate_layers": ["CORE"]},
+      "rules": {"min_trace": {"value": 0.10, "unit": "mm", "status": "assumed", "source": "V11", "note": "FR-4 two layer figure; no RF laminate rule published"}}
+    },
+    "ro4350b_thick_2l": {
+      "board": "antenna, RF laminate alternative",
+      "fabrication": {"fabricator": "JLCPCB", "process": "2 layer RO4350B, 1.52 mm core, finished 1.65 mm, 1 oz, ENIG", "service_tier": "RF laminate service, two layer only", "cost_class": "medium to high for a board of about 260 x 85 mm; no quote obtained"},
+      "layer_count": 2,
+      "finished_thickness": {"value": 1.65, "unit": "mm", "status": "nominal", "source": "V19"},
+      "layers": [
+        {"name": "L1", "kind": "conductor", "material": "copper", "role": "patches and feeds", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V19"}},
+        {"name": "CORE", "kind": "dielectric", "material": "ro4350b", "role": "RF substrate", "thickness": {"value": 1.524, "unit": "mm", "status": "nominal", "source": "V17"}},
+        {"name": "L2", "kind": "conductor", "material": "copper", "role": "ground", "thickness": {"value": 0.035, "unit": "mm", "status": "nominal", "source": "V19"}}
+      ],
+      "rf_line": {"signal_layer": "L1", "reference_layer": "L2", "substrate_layers": ["CORE"]},
+      "rules": {"min_trace": {"value": 0.10, "unit": "mm", "status": "assumed", "source": "V11"}}
+    },
+    "fr408hr_4l": {
+      "board": "beamformer, named low loss FR-4 class alternative",
+      "fabrication": {"fabricator": "OSH Park", "process": "4 layer FR408HR, 1.6 mm, ENIG", "service_tier": "standard four layer service", "cost_class": "high against the budget: 10 USD per square inch for three copies, so about 120 USD for a 100 x 80 mm board", "supply_note": "a FR408HR shortage notice was posted on 2026-07-21"},
+      "layer_count": 4,
+      "finished_thickness": {"value": 1.6, "unit": "mm", "status": "nominal", "source": "V20"},
+      "layers": [
+        {"name": "L1", "kind": "conductor", "material": "copper", "role": "RF microstrip", "thickness": {"value": 0.0432, "unit": "mm", "status": "nominal", "source": "V20", "note": "1.7 mil, 1 oz clad plus plating"}},
+        {"name": "PP1", "kind": "dielectric", "material": "fr408hr_2113", "role": "RF substrate", "thickness": {"value": 0.2, "unit": "mm", "status": "nominal", "source": "V20", "note": "7.87 mil"}},
+        {"name": "L2", "kind": "conductor", "material": "copper", "role": "RF reference plane", "thickness": {"value": 0.0173, "unit": "mm", "status": "nominal", "source": "V20", "note": "0.68 mil"}}
+      ],
+      "rf_line": {"signal_layer": "L1", "reference_layer": "L2", "substrate_layers": ["PP1"]},
+      "rules": {"min_trace": {"value": 0.127, "unit": "mm", "status": "guaranteed", "source": "V20"}}
+    }
+  },
+  "tolerances": {
+    "ro4350b_thin_2l": {
+      "rf_dielectric_thickness": {"parameter": "h", "kind": "absolute", "minus": 0.0381, "plus": 0.0381, "unit": "mm", "status": "guaranteed", "source": "V17", "basis": "0.020 inch core, plus or minus 0.0015 inch"},
+      "rf_dielectric_permittivity": {"parameter": "er", "kind": "absolute", "minus": 0.05, "plus": 0.05, "unit": "1", "status": "guaranteed", "source": "V17", "basis": "process Dk tolerance; it bounds lot variation, not the gap between process and design Dk"},
+      "rf_copper_thickness": {"parameter": "t", "kind": "absolute", "minus": null, "plus": null, "unit": "mm", "status": "unbounded", "source": "V19", "note": "not published"},
+      "etched_width": {"parameter": "w", "kind": "relative", "minus": 0.20, "plus": 0.20, "unit": "1", "status": "assumed", "source": "V11", "basis": "FR-4 track width tolerance; none published for RF laminate"}
+    },
+    "ro4350b_thick_2l": {
+      "rf_dielectric_thickness": {"parameter": "h", "kind": "absolute", "minus": 0.1016, "plus": 0.1016, "unit": "mm", "status": "guaranteed", "source": "V17", "basis": "0.060 inch core, plus or minus 0.004 inch"},
+      "rf_dielectric_permittivity": {"parameter": "er", "kind": "absolute", "minus": 0.05, "plus": 0.05, "unit": "1", "status": "guaranteed", "source": "V17", "basis": "process Dk tolerance"},
+      "rf_copper_thickness": {"parameter": "t", "kind": "absolute", "minus": null, "plus": null, "unit": "mm", "status": "unbounded", "source": "V19", "note": "not published"},
+      "etched_width": {"parameter": "w", "kind": "relative", "minus": 0.20, "plus": 0.20, "unit": "1", "status": "assumed", "source": "V11", "basis": "FR-4 track width tolerance; none published for RF laminate"}
+    },
+    "fr408hr_4l": {
+      "rf_dielectric_thickness": {"parameter": "h", "kind": "absolute", "minus": 0.0202, "plus": 0.0202, "unit": "mm", "status": "guaranteed", "source": "V20", "basis": "plus or minus 0.797 mil on the 7.87 mil prepreg"},
+      "rf_dielectric_permittivity": {"parameter": "er", "kind": "absolute", "minus": 0.05, "plus": 0.08, "unit": "1", "status": "assumed", "source": "V21", "basis": "between the 2113 row, 3.61, the 2116 row, 3.66, and the 3.69 OSH Park published before 2022"},
+      "rf_copper_thickness": {"parameter": "t", "kind": "absolute", "minus": null, "plus": null, "unit": "mm", "status": "unbounded", "source": "V20", "note": "not published"},
+      "etched_width": {"parameter": "w", "kind": "relative", "minus": null, "plus": null, "unit": "1", "status": "unbounded", "source": "V20", "note": "not published"}
+    }
+  },
+  "simulation_model": {
+    "dielectric_dispersion": {"model": "frequency invariant", "status": "assumed", "source": "D0009"},
+    "copper_roughness": {"model": "smooth", "status": "assumed", "source": "D0009", "loss_factor_low": 1.0, "loss_factor_high": 2.0}
+  }
+}

@@ -44,8 +44,9 @@ design files to hold.
 
 **`tools/` holds code the repository runs on itself**, not code that is the subject
 of study. `tools/check-docs.sh` checks these conventions, `tools/runbooks/` builds and checks
-the school runbooks, and `tools/rfkit/` is the
-shared radio frequency data layer described in `docs/architecture/rf-data-layer.md`.
+the school runbooks, `tools/rfkit/` is the
+shared radio frequency data layer described in `docs/architecture/rf-data-layer.md`,
+and `tools/sim/` builds solver models from the canonical stack-up of decision 0009.
 Python dependencies are pinned in one file, `requirements.txt`, at the top level.
 If a second package list ever appears, delete it: two lists that disagree are worse
 than one that is out of date.
@@ -96,6 +97,9 @@ Empty cells are not allowed in comparison tables. Write `to measure` or
 - Decisions: `decisions/NNNN-short-title.md`, numbered continuously, never reused.
 - Experiments: `EXP-NNN-short-title`.
 - Results: `results/EXP-NNN/`, reusing the experiment identifier.
+- Simulation tasks that fix a design input rather than test a hypothesis about the array:
+  `experiments/SIM-NNN-short-title.md`, results in `results/SIM-NNN/`. Added for SIM-001 by
+  decision 0009.
 - Source notes: `research/notes/NNN-name.md`.
 
 ## 5. Mathematics, units and notation

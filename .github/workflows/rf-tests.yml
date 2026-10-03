@@ -34,3 +34,11 @@ jobs:
       - name: Run the error budget and threshold derivation
         working-directory: tools
         run: python -m rfkit.cli budget --trials 500 --json "${RUNNER_TEMP}/budget.json"
+
+      - name: Check the stack-up and the tables generated from it
+        working-directory: tools
+        run: python -m rfkit.cli stackup --json "${RUNNER_TEMP}/stackup.json" --check-docs
+
+      - name: Plan the SIM-001 model without AEDT
+        working-directory: tools
+        run: python sim/sim001_hfss.py --dry-run > "${RUNNER_TEMP}/sim001-plan.json"

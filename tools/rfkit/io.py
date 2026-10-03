@@ -53,6 +53,7 @@ class RfTrace:
             f_stop_hz=float(network.f[-1]),
             n_points=len(network.f),
             calibration=self.provenance.calibration,
+            stackup=self.provenance.stackup,
             note=(self.provenance.note + "; " + note).strip("; "),
         )
         return RfTrace(network=network, provenance=prov)
@@ -66,11 +67,14 @@ class RfTrace:
         )
 
 
-def load_touchstone(path: Path | str, source: str, note: str = "") -> RfTrace:
+def load_touchstone(path: Path | str, source: str, note: str = "",
+                    stackup: str | None = None) -> RfTrace:
     """Read a Touchstone file of any port count.
 
     ``source`` is required and not guessed. A trace whose origin is inferred
-    from a directory name is a trace whose origin is not recorded.
+    from a directory name is a trace whose origin is not recorded. ``stackup``
+    is the fingerprint of the board revision the file was simulated on or
+    measured from, as ``rfkit.stackup.load().fingerprint`` prints it.
     """
     path = Path(path)
     if not TOUCHSTONE_SUFFIX.match(path.suffix):
@@ -86,6 +90,7 @@ def load_touchstone(path: Path | str, source: str, note: str = "") -> RfTrace:
         f_start_hz=float(network.f[0]),
         f_stop_hz=float(network.f[-1]),
         n_points=len(network.f),
+        stackup=stackup,
         note=note,
     )
     return RfTrace(network=network, provenance=prov)

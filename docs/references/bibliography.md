@@ -1,7 +1,7 @@
 # Bibliography
 
 - Status: in progress, first entries verified
-- Last reviewed: 2026-09-26
+- Last reviewed: 2026-10-03
 
 `research/state-of-the-art.md` holds the leads and why they matter. This file holds
 the exact reference once it has been checked.
@@ -180,6 +180,146 @@ readable datasheet here.
      optiSLang, Workbench, beta features and Linux not supported. No port limit is
      stated. Sets the escalation rule of docs/runbooks/README.md; another release
      must be checked again.
+```
+
+## Fabrication, laminate and simulator sources, checked 2026-10-03
+
+Consulted for decision 0009, the Rev A stack-up. Fabricator pages carry no revision
+unless one is shown; prices and lead times are as published on that date and are
+re-checked before any order. No instant quote could be obtained from any fabricator,
+because every quote page needs a browser. Values in `hardware/rev-a/stackup/*.json`
+cite these identifiers.
+
+```
+[V8]  JLCPCB. Controlled Impedance PCB Layer Stackup. https://jlcpcb.com/impedance
+      Consulted 2026-10-03, no date shown. Fabricator documentation.
+      Published 4 layer 1.6 mm stack-ups. JLC04161H-7628: 7628 prepreg 0.2104 mm,
+      core 1.065 mm, outer copper 0.035 mm, inner 0.0152 mm. Prepreg permittivity
+      7628 4.4, 3313 4.1, 1080 3.91, 2116 4.16; core 4.6; no frequency stated.
+      Solder mask in the calculator: 1.2 mil over substrate, 0.6 mil over trace,
+      permittivity 3.8. "The PCB will be strictly produced in accordance with the
+      following stackup." Impedance control at no extra charge.
+
+[V9]  JLCPCB. User Guide to the JLCPCB Impedance Calculator.
+      https://jlcpcb.com/help/article/user-guide-to-the-jlcpcb-impedance-calculator
+      Consulted 2026-10-03, last updated 2026-09-16. Fabricator documentation.
+      Calculations for 4 to 8 layers assume Nan Ya NP-155F core; resin content 7628
+      49 %, 3313 57 %, 1080 67 %, 2116 54 %; NP-155F cores above 0.70 mm 4.43,
+      which conflicts with the 4.6 of V8. Outer copper 1.6 mil in the calculator,
+      against 0.035 mm on V8. "For reference only".
+
+[V10] JLCPCB. Multi-Layer PCB Standard Laminated Structures.
+      https://jlcpcb.com/help/article/multi-layer-pcb-standard-laminated-structures
+      Consulted 2026-10-03, last updated 2026-09-09. Fabricator documentation.
+      Stack-up copper is finished copper; permittivity values are deduced, not the
+      supplier's raw data; free impedance testing with a tolerance of 20 %.
+
+[V11] JLCPCB. PCB Manufacturing and Assembly Capabilities.
+      https://jlcpcb.com/capabilities/pcb-capabilities
+      Consulted 2026-10-03, no date shown. Fabricator documentation.
+      Impedance control on 4 layers and more, tolerance 10 %; board thickness
+      tolerance 10 % at 1.0 mm and above; track width tolerance 20 %; minimum
+      trace and space 0.09 mm multilayer and 0.10 mm two layer at 1 oz; via
+      0.15 mm hole, 0.25 mm pad; annular ring 0.15 mm minimum; finishes HASL,
+      ENIG, OSP; solder mask at least 10 um, permittivity 3.8; FR-4 two layer
+      permittivity 4.5, no frequency; laminates "from suppliers including Nan Ya,
+      KB, Shengyi"; maximum board 670 x 600 mm two layer, 663 x 593 mm four layer.
+
+[V12] Nan Ya Plastics. NP-155F data sheet.
+      https://cclqc.npc.com.tw/cclfile/pdt/Datasheet_NP-155F_1761637097200.pdf
+      Consulted 2026-10-03, issued 2008-03-01, new 2025-10-27. Laminate vendor.
+      IPC-TM-650 2.5.5.9, at 1 GHz: 0.062 inch laminate permittivity 4.2 to 4.4,
+      loss tangent 0.014 to 0.016; 0.020 inch laminate 3.9 to 4.1 and 0.012 to
+      0.014. "Data shown are nominal values for reference only." Nothing at
+      2.44 GHz.
+
+[V13] JLCPCB. Surface finish. https://jlcpcb.com/help/article/jlcpcb-surface-finish
+      Consulted 2026-10-03, last updated 2026-09-09. Fabricator documentation.
+      ENIG nickel about 3 to 6 um.
+
+[V14] JLCPCB. UL certification. https://jlcpcb.com/help/article/ul-certification
+      Consulted 2026-10-03, last updated 2026-09-09. Fabricator documentation.
+      Laminates by UL class: two layer NP-140F, KB-6164, S1141 or S1000H;
+      multilayer NP-140F, NP-155F, KB-6164, S1141, KB-6165, S1000H or S1000-2M.
+      So no single brand is guaranteed for an order.
+
+[V15] Kingboard, issued by Matrix USA. KB6167F data sheet, Rev 20200616, as
+      hosted by OSH Park.
+      https://docs.oshpark.com/resources/two-layer-substrate-Kingboard-KB6167F.pdf
+      Consulted 2026-10-03. Laminate vendor. 7628 x 8 construction, permittivity
+      4.6 at 2 GHz, loss tangent 0.014. One edge of the FR-4 permittivity bounds.
+
+[V16] JLCPCB. PCB fabrication services and production time.
+      https://jlcpcb.com/help/article/pcb-fabrication-services-and-production-time
+      Consulted 2026-10-03, last updated 2026-09-09. Fabricator documentation.
+      Up to 100 x 100 mm, 1.6 mm: two layer 5 pieces 24 hours; four layer 5
+      pieces 2 to 5 days.
+
+[V17] Rogers Corporation. RO4000 Series High Frequency Circuit Materials, data
+      sheet RO4003C and RO4350B. PUB 92-004, revised 080322.
+      https://www.rogerscorp.com/-/media/project/rogerscorp/documents/advanced-electronics-solutions/english/data-sheets/ro4000-laminates-ro4003c-and-ro4350b---data-sheet.pdf
+      Consulted 2026-10-03. Laminate vendor.
+      Process permittivity, IPC-TM-650 2.5.5.5 clamped stripline at 10 GHz:
+      RO4003C 3.38 +/- 0.05, RO4350B 3.48 +/- 0.05. Design permittivity,
+      differential phase length method, 8 to 40 GHz: 3.55 and 3.66. Loss tangent
+      at 2.5 GHz: 0.0021 and 0.0031. Thickness tolerances: 0.020 inch +/- 0.0015,
+      0.060 inch +/- 0.004. Chart 2 reads higher than the design value near
+      2.5 GHz for 20 mil standard foil, read from an image, about 3.75 for RO4350B.
+
+[V18] Rogers Corporation. Copper Foils for High Frequency Circuit Materials.
+      PUB 92-243.
+      https://www.rogerscorp.com/-/media/project/rogerscorp/documents/advanced-electronics-solutions/english/properties---detailed-characteristics/copper-foils-for-high-frequency-circuit-materials.pdf
+      Consulted 2026-10-03. Laminate vendor.
+      Typical Sq, dielectric side, standard electrodeposited foil on RO4000:
+      1 oz 3.2 um, 1/2 oz 2.8 um; LoPro 0.9 um. Rough foil raises the apparent
+      permittivity, which the Hall and Huray model does not account for. The only
+      roughness data found for any candidate; none for FR-4 at the fabricators.
+
+[V19] JLCPCB. High Frequency PCB. https://jlcpcb.com/pcb-fabrication/high-frequency-pcb
+      Consulted 2026-10-03, no date shown; and the launch article of 2023-03-09,
+      https://jlcpcb.com/blog/112-rogers-pcb-ptfe-pcb-high-frequency-pcb-is-available-on-jlcpcb
+      Fabricator documentation. RO4350B two layer only, cores 0.51, 0.76 and
+      1.52 mm, finished 0.6, 0.9 and 1.65 mm, 1 oz, ENIG, 4 to 5 days, "starting
+      at just $47"; in 2023, 99.5 USD for 5 pieces within 10 x 10 cm. No RO4003C,
+      no hybrid, no stated impedance control.
+
+[V20] OSH Park. Four Layer service. https://docs.oshpark.com/services/four-layer/
+      Consulted 2026-10-03, page dated 28-JAN-2026. Fabricator documentation.
+      FR408HR; L1 to L2 2113 prepreg 7.87 mil +/- 0.797 mil; L1 copper 1.7 mil;
+      permittivity 3.61 at 1 GHz; ENIG; 5 mil trace and space; 10 USD per square
+      inch for three copies; ships in 9 to 14 days. A FR408HR shortage notice was
+      posted on 2026-07-21,
+      https://docs.oshpark.com/troubleshooting/mixed-material-4-layer-stackup/
+
+[V21] Isola. FR408HR Dk and Df tables, Revision G, 2026-01-05.
+      https://www.isola-group.com/wp-content/uploads/data-sheets/fr408hr-laminate-and-prepreg__Dk_Df_Tables.pdf
+      Consulted 2026-10-03. Laminate vendor. 2113 prepreg, 57.5 % resin: 3.61 and
+      0.0090 at 2 GHz; 2116 at 55 %: 3.66. All FR408HR glass is spread weave.
+
+[V22] Eurocircuits. RF pool service. https://www.eurocircuits.com/services/rf-pool/
+      Consulted 2026-10-03, no date shown. Fabricator documentation.
+      RO4350B pooled from one piece, two layer 0.25 and 0.50 mm, four layer
+      1.00 mm with FR-4 prepreg; 5 working days. Build-up and price only in the
+      online configurator, so not evaluated.
+
+[V23] Ansys. HFSS Student Limitations. Ansys Electromagnetics Suite 2025 R2 help,
+      https://ansyshelp.ansys.com/public/Views/Secured/Electronics/v252/en/Subsystems/HFSS/Content/GettingStarted/HFSSStudentLimitations.htm
+      Consulted 2026-10-03, manufacturer documentation. The same limits as V7,
+      and also "optiSLang and LSDSO not supported", which the 2025 R1 page states
+      too and V7 omitted. The release installed here is 2025 R2. Touchstone and
+      port solution export are not mentioned either way.
+
+[V24] AISLER. 4 layer 1.6 mm stack-up, staff page on the vendor's documentation
+      site. https://community.aisler.net/t/4-layers-1-6mm-35-m-stackup/5457
+      Consulted 2026-10-03, edited 2026-05-12. Fabricator documentation.
+      Prepreg permittivity "4.0 - 4.3", no frequency, no laminate named, impedance
+      "only provide a basic orientation". Screened out: no named laminate.
+
+[V25] PCBWay. High frequency PCB page and quick order form.
+      https://www.pcbway.com/pcb_prototype/What_is_High_Frequency__HF__PCB_.html
+      Consulted 2026-10-03, no date shown. Fabricator documentation.
+      RO4003C and RO4350B offered, 7 to 10 days; no price obtained, no minimum
+      quantity or impedance statement found. Screened out on missing evidence.
 ```
 
 ## Instrument sources, checked 2026-09-20

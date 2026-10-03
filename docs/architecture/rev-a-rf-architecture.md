@@ -1,7 +1,7 @@
 # Rev A RF architecture
 
-- Status: selected and captured, frequency frozen, dimensions blocked on the stack-up
-- Last reviewed: 2026-09-25
+- Status: selected and captured, frequency frozen, stack-up selected by decision 0009, dimensions wait on SIM-001 and layout
+- Last reviewed: 2026-10-03
 
 > **Captured on 2026-09-18.** The schematic is in `hardware/rev-a/`, the electrical
 > rule check is clean, and the bill of materials in `hardware/rev-a/bom/` is exported
@@ -67,8 +67,8 @@ Separated because the architecture is only as good as the first column.
 | PE4259 insertion loss at 2.4 GHz is near 0.5 dB rather than the quoted 0.35 dB | the quoted figure is not stated at this frequency | measurement | chain loss estimate moves by about 1 dB |
 | Switch state to state repeatability is better than the measurement floor | CMOS switches are deterministic | EXP-005 and repeated switching | **if false, the drift experiment measures the switches, not the array** |
 | Detector drift over a laboratory swing of a few degrees is far below the $\pm 0.5$ dB quoted over the full range | the quoted figure spans 125 degrees Celsius | the curve is strongly nonlinear near room temperature | more correction needed, which R4 already makes possible. **Inferred, not quoted: the data sheet gives the range figure, not a per degree slope** |
-| FR4 line loss at 2.4 GHz is tolerable over the delay lengths needed | common practice at this frequency | electromagnetic simulation | more loss spread between phase states |
-| Two board fabrication fits the cost share already budgeted | both boards are two layer and simple | quotation | budget pressure, see section 6 |
+| FR4 line loss at 2.4 GHz is tolerable over the delay lengths needed | common practice at this frequency | electromagnetic simulation | more loss spread between phase states. **Estimated on 2026-10-03 by decision 0009**: on the selected FR-4 the longest state alone loses 0.59 to 0.86 dB more than the shortest, against the 0.82 dB imbalance allowance of decision 0007. Recorded as a known limitation with a reopening trigger |
+| Two board fabrication fits the cost share already budgeted | both boards are two layer and simple | quotation | budget pressure, see section 6. **Revised on 2026-10-03 by decision 0009**: the beamformer board is four layer, for an inner ground and the control routing of decision 0005; the antenna board stays two layer; both standard FR-4 at a low cost class. No quote obtained |
 
 ---
 

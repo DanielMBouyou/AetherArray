@@ -1,13 +1,13 @@
 # Layout constraints carried by the symbolic transmission lines
 
-- Status: in progress, frequency frozen, physical lengths blocked on the stack-up
-- Last reviewed: 2026-09-23
+- Status: in progress, frequency frozen, stack-up selected by decision 0009, physical lengths wait on SIM-001 and layout
+- Last reviewed: 2026-10-03
 
 The schematic contains 30 `TLINE_SYMBOLIC` parts. They are not components to buy.
 Each one is a piece of printed line whose **electrical** length is fixed by the
 design and whose **physical** length cannot be computed until the board stack-up is
-known. The working frequency was the other input and is now fixed. This file is the
-contract between the two.
+known. The working frequency was the other input and is now fixed. The stack-up is now
+selected too, decision 0009. This file is the contract between the two.
 
 Each symbol carries the constraint in its own fields, so it travels with the part
 rather than living only in prose:
@@ -37,12 +37,13 @@ l = \frac{\theta}{360}\,\lambda_g,
 | $f_0$ | working frequency, **fixed at 2.44 GHz by decision 0004** | Hz |
 | $\varepsilon_{\text{eff}}$ | effective permittivity of the microstrip, from the stack-up and the trace width | dimensionless |
 
-Worked example, to make the scale concrete and for no other purpose. On 1.6 mm FR4
-with $\varepsilon_{\text{eff}} \approx 3.3$ at the now fixed $f_0 = 2.44$ GHz, the
-guided wavelength would be about 68 mm, so a 45 degree section about 8.5 mm and a
-180 degree section about 34 mm. **Those numbers remain an illustration, not a
-specification.** The frequency is now fixed, but the permittivity is still assumed, and
-the real lengths follow from the fabricated stack-up and are computed at layout.
+The scale, for feasibility only, is generated from the selected stack-up in
+`hardware/rev-a/stackup/README.md` section 5, labelled INITIALISATION ONLY there.
+**No length in this file is computed from it.** The effective permittivity a layout
+uses comes from SIM-001 and, once a board exists, from its coupons; lengths are
+computed at layout from that, never from the analytical seed. Replaced on 2026-10-03:
+an earlier example here assumed a generic 1.6 mm FR-4, which is not the selected
+construction.
 
 ## 2. The constraint is a difference, not a length
 
@@ -97,11 +98,15 @@ microstrip is about 5 degrees, which sets the scale of what matters.
 > They need the guided wavelength, which needs the stack-up: the substrate, its
 > thickness and the resulting effective permittivity. The frequency is no longer the
 > blocker. Nothing here may be computed until a stack-up is chosen.
+>
+> **Updated on 2026-10-03 by decision 0009: the stack-up is chosen,
+> `reva-stackup-r1`.** The lengths now wait on SIM-001, which gives the 50 ohm width and
+> the model's effective permittivity, and on layout.
 
 | Item | Blocked on | Effect |
 | --- | --- | --- |
-| $\varepsilon_{\text{eff}}$ and the stack-up | choice of fabricator and material | every physical length, and the trace widths |
-| Trace width for 50 ohm and 70.7 ohm | stack-up | layout |
+| $\varepsilon_{\text{eff}}$ | the stack-up is chosen, decision 0009; the model value comes from SIM-001, the board value from its coupons | every physical length |
+| Trace width for 50 ohm and 70.7 ohm | SIM-001, starting from the seeds of decision 0009 | layout |
 | Matching tolerance between channels | a decision, not a measurement | layout acceptance |
 
 None of these changes the schematic. That separation is the reason decision 0003 could

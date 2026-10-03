@@ -1,7 +1,7 @@
 # Hardware design files
 
 - Status: in progress, Rev A schematic captured
-- Last reviewed: 2026-09-28
+- Last reviewed: 2026-10-03
 
 The electronic design files live here. The reasoning behind them is in `docs/`, and
 the choices that constrain them are in `decisions/`.
@@ -9,6 +9,7 @@ the choices that constrain them are in `decisions/`.
 | Directory | Contents |
 | --- | --- |
 | `rev-a/` | The first beamformer board: schematic, project symbol library, generator, bill of materials and electrical rule check output |
+| `rev-a/stackup/` | The canonical stack-up of both Rev A boards, decision 0009, and the candidates it was compared with |
 
 ## Why this is separate from `docs/hardware/`
 
@@ -21,6 +22,6 @@ hard to read and the design files get hard to find.
 - No board layout. Decision 0003 only authorises the schematic.
 - No antenna board. Rev A is two boards, and only the beamformer board is drawn so far.
   The antenna board is a separate design. The frequency it needs is settled, 2.44 GHz
-  by decision 0004, so what its geometry waits on now is the board stack up and the
-  patch design itself.
+  by decision 0004, and the stack-up is chosen by decision 0009, so what
+  its geometry waits on now is the patch design itself.
 - No footprints assigned. Footprints get chosen along with the layout.
