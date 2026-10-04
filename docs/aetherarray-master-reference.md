@@ -2,7 +2,8 @@
 
 - Status: draft, first issue, for review by the project owner
 - Last reviewed: 2026-10-04
-- Document version: 0.1
+- Document version: 0.2: second pass making integrated sensing and communication (ISAC) a
+  first class technical concept, section 10bis; first issue was version 0.1 at commit `de61a40`
 - Repository baseline: `main@33086b9395f57f4056a3205e7e8174d50defd500`, committed 2026-10-04,
   "Add SIM-001 analysis tooling". This is one commit newer than `e772a25`, the baseline named
   in the request for this document, so the newer commit is the one described.
@@ -11,7 +12,9 @@
   rfkit/tests -q`, Python 3.12 with `requirements.txt`. This count is a snapshot of 2026-10-04,
   not a property of the project; rerun the command for the current figure.
 - How this document was produced: written from the repository contents at the baseline above,
-  with external literature and the IEEE contest rules researched on 2026-10-04. It records no
+  with external literature and the IEEE contest rules researched on 2026-10-04; the ISAC pass of
+  version 0.2 found no newer repository evidence, and the official IEEE and publisher sites were
+  still unreachable from this environment, so no citation could be upgraded to a primary read. It records no
   new decision and changes no existing one. Where it proposes something, it says so.
 
 > **The one paragraph to read if you read nothing else.** AetherArray is a four element,
@@ -35,9 +38,9 @@
 | Reader | Start with | Then read | You can skip |
 | --- | --- | --- | --- |
 | RF or microwave professor | Part 0, Part III, Part IV, Part XI | Part V, Part VI, Part X | Part I sections 1 to 4 |
-| Antenna professor | Part 0, sections 6, 7, 9, 10, Part IX | sections 22, 58, Part VI | sections 17 to 20 |
-| Signal processing or machine learning professor | Part 0, sections 11 and 12, Part VIII | Part II, Part XV, section 57 | Part IV |
-| IEEE AP-S or MTT-S mentor, competition jury | Part 0, Part IX, Part X, Part XXI | Part VIII section 44, Part XVII | Part I |
+| Antenna professor | Part 0, sections 6, 7, 9, 10, 10bis, Part IX | sections 22, 58, Part VI | sections 17 to 20 |
+| Signal processing or machine learning professor | Part 0, sections 10bis, 11 and 12, Part VIII | Part II, Part XV, section 57 | Part IV |
+| IEEE AP-S or MTT-S mentor, competition jury | Part 0, section 10bis, Part IX, Part X, Part XXI | Part VIII section 44, Part XVII | Part I |
 | Student joining the project | Part I in full, then Part 0 again | Part III, Part V, Appendix L | nothing |
 | Hardware or RF recruiter | Part 0, Part X, Part XII | Part III, Part V | Part XV |
 
@@ -81,7 +84,8 @@ disagree, the generated table is right.
 
 ### Figures
 
-Diagrams are written as Mermaid or as text inside code fences, so that they live in the
+Figure 19, in section 10bis.7, is the signature figure: one aperture, two ISAC functions, one
+calibration layer. Diagrams are written as Mermaid or as text inside code fences, so that they live in the
 repository as source. GitHub renders Mermaid directly; a PDF conversion needs a Mermaid filter.
 The three plotted figures in `docs/figures/` are produced by
 `python tools/docs/master_reference_figures.py`. All three are **[analytical]** illustrations of
@@ -92,7 +96,7 @@ the ideal array factor: no coupling, no element pattern, no simulated or measure
 ## Contents
 
 - [Part 0. Executive overview](#part-0-executive-overview)
-- [Part I. Course and theory refresher](#part-i-course-and-theory-refresher): 1 Electromagnetic waves; 2 Transmission lines; 3 S-parameters; 4 The vector network analyser; 5 Microstrip; 6 Antennas; 7 Phased arrays; 8 Quantised phase shifting; 9 Null steering and interference rejection; 10 Mutual coupling; 11 Calibration; 12 Drift
+- [Part I. Course and theory refresher](#part-i-course-and-theory-refresher): 1 Electromagnetic waves; 2 Transmission lines; 3 S-parameters; 4 The vector network analyser; 5 Microstrip; 6 Antennas; 7 Phased arrays; 8 Quantised phase shifting; 9 Null steering and interference rejection; 10 Mutual coupling; 10bis Integrated sensing and communication (ISAC); 11 Calibration; 12 Drift
 - [Part II. The engineering problem](#part-ii-the-engineering-problem): 13 Why this matters at scale
 - [Part III. What exactly is being built](#part-iii-what-exactly-is-being-built): 14 Why two boards; 15 Beamformer channels; 16 Enable and terminate; 17 The RF detector; 18 Temperature sensors; 19 The DE1-SoC; 20 Grounding and the digital to RF interface
 - [Part IV. PCB stack-up and RF physical design](#part-iv-pcb-stack-up-and-rf-physical-design): 21 Beamformer stack-up; 22 Antenna stack-up; 23 Why not a Rogers laminate; 24 Solder mask and roughness; 25 Coupons
@@ -144,7 +148,8 @@ problem: an explicit physical forward model supplies the likelihood, and a prior
 the array's own drift history is meant to make recalibration cheaper. A competition facing
 demonstrator for integrated sensing and communication would use the calibrated array as a
 reconfigurable receiver that steers towards a wanted commercial transmitter, suppresses an
-interfering one, and senses changes in a room lit by ambient Wi-Fi or Bluetooth signals.
+interfering one, and senses changes in a room lit by ambient Wi-Fi or Bluetooth signals: a
+shared aperture, opportunistic form of ISAC, defined and bounded in section 10bis.
 
 Sources: decisions 0003, 0004, 0005 and 0009; `docs/architecture/rev-a-rf-architecture.md`;
 `docs/architecture/control-architecture.md`; `docs/mathematics/inverse-calibration.md`;
@@ -276,7 +281,8 @@ reception and sensing, and it makes the value of calibration visible as a null t
 when the hardware drifts and comes back when the array is recalibrated. Layer 3 is a way of
 showing layer 2, and it must not redefine it. In particular, the demonstrator does not turn the
 project into "machine learning beamforming": beam synthesis on Rev A is an exact enumeration
-(section 38), and the learned component stays a prior over drift.
+(section 38), and the learned component stays a prior over drift. Figure 19 in section 10bis.7
+shows the same structure from the ISAC side: one aperture, two functions, one calibration layer.
 
 ## 0.5 Where the project stands, in one paragraph
 
@@ -1404,6 +1410,305 @@ provided the coupling does not drift. Only if that also fails are coupling terms
 raising the unknowns to order $2N^2$, 32 at $N = 4$, and reopening every measurement count in
 the repository (decision 0008, "What follows from each outcome"). No coupling has been
 simulated or measured; the antenna geometry it needs is not designed.
+
+## 10bis. Integrated sensing and communication (ISAC)
+
+This section is numbered 10bis so that the numbering of everything after it is unchanged. It
+teaches the concept once; Part VIII applies it to the learning track and Part IX to the contest.
+
+### 10bis.1 What ISAC means
+
+**ISAC stands for integrated sensing and communication.** It names the family of radio systems in
+which communication and sensing share resources that used to be separate: spectrum, waveform,
+transmitter, antenna aperture, RF front end, processing, or simply the same electromagnetic field
+[L32]. Communication tries to deliver information from a transmitter to a receiver through the
+propagation channel. Sensing tries to infer something about the propagation channel itself: where
+reflectors are, whether something moved, whether a person is present. Both functions observe the
+same field; they ask opposite questions of it. For communication the environment is a nuisance to
+be equalised or rejected; for sensing it is the signal.
+
+ISAC is therefore not "Wi-Fi used as radar". That is one example among several, and not the one
+most of the literature is about.
+
+### 10bis.2 Three architectural families
+
+| Family | What is shared | Typical form | AetherArray |
+| --- | --- | --- | --- |
+| **A. Joint waveform, joint transmitter** | the transmitted waveform is designed for both data and sensing | OFDM signals whose echoes are processed for range and Doppler while carrying data [L42]; automotive and 6G joint waveform design [L32] | **not implemented**; Rev A has no transmitter of its own |
+| **B. Shared RF hardware and spatial aperture** | the same antenna array, RF chain and spatial processing serve both functions | an array that alternates or combines communication beams and sensing beams | **yes, proposed**: one four element reconfigurable receiving array for both |
+| **C. Opportunistic, passive sensing** | the field of an existing transmitter, whose waveform the sensing receiver did not design | passive bistatic radar with broadcast or Wi-Fi illuminators [L33, L43]; Wi-Fi sensing from channel measurements [L34] | **yes, proposed**: commercial Wi-Fi or Bluetooth sources as illuminators |
+
+The proposed AetherArray demonstrator belongs to **B and C together**: a receive only array whose
+aperture and RF chain are shared between communication oriented interference rejection and
+opportunistic sensing, lit by transmitters it does not control. It does nothing in family A.
+
+A reconfigurable array is valuable in family B for a simple reason: spatial selectivity helps both
+functions. Communication wants gain towards the wanted source and nulls towards interferers;
+sensing wants to look at the environment from several spatial viewpoints. An array that can be
+switched between patterns on one clock edge serves both with the same hardware, and the same
+calibration determines how good both are.
+
+### 10bis.3 Illuminators of opportunity
+
+An **illuminator of opportunity** is a transmitter that exists for its own purpose, a Wi-Fi access
+point, a Bluetooth beacon, a phone in hotspot mode, whose field a separate receiver exploits for
+sensing. Nothing is transmitted for the sensing function.
+
+```text
+     COTS transmitter (Wi-Fi AP, BLE beacon, hotspot phone)
+            |
+            +-------- direct path ------------------------------\
+            |                                                     \
+            +--> person or object --> scattered / reflected path --> AetherArray (receive only)
+            |                                                     /
+            +--> walls, floor, furniture --> other multipath ----/
+                       person in a path: shadowing; edges: diffraction; motion: time variation
+```
+
+*Figure 20: an illuminator of opportunity. The array receives the direct path and every scattered
+path; a person changes some of them.*
+
+The field at the array is a sum over propagation paths. For a narrowband signal at one frequency,
+the complex signal at element $n$ is approximately
+
+```math
+s_n(t) = \sum_{\ell} \alpha_\ell(t)\, e^{\,j n k d \sin\theta_\ell(t)}\, c(t) + \nu_n(t)
+```
+
+| Symbol | Meaning |
+| --- | --- |
+| $\ell$ | propagation path: direct, single reflection, multiple reflection, diffraction |
+| $\alpha_\ell(t)$ | complex amplitude of path $\ell$: path loss, reflection coefficient, delay phase |
+| $\theta_\ell(t)$ | arrival direction of path $\ell$ |
+| $c(t)$ | the transmitter's own signal, unknown and bursty for Wi-Fi or Bluetooth |
+| $\nu_n(t)$ | noise and other sources |
+
+The physical mechanisms a person or an object changes:
+
+| Mechanism | Effect on the paths |
+| --- | --- |
+| reflection and scattering | adds a path or changes its amplitude and direction |
+| shadowing | attenuates a path that crosses the body, often the direct path |
+| diffraction | redistributes field around edges, including the body's |
+| multipath change | changes the relative phases of paths, so their sum fluctuates |
+| motion | makes $\alpha_\ell(t)$ and $\theta_\ell(t)$ vary in time; a moving reflector shifts phase by $2\pi$ per wavelength of path length change, 123 mm at 2.44 GHz |
+
+The narrowband model ignores delay spread across a Wi-Fi channel's bandwidth; that is acceptable
+for a power based receiver and is an approximation, stated as such.
+
+| Advantages | Limitations, and what they imply for experiments |
+| --- | --- |
+| low cost: no transmitter to build | the waveform is not controlled: power, timing and channel are the transmitter's; experiments must record them or use ratio features |
+| spectrum reuse: no extra emission | traffic and power vary: a Wi-Fi AP's activity depends on its users; idle periods give few readings |
+| commercial compatibility, as the AP-S rules require | synchronisation is limited: the receiver does not know when bursts arrive unless it decodes them |
+| receive only hardware | multipath depends on geometry: results are specific to a room and a placement; the transmitter and array positions must be recorded and repeated |
+| educational clarity | repeatability is hard: people near the setup, including the operator, change the field; EXP-005 Phase B measures exactly this |
+| | sensing performance depends on where the transmitter is: a person who blocks no strong path is nearly invisible |
+
+### 10bis.4 One field, two problems
+
+Write the combiner output for commanded state $\mathbf{x}$ as $r(t) = \mathbf{u}^{\mathsf{T}}\mathbf{s}(t)$,
+with realised weights $\mathbf{u} = \mathbf{H}_t\,\mathbf{w}(\mathbf{x})$: the nominal weights of the
+state, passed through the array state of section 0.3. Its mean power is
+
+```math
+P(\mathbf{x}, t) = \mathbb{E}\left[\lvert r(t) \rvert^{2}\right] = \mathbf{u}^{\mathsf{T}}\,\mathbf{R}(t)\,\mathbf{u}^{*},
+\qquad
+\mathbf{R}(t) = \mathbb{E}\left[\mathbf{s}(t)\,\mathbf{s}(t)^{\mathsf{H}}\right]
+```
+
+| Symbol | Meaning | Unit |
+| --- | --- | --- |
+| $\mathbf{s}(t)$ | element signals, the field sampled by the four antennas | $\sqrt{\text{W}}$, complex |
+| $\mathbf{R}(t)$ | spatial covariance of the received field: $4 \times 4$, Hermitian; it is set by the sources and the environment | W |
+| $\mathbf{u}$ | realised complex weights of the commanded state | dimensionless |
+
+The expectation is over the transmitter's signal and the noise, over an averaging time short
+compared with environmental change.
+
+**Communication** asks which state best serves a wanted transmitter against an interferer. With
+both sources present, $\mathbf{R} = \mathbf{R}_D + \mathbf{R}_I + \mathbf{R}_\nu$, and the desired and
+interfering powers are $P_D(\mathbf{x}) = \mathbf{u}^{\mathsf{T}}\mathbf{R}_D\mathbf{u}^{*}$ and
+$P_I(\mathbf{x}) = \mathbf{u}^{\mathsf{T}}\mathbf{R}_I\mathbf{u}^{*}$. In free space with one path each,
+these reduce to the $P_D$ and $P_I$ of section 9.2; indoors each source contributes several paths,
+and a null placed on an interferer's direct path does not null its reflections. The objective
+$J(\mathbf{x}) = P_D(\mathbf{x}) - \lambda P_I(\mathbf{x})$, or a signal to interference ratio, is
+meaningful only when the receiver can separate the two powers, by channel, time or transmitter
+identity (section 47). Beam steering, interference suppression and null placement are then a choice
+among the reachable states, $8^{N-1} = 512$ relative configurations, or 820 with the enable bits, and
+the choice is an exact enumeration against the estimated array state (section 8.3). **ISAC creates no
+reason to use machine learning for beam synthesis**; section 38 explains why once, and nothing in this
+section changes it.
+
+**Sensing** asks whether, and how, the environment changed. Cycling through $K$ receive states gives a
+vector
+
+```math
+\mathbf{p}(t) = \left[ P(\mathbf{x}_1, t), \dots, P(\mathbf{x}_K, t) \right]^{\mathsf{T}},
+\qquad
+P(\mathbf{x}_k, t) = \mathbf{u}_k^{\mathsf{T}}\,\mathbf{R}(t)\,\mathbf{u}_k^{*}
+```
+
+Each pattern weights the paths differently: a beam towards the door sees a reflection from the door
+strongly, a pattern with a null towards the transmitter suppresses the direct path and leaves the
+scattered field visible. A person who adds, removes or moves a path changes $\mathbf{R}(t)$, and the
+change appears in the components of $\mathbf{p}$ whose patterns look that way.
+
+**Why several patterns carry more information than one received signal strength.** Each power is a
+linear function of the entries of $\mathbf{R}(t)$, because $\mathbf{u}^{\mathsf{T}}\mathbf{R}\mathbf{u}^{*}
+= \sum_{m,n} u_m R_{mn} u_n^{*}$. A Hermitian $4 \times 4$ matrix has 16 real parameters. A single
+omnidirectional element measures one of them, a diagonal entry: the total power, which says almost
+nothing about where the field comes from. $K$ well chosen patterns measure up to 16 independent
+combinations, including the cross terms $R_{mn}$ that hold the relative phases between elements and
+therefore the arrival directions. The pattern diverse power vector is a sketch of the spatial
+covariance obtained without coherent receivers per channel. This is a statement about what can in
+principle be observed; which patterns are informative in a given room, and whether 16 are needed, is
+an experimental question.
+
+### 10bis.5 The calibration problem both functions share
+
+The measurement does not depend on the environment alone. In the notation of this document,
+
+```math
+y_t = G\!\left(\mathcal{E}_t, \mathbf{H}_t, \mathbf{x}_t\right) + \epsilon_t
+```
+
+where $\mathcal{E}_t$ is the state of the environment and the sources, $\mathbf{H}_t$ the array state,
+$\mathbf{x}_t$ the commanded state and $\epsilon_t$ the measurement noise. For power readings, section
+10bis.4 makes $G$ explicit, and with the diagonal array state of Rev A something sharper follows.
+Substituting $\mathbf{u}_k = \mathbf{H}_t\mathbf{w}_k$:
+
+```math
+P(\mathbf{x}_k, t) = \mathbf{w}_k^{\mathsf{T}}\,\tilde{\mathbf{R}}(t)\,\mathbf{w}_k^{*},
+\qquad
+\tilde{\mathbf{R}}(t) = \mathbf{H}_t\,\mathbf{R}(t)\,\mathbf{H}_t^{\mathsf{H}},
+\qquad
+\tilde{R}_{mn} = h_m(t)\, R_{mn}(t)\, h_n^{*}(t)
+```
+
+**The measurements depend on the environment and on the hardware only through their product
+$\tilde{\mathbf{R}}$.** A phase drift $\delta\phi_m$ on channel $m$ rotates every cross term
+$\tilde{R}_{mn}$ by $\delta\phi_m$, which is exactly what a change of arrival direction does. A gain
+drift on channel $m$ scales its row and column, which is what a change in a path's strength does. From
+the sensing data alone, hardware drift and environmental change are not separable:
+
+> **A measured change is not necessarily an environmental change.**
+
+| Source of a change in $\mathbf{p}(t)$ | Examples |
+| --- | --- |
+| environment, the signal | a person enters, an object moves, a reflector shifts, shadowing or multipath changes |
+| hardware, the confound | amplitude drift, phase drift, temperature, switch path variation, detector and acquisition drift |
+
+The two can be told apart only with information from outside the sensing data: an independent
+measurement of $\mathbf{H}_t$ (a calibration), or prior knowledge of how each evolves. Their time
+scales help: people move in seconds, thermal drift takes minutes to hours. They do not settle it, since
+a moved piece of furniture is a slow environmental change. First order, the confound is visible in the
+differential of the same expression:
+
+```math
+\delta P_k \approx \underbrace{\mathbf{u}_k^{\mathsf{T}}\,\delta\mathbf{R}\,\mathbf{u}_k^{*}}_{\text{environment}}
+\;+\; \underbrace{2\,\operatorname{Re}\!\left\{ \left(\delta\mathbf{H}_t\mathbf{w}_k\right)^{\mathsf{T}}\mathbf{R}\,\mathbf{u}_k^{*} \right\}}_{\text{hardware}}
+```
+
+Both terms land in the same $K$ numbers.
+
+The consequence for each function:
+
+```text
+ COMM :  H_t drifts --> realised weights wrong --> beam off, null filled --> desired / interferer
+                                                                               discrimination worse
+ SENSE:  H_t drifts --> spatial signature p(t) changes --> a change detector reports an event
+                                                           that is hardware drift, not the room
+```
+
+This is the bridge between the three threads of the project. Calibration research estimates
+$\mathbf{H}_t$. The learning track tries to estimate it with fewer new measurements by using its
+history. ISAC is where an error in $\mathbf{H}_t$ becomes a wrong communication beam and a false
+sensing event.
+
+**A consequence for calibration in a room.** An over the air calibration against an ambient source
+estimates, per channel, the product of the hardware term and the incident field at that element,
+$h_n s_n$, not $h_n$ alone. In free space with a single path from a known direction, the field term is
+known and can be divided out; indoors it contains multipath that the calibration absorbs, and that
+changes when the room changes. A calibration done that way is a channel calibration, useful for the
+communication mode in that room, but it is not the hardware state the drift prior is about. Hardware
+labels for the learning track therefore come from the conducted route or a controlled probe
+(sections 11.3 and 16), and any calibration done at a demonstration has to say which of the two it is.
+
+### 10bis.6 Where the learning contribution sits
+
+Part VIII defines the method; this paragraph only places it. The diagonal state
+$\mathbf{H}_t = \operatorname{diag}(h_i(t))$ with $h_i(t) = g_i(t)\, e^{\,j\,\delta\phi_i(t)}$ is
+unchanged, and so is the Bayesian structure:
+
+```math
+p\!\left(\mathbf{H}_t \mid y, \mathbf{x}, \mathcal{D}\right) \;\propto\; p\!\left(y \mid \mathbf{H}_t, \mathbf{x}\right)\, p_{\theta}\!\left(\mathbf{H}_t \mid \mathcal{D}\right)
+```
+
+with the learned temporal prior $p_\theta$, the physical likelihood $p(y \mid \mathbf{H}_t, \mathbf{x})$,
+and the posterior as the corrected estimate after sparse new measurements. Its purpose in an ISAC
+system is not "learning produces a beam command". It is:
+
+```text
+ drift history --> better prior on H_t now --> fewer new calibration measurements
+               --> calibrated spatial response restored sooner --> COMM and SENSE more reliable
+```
+
+$M_{\text{required}}$, the number of new physical measurements needed to recover a target (section
+0.2), has two system level forms here. **Communication:** at equal recovered desired to interferer
+performance, $M_{\text{sparse}} < M_{\text{full}}$ would support the research claim. **Sensing:** at
+equal stability or detection performance, the same inequality could support it too, but only once the
+sensing metric is defined before the experiment, for example the false alarm rate of a change detector
+during periods with no environmental change. No such result exists.
+
+### 10bis.7 Why this is ISAC, and in what narrow sense
+
+The proposed system is, precisely:
+
+> **a reconfigurable receiving array sharing the same spatial RF aperture and hardware between
+> communication oriented interference rejection and opportunistic environmental sensing.**
+
+The two functions share the antenna array, the phase reconfigurable RF chain, the calibration, the
+measurement infrastructure, the deterministic control and the spatial patterns. The illuminator stays
+external and commercial. That is a legitimate member of families B and C, and a deliberately narrow
+one. AetherArray is **not** a 5G or 6G ISAC base station, not a joint waveform design system, not a
+monostatic radar, not a range and Doppler radar (a power detector measures neither delay nor
+frequency shift), and not a centimetre level localisation system. Calling it any of those would be
+semantic inflation.
+
+```mermaid
+flowchart TB
+    SRC["COTS RF source(s)<br/>Wi-Fi AP, BLE beacon, hotspot"] --> FIELD["propagation field<br/>direct path + multipath, R(t)"]
+    FIELD -->|"COMM path: wanted TX, interferer"| ARR
+    FIELD -->|"SENSE path: scattering by people, objects"| ARR
+    ARR["AetherArray<br/>4 elements, 512 relative states, receive only"] --> HW["hardware state H_t<br/>drifts with time and temperature"]
+    HW --> CAL["calibration layer<br/>estimate of H_t beneath both functions"]
+    CAL --> BEAM["beam / null selection<br/>exact enumeration"]
+    CAL --> SENS["spatial sensing<br/>pattern-diverse vector p(t)"]
+    BEAM --> CP["communication performance<br/>desired vs interferer"]
+    SENS --> EI["environment inference<br/>change / presence"]
+    subgraph PRIOR["Recalibration with a learned prior"]
+        HIST["history D"] --> LP["learned prior<br/>p_theta(H_t | history)"]
+        NEWM["sparse new RF measurements"] --> POST["posterior over H_t"]
+        LP --> POST
+    end
+    POST -->|"corrected estimate"| CAL
+```
+
+*Figure 19: the signature figure. One RF aperture, two ISAC functions, one calibration layer beneath
+both, and the learned prior as a way to restore that layer with fewer new measurements.*
+
+### 10bis.8 ISAC claims and their evidence
+
+| Claim | Type | Current status | Evidence today | What would establish it |
+| --- | --- | --- | --- | --- |
+| the array can steer a receive response | theoretical, simulation | **analytical only** | array factor, sections 7 and 8; no simulation of the real geometry, no hardware | an HFSS model of the array (EXP-011, SIM-008) and a measured pattern change between states (EXP-007 to EXP-009) |
+| the array can suppress an interferer while keeping the wanted link | system level | **not established** | the ideal theory of section 9; the N = 4 feasibility gate is not written or run | the gate (section 50), then a physical desired and interferer experiment with a source separating receiver |
+| pattern diverse power vectors contain sensing information | plausible, literature supported in other forms | **not demonstrated on AetherArray** | the observability argument of 10bis.4; Wi-Fi sensing literature with different receivers [L34] | a repeated, controlled sensing experiment with a pre-registered task and error rate |
+| hardware drift degrades sensing stability | physical hypothesis | **unmeasured** | the confound $\tilde{\mathbf{R}} = \mathbf{H}\mathbf{R}\mathbf{H}^{\mathsf{H}}$ of 10bis.5; no drift has been measured | repeated sensing with a static room, calibrated against uncalibrated, over a drift period |
+| drift degrades null depth | physical hypothesis, analytical | **unmeasured** | $\sigma^2/N$, section 9.4 | a measured null over time, with temperature logged |
+| a learned prior reduces new recalibration measurements | research hypothesis | **unproven; gated by G2** | none; nothing built | a held out temporal experiment against baselines A to D, section 42 |
+| the system qualifies as ISAC in families B and C | definitional | **true by design, narrow** | 10bis.7 | not an empirical claim; it holds if both modes run on the shared aperture |
 
 ## 11. Calibration
 
@@ -3331,8 +3636,10 @@ EXP-015 names it, but **nothing is implemented**.
 
 ## 44. Why machine learning becomes useful in the ISAC demonstrator
 
-The AP-S demonstrator, if pursued (Part IX), is where the value of calibration, and therefore of
-cheaper recalibration, becomes visible to someone who is not an RF engineer.
+Section 10bis.5 derives why both ISAC functions depend on the array state and 10bis.6 places the
+learning contribution; this section only says what that looks like in a demonstration. The AP-S
+demonstrator, if pursued (Part IX), is where the value of calibration, and therefore of cheaper
+recalibration, becomes visible to someone who is not an RF engineer.
 
 **Communication mode.** A null placed on an interferer is deep only while the array state is
 accurately known (section 9.4).
@@ -3351,10 +3658,9 @@ accurately known (section 9.4).
                         (stale H_t)         (full, or sparse with learned prior: count M)
 ```
 
-**Sensing mode.** The receive patterns used as sensing features change for two reasons: the
-environment changed, which is the signal, or the hardware drifted, which is a confound. With a
-calibrated array, a change in the response is more likely to reflect the environment; with a
-drifting one, hardware change can look like a person moving.
+**Sensing mode.** Hardware drift and environmental change reach the sensing features through the
+same product $\mathbf{H}_t\mathbf{R}(t)\mathbf{H}_t^{\mathsf{H}}$, so drift can be read as a person moving
+(section 10bis.5).
 
 The claim the demonstrator can carry is therefore:
 
@@ -3426,18 +3732,20 @@ it appears to confuse the build funds with the stipend.
 
 ## 46. Why AetherArray fits, and what is missing
 
-| AP-S requirement | AetherArray capability | Current status | Missing work | Evidence required before claiming it |
-| --- | --- | --- | --- | --- |
-| reconfigurable receiving antenna | 4 elements, 3-bit phase, enable per channel, 512 relative states | designed; schematic captured; not built | patch design, re-capture, fabrication | a measured pattern change between commanded states |
-| beam steering | progressive phase by 45 degree steps | analytical | as above | measured beam direction against prediction, EXP-007 to EXP-009 |
-| interference suppression | null placement by enumeration | analytical; feasibility not studied | N = 4 feasibility gate (section 50); receiver choice | measured suppression of a real interferer with the wanted link maintained |
-| sensing of environmental change | pattern diversity features | concept only | protocol, classifier, venue robustness | a repeatable detection result with a declared error rate |
-| dynamic mode switching | the FPGA applies any state on one clock edge | specified; no gateware | gateware, HPS software | a demonstrated switch with timing recorded |
-| real time metrics | the record stream and an inference loop on the HPS | specified | dashboard | live operation |
-| calibration under drift | the research of Part VIII | formalised; nothing implemented | everything from EXP-005 to EXP-015 | measured null degradation and recovery, with counts |
-| educational reproducibility | public repository, runbooks, generated documentation | strong | replication guide for the contest format | an outsider following the instructions |
-| budget | about 62 EUR of parts, estimated before decision 0005's additions, plus controller | estimated, not re-costed, no quote | full system costing in US dollars | an itemised bill of materials |
-| physical demonstrator | Rev A | not fabricated | the whole hardware path of Part XVIII | a working system shipped to Kyoto |
+Each official requirement is traced to the physical function it asks for (section 10bis), to how
+AetherArray would provide it, to a metric, and to the evidence that exists and that is missing.
+
+| Official requirement | Physical function | AetherArray implementation | Measurable metric | Current evidence | Missing evidence |
+| --- | --- | --- | --- | --- | --- |
+| reconfigurable receiving antenna system | spatially selective reception, section 7 | 4 elements, 3-bit phase, enable per channel, 512 relative states; receive only, passive chain | pattern change between commanded states | analytical; schematic captured; not built | patch design, re-capture, fabrication, a measured pattern |
+| communication: main beam to the wanted TX | coherent gain towards $	heta_D$, sections 7.3 and 10bis.4 | exact enumeration against the estimated array state | $P_D$ against the ideal steered value | analytical | EXP-007 to EXP-009; a source separating receiver |
+| communication: nulls or polarisation against interference | suppression of $P_I$ with the link kept, sections 9 and 10bis.4 | null placement by enumeration; polarisation gated (section 51) | $P_I$ suppression; SIR or packet success, if the receiver separates sources | ideal theory only | N = 4 feasibility gate (section 50); a measured desired and interferer experiment |
+| sensing with ambient illuminators | inference on the multipath field, sections 10bis.3 and 10bis.4 | pattern diverse power vector $\mathbf{p}(t)$ over $K$ states | detection or false alarm rate of a pre-registered task | observability argument only | protocol, classifier, controlled repeated experiment |
+| dynamic switching between modes | shared aperture, family B | the FPGA applies any state on one clock edge | switching time, recorded | specified; no gateware | gateware and HPS software |
+| real time metrics | a live estimate of the field and the array | record stream and inference on the HPS | dashboard latency | specified | the dashboard |
+| (not an official requirement) robustness to drift | the shared calibration layer, section 10bis.5 | Part VIII: full recalibration, and the learned prior as research extension | null depth or sensing false alarms before and after recalibration; $M_{	ext{required}}$ | formalised only | EXP-005 to EXP-015 |
+| educational material and replication | explanation and reproducibility | public repository, runbooks, generated documentation, Part I | an outsider replicates | strong for documentation | the contest's replication guide |
+| total cost below US$1,500 | | about 62 EUR of parts estimated before decision 0005's additions, plus controller and receiver | itemised bill of materials | estimated, not re-costed, no quote | full system costing |
 
 The fit is genuine in three respects: a receiving, reconfigurable array is exactly what Rev A is;
 the 2.4 GHz band is where the allowed commercial transmitters operate; and the communication
@@ -3470,8 +3778,11 @@ states.
 
 **Procedure, as proposed.**
 
-1. Estimate the array state $\hat{\mathbf{H}}_t$ (Part VIII), using the wanted transmitter, at a
-   known position, as the calibration source.
+1. Estimate the array state $\hat{\mathbf{H}}_t$ (Part VIII). If the wanted transmitter is used as the
+   calibration source over the air, what is estimated is the product of hardware and incident field,
+   $h_n s_n$, a channel calibration valid in that room (section 10bis.5); it equals the hardware state
+   only for a dominant direct path from a known direction, or when the hardware state comes from a
+   conducted reference.
 2. Estimate or know $\theta_D$ and $\theta_I$.
 3. Enumerate all 512 relative states, or 820 with the enable bits, computing $P_D$ and $P_I$ from
    $\hat{\mathbf{H}}_t$ and an element pattern model; choose the best.
@@ -3520,26 +3831,12 @@ plot is what makes drift and recalibration visible (section 52).
 
 *Figure 16: the proposed sensing mode.*
 
-A commercial transmitter illuminates the room; people and objects scatter part of its signal; the
-array receives the direct path plus the scattered paths. Each receive pattern weights those paths
-differently. Cycling through $K$ patterns, a few beams pointing in different directions and
-perhaps a few nulled patterns, gives a feature vector
-
-```math
-\mathbf{p}(t) = \left[ P_1(t), \dots, P_K(t) \right],
-\qquad
-P_k(t) = \left\lvert \sum_{\text{paths } \ell} \alpha_\ell(t)\, \mathbf{a}(\theta_\ell)^{\mathsf{H}} \mathbf{H}_t \mathbf{w}_k \right\rvert^{2}
-```
-
-| Symbol | Meaning |
-| --- | --- |
-| $\mathbf{w}_k$ | nominal weights of pattern $k$ |
-| $\alpha_\ell(t)$, $\theta_\ell$ | complex amplitude and arrival direction of propagation path $\ell$, which a person changes |
-| $\mathbf{H}_t$ | the array state, which drift changes |
-
-The expression shows the confound directly: $P_k$ changes if the environment changes the paths,
-and also if the hardware changes $\mathbf{H}_t$. Calibration is what lets a change in $\mathbf{p}$
-be attributed to the room.
+The physics is in section 10bis: the illuminator and its paths in 10bis.3, the pattern diverse
+vector $\mathbf{p}(t)$ and why it carries more than one received signal strength in 10bis.4, and the
+confound with hardware drift in 10bis.5. What this section adds is the demonstration design. A few
+beams pointing in different directions and a few patterns nulled towards the transmitter, so that
+the scattered field is not swamped by the direct path, would form the $K$ states. Calibration is what
+lets a change in $\mathbf{p}$ be attributed to the room.
 
 Candidate tasks, in increasing difficulty: room empty or occupied; a person moving or still; a
 person in the left, centre or right zone. **The simplest reproducible task is preferable** to an
@@ -3674,6 +3971,19 @@ flowchart TB
 | 5 | a full recalibration and its count | the full method at its own minimum, not padded |
 | 6 | a sparse recalibration with the learned prior and its smaller count, if the research supports it | if the prior does not help, the demonstration says so; the comparison is the result |
 | 7 | sensing on the calibrated array | the task's error rate is stated |
+
+**The demonstration must stand without the learning extension.** Steps 1 to 5 and 7 use only the
+classical calibration and the exact enumeration; step 6 is the research overlay. If the learned prior
+is not ready, or does not help, the demonstration still shows an ISAC receiver, its dependence on
+calibration, and a full recalibration restoring it. The calibration overlay is
+
+```text
+ drift --> COMM and SENSE degrade --> full recalibration baseline (count M_full)
+                                 \--> learned prior sparse recalibration (count M_sparse), research
+```
+
+and each recalibration shown must say whether it estimated the hardware state or a room dependent
+channel (section 10bis.5).
 
 The exact implementation will evolve. No value in this sequence is known today.
 
@@ -4446,12 +4756,15 @@ classical, with the learned prior presented as ongoing research, would still be 
 | HFSS | Ansys High Frequency Structure Simulator, a finite element full wave solver |
 | HPS | hard processor system: the ARM processor inside the Cyclone V SoC |
 | identifiability | whether parameters can in principle be determined from the available measurements |
+| illuminator of opportunity | a transmitter operating for its own purpose whose field a separate receiver uses for sensing |
 | insertion loss | the loss a component adds in a matched system, $-20\log_{10}\lvert S_{21}\rvert$ |
-| ISAC | integrated sensing and communication: one radio system serving both functions |
+| ISAC | integrated sensing and communication: systems sharing spectrum, waveform, hardware, aperture or field between communication and sensing; three families in section 10bis.2 |
 | isolation | attenuation of a switch between its common port and its off throw |
 | Kalman filter | the recursive Bayesian estimator for linear Gaussian state space models |
 | likelihood | probability of the observed data given the parameters; here, the physical forward model |
 | microstrip | a strip conductor over a grounded dielectric |
+| multipath | the arrival of one transmitter's signal at the receiver by several propagation paths |
+| passive bistatic radar | sensing with a receiver separated from a transmitter it does not control |
 | MTT-S | IEEE Microwave Theory and Technology Society |
 | null | a direction of near total cancellation in a pattern |
 | PE4259-63 | the pSemi SPDT RF switch used throughout Rev A |
@@ -4474,6 +4787,7 @@ classical, with the learned prior presented as ongoing research, would still be 
 | SIM-NNN | a simulation task that fixes a design input |
 | SINR, SIR | signal to interference plus noise ratio; signal to interference ratio |
 | SMA | a threaded coaxial connector family used on the boards |
+| spatial covariance $\mathbf{R}$ | the $4 \times 4$ matrix of correlations between element signals; all power measurements through any pattern are linear in it |
 | SPDT | single pole double throw switch |
 | stack-up | the layer construction of a printed circuit board |
 | state correlated error | a measurement error that depends on the commanded beam state, and so imitates a calibration coefficient |
@@ -4495,7 +4809,8 @@ classical, with the learned prior presented as ongoing research, would still be 
 | a calibration testbed with ground truth and logged drift | an AI beamformer: beam synthesis is exact enumeration |
 | a four element phased array with three bit phase control | a neural network antenna |
 | a hybrid problem: explicit physical likelihood, learned temporal prior | a replacement for HFSS, ADS or the analyser |
-| a potential AP-S ISAC demonstrator, proposed and not yet decided | a production antenna for any company's product |
+| a potential AP-S ISAC demonstrator, proposed and not yet decided: shared aperture plus opportunistic sensing | a production antenna for any company's product |
+| a narrow, receive only member of ISAC families B and C | a joint waveform ISAC system, a monostatic or range and Doppler radar, or a localisation system |
 | a public lab notebook with pre-registered rules | a claim that four elements prove large array behaviour |
 | a platform that will report a negative result if the prior does not help | a completed experimental result: nothing is built or measured |
 
@@ -4531,7 +4846,9 @@ calibrated planes. Their agreement, judged by rules fixed before the data, is th
 array's drift. The likelihood stays physical; beam selection stays exact. At $N = 4$, learning cannot
 honestly reduce first calibration counts, so the claim is restricted to recalibration.
 
-**7. What does the AP-S demonstrator add?** A setting where calibration's value is visible to anyone:
+**7. What does the AP-S demonstrator add?** A narrow but genuine form of ISAC, one receive aperture
+shared between interference rejection and opportunistic sensing (section 10bis), in which
+calibration's value is visible to anyone:
 a null on an interferer that fills when the hardware drifts and returns when the array is
 recalibrated, with the measurement count shown, plus sensing that is only trustworthy on calibrated
 hardware. It tests the idea in public; it does not change the research question.
@@ -4806,6 +5123,17 @@ Found while writing this document. None is resolved here; each needs its owner's
     analyser travels to the venue.
 11. *`ansys-aedt-core` is not pinned* in `requirements.txt`, so the SIM-001 environment is recorded
     only in session notes.
+12. *Over the air calibration in a room is not a hardware calibration.* Found in the ISAC pass,
+    version 0.2. The power forward model of `docs/mathematics/inverse-calibration.md` section 2 and
+    the G4 test of decision 0008 assume a single far field probe at broadside. A demonstration
+    calibration against an ambient transmitter at another angle, with multipath, estimates the
+    product $h_n s_n$ of hardware and incident field (section 10bis.5). It would also trigger decision
+    0008's reopening condition "the probe position of the bench changes from broadside". How the
+    demonstrator calibrates, and what its calibration means, needs a decision before it is designed.
+13. *One experiment's noise is the other's signal.* EXP-005 Phase B treats the effect of a person
+    moving as part of the repeatability floor; in the sensing mode that effect is the signal. The floor
+    used to judge drift must be measured in a controlled, unoccupied configuration, and the two uses
+    of the same measurement kept apart.
 
 **Stale or superseded text outside decision records.** Decision records are kept as written by
 convention; these other documents could carry a supersession note.
@@ -4965,6 +5293,8 @@ details and consultation dates.
 - [L36] J. M. Mateos-Ramos, C. Häger, M. F. Keskin, L. Le Magoarou, H. Wymeersch, "Model-based end-to-end learning for multi-target integrated sensing and communication under hardware impairments," *IEEE Trans. Wireless Commun.*, 24(3), 2574-2589, 2025.
 - [L37] H. Chen et al., "Mismatch analysis and cooperative calibration of array beam patterns for ISAC systems," arXiv:2602.01293, 2026; preprint.
 - [L38] J. M. Mateos-Ramos et al., "Unsupervised end-to-end array calibration for multi-target ISAC," arXiv:2604.00806, 2026; preprint.
+- [L42] C. Sturm, W. Wiesbeck, "Waveform design and signal processing aspects for fusion of wireless communications and radar sensing," *Proc. IEEE*, 99(7), 1236-1259, 2011.
+- [L43] H. D. Griffiths, C. J. Baker, "Passive coherent location radar systems. Part 1: performance prediction," *IEE Proc. Radar, Sonar and Navigation*, 152(3), 153-159, 2005.
 - [L39] E. J. Candès, X. Li, M. Soltanolkotabi, "Phase retrieval via Wirtinger flow: theory and algorithms," *IEEE Trans. Inf. Theory*, 61(4), 1985-2007, 2015.
 
 ### IEEE contest and society pages, snippet only, accessed 2026-10-04
@@ -4991,7 +5321,17 @@ A self review, written so that the weak sections are named rather than hidden.
 | AP-S jury | Part IX states the official requirements separately from the response, shows why nulls make calibration visible, and names the receiver gap and the schedule risk | contest facts are snippet level; no feasibility numbers, sensing data or receiver choice exist; the team and mentor are not recorded; schedule is the dominant risk |
 | hardware recruiter | real skills are visible and attributable: stack-up selection from fabricator data, error budgeting, pre-registered experiments, a scripted schematic, PyAEDT tooling, a tested RF library, FPGA timing design | nothing has been fabricated, assembled, brought up or measured; gateware and layout skills are specified, not yet demonstrated |
 
+**The ISAC pass, read from five angles (version 0.2).**
+
+| Reader | Question | Answer, and remaining weakness |
+| --- | --- | --- |
+| RF professor | does the ISAC explanation have electromagnetic meaning? | yes: the field is a sum of paths, the array samples it, every power is a quadratic form of the spatial covariance (10bis.3, 10bis.4); weakness: narrowband model, no delay spread, no measured multipath |
+| signal processing professor | is the sensing formulation defensible? | the observability statement and the confound $\tilde{\mathbf{R}} = \mathbf{H}\mathbf{R}\mathbf{H}^{\mathsf{H}}$ are exact for the diagonal model; weakness: no detector, no false alarm model, no data, bursty sources not modelled |
+| ML professor | is learning solving a genuine temporal inference problem? | yes: estimating a slowly drifting hidden state from sparse measurements, with a physical likelihood; the ISAC setting adds the attribution problem of 10bis.5 but no new reason for a learned beamformer |
+| AP-S reviewer | is the contest implementation linked to the official problem? | section 46 traces every official requirement to a physical function, an implementation and a metric; weakness: snippet level rules, no receiver choice, no feasibility numbers |
+| skeptical engineer | does every claim map to evidence or a labelled future experiment? | section 10bis.8 lists each ISAC claim with its status and the experiment that would establish it; none is established today |
+
 **Sections where current evidence is insufficient, by design of this document:** 6.4 and 22 (antenna
 performance), 15.3 (switch behaviour), 17 (detector chain performance), 37 (drift protocol), 40 to 43
-(learning), 45 to 52 (the demonstrator), and every row of Part X that reads NOT STARTED.
+(learning), 10bis.4 to 10bis.6 and 45 to 52 (ISAC and the demonstrator), and every row of Part X that reads NOT STARTED.
 
