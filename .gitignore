@@ -164,3 +164,8 @@ lightning_logs/
 *.onnx
 *.npz
 *.npy
+
+# ---------------------------------------------------------------------------
+# Documentation builds (reproducible: python tools/docs/build_typst_edition.py)
+# ---------------------------------------------------------------------------
+docs/build/

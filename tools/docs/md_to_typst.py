@@ -1,18 +1,25 @@
 """Convert docs/aetherarray-master-reference.md into the Typst project.
 
-The Typst edition lives in docs/typst/aetherarray-master-reference/. This script did
-the one-time migration of the prose into chapters/, appendices/ and backmatter/, and
-it still owns everything under generated/ (the stack-up tables that rfkit generates),
-figures/mermaid/*.mmd (the diagram sources) and bibliography.yml.
+Source policy:
+  - docs/aetherarray-master-reference.md is the canonical scientific and content source;
+  - docs/typst/aetherarray-master-reference/ is the editable publication and layout
+    edition generated from it;
+  - content and scientific corrections are normally made in the Markdown and then
+    propagated to Typst; hand edits of the Typst files are meant mainly for layout and
+    publication work.
 
-    python tools/docs/md_to_typst.py              # write every file
+    python tools/docs/md_to_typst.py              # create missing files, keep existing ones
     python tools/docs/md_to_typst.py --generated  # rewrite generated/ only
+    python tools/docs/md_to_typst.py --force      # overwrite hand-editable files as well
 
-The prose files are meant to be edited by hand once migrated: rerunning the full
-conversion overwrites them, so it refuses to touch an existing chapter file unless
---force is given. The generated/ files are always rewritten and must not be edited by
-hand. After changing a stack-up table, run `python -m rfkit.cli stackup --write-docs`
-from tools/ and then this script with --generated.
+Hand-editable files are the prose under chapters/, appendices/ and backmatter/,
+bibliography.yml and figures/mermaid/*.mmd. Without --force an existing one is never
+touched. With --force every one that would change is listed in a warning on standard
+error before anything is written: review or back up that diff first, because hand
+edits are lost. The generated/ files (stack-up tables that rfkit generates) are always
+rewritten and must not be edited by hand. After changing a stack-up table, run
+`python -m rfkit.cli stackup --write-docs` from tools/ and then this script with
+--generated.
 
 No scientific content is added, removed or reworded: text, equations, tables, caveats
 and captions are carried over as they are. The only editorial additions are Typst
@@ -601,10 +608,33 @@ def split_sections(blocks):
     return files
 
 
+def write_editable(files: dict[Path, str], force: bool) -> list[Path]:
+    """Write hand-editable files: new ones always, changed ones only with force."""
+    changed = [p for p, t in files.items() if p.exists() and p.read_text(encoding="utf-8") != t]
+    if changed and force:
+        print("WARNING: --force overwrites these hand-editable files, and any hand edits in "
+              "them are lost. Review or back up the diff first (git diff, git stash).",
+              file=sys.stderr)
+        for p in changed:
+            print(f"  overwriting {p.relative_to(REPO)}", file=sys.stderr)
+    written = []
+    for p, t in files.items():
+        if p.exists() and p.read_text(encoding="utf-8") == t:
+            continue
+        if p in changed and not force:
+            print(f"kept, differs from the Markdown (use --force to overwrite): {p.relative_to(REPO)}")
+            continue
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(t, encoding="utf-8")
+        written.append(p)
+    return written
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--generated", action="store_true", help="rewrite generated/ only")
-    ap.add_argument("--force", action="store_true", help="overwrite hand-editable files")
+    ap.add_argument("--force", action="store_true",
+                    help="overwrite hand-editable files (lists them in a warning first)")
     args = ap.parse_args()
 
     md = SRC.read_text(encoding="utf-8").split("\n")
@@ -630,13 +660,12 @@ def main() -> None:
     labels = set(ctx.labels)
 
     em = Emitter(ctx, OUT / "figures")
-    written = []
+    editable: dict[Path, str] = {}
     for name, bl in sections:
         if name == "backmatter/references":
             heading = bl[0]
             intro, groups = parse_references(bl[1:], ctx)
-            if not args.generated:
-                (OUT / "bibliography.yml").write_text(yaml_bibliography(groups), encoding="utf-8")
+            editable[OUT / "bibliography.yml"] = yaml_bibliography(groups)
             body = (em.heading(heading[1], heading[2], labels) + "\n\n" +
                     "\n\n".join(protect_line_starts(inline(p, ctx)) for p in intro) + "\n\n" +
                     '#let bib = yaml("../bibliography.yml")\n\n#reference-list(bib)')
@@ -645,27 +674,17 @@ def main() -> None:
         if name == "chapters/01-course-theory":
             body += '\n\n#include "01b-isac-10bis.typ"\n\n#include "01c-course-theory-continued.typ"'
         text = HEADER.format(rel="..") + body + "\n"
-        path = OUT / f"{name}.typ"
-        if args.generated:
-            continue
-        if path.exists() and not args.force:
-            print(f"kept (exists, use --force): {path.relative_to(REPO)}")
-            continue
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(text, encoding="utf-8")
-        written.append(name)
+        editable[OUT / f"{name}.typ"] = text
 
     gdir = OUT / "generated"
     gdir.mkdir(parents=True, exist_ok=True)
     for name, inner in em.generated.items():
         (gdir / f"stackup-{name}.typ").write_text(
             GEN_NOTE.format(name=name) + "\n" + HEADER.format(rel="..") + inner + "\n", encoding="utf-8")
-    if not args.generated:
-        mdir = OUT / "figures" / "mermaid"
-        mdir.mkdir(parents=True, exist_ok=True)
-        for name, content in em.mermaid:
-            (mdir / f"{name}.mmd").write_text(content + "\n", encoding="utf-8")
-    print(f"{len(written)} prose files, {len(em.generated)} generated tables, "
+    for name, content in em.mermaid:
+        editable[OUT / "figures" / "mermaid" / f"{name}.mmd"] = content + "\n"
+    written = [] if args.generated else write_editable(editable, args.force)
+    print(f"{len(written)} hand-editable files written, {len(em.generated)} generated tables, "
           f"{len(em.mermaid)} mermaid sources, {len(refids)} reference identifiers")
     print("files:", " ".join(n for n, _ in sections))
 

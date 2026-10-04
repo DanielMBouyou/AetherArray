@@ -5,6 +5,21 @@
 - Entry point: `main.typ`
 - Compiler: Typst 0.15.1 (any 0.15.x should work)
 
+> **Warning. Do not run the forced Markdown-to-Typst regeneration over hand-edited Typst
+> content without first reviewing/backing up the diff.** `python tools/docs/md_to_typst.py
+> --force` rewrites the chapter, appendix and back matter files, `bibliography.yml` and the
+> Mermaid sources from the Markdown. It lists every file it is about to overwrite in a warning,
+> then overwrites it, and any hand edit in those files is lost.
+
+## Source policy
+
+- `docs/aetherarray-master-reference.md` is the canonical scientific and content source.
+- This folder is the editable publication and layout edition, generated from that Markdown.
+- Content and scientific corrections are normally made in the Markdown first, then propagated
+  to Typst (see "Propagating a Markdown change" below).
+- Hand edits of the Typst files are meant mainly for layout and publication work: the
+  template, page breaks, figure sizes, table widths.
+
 This folder is a self-contained Typst project. It holds the full text of the master technical
 reference, Parts 0 to XXI with section 10bis, the appendices A to L, the references and the
 five-reader review. Equations are native Typst mathematics, tables are Typst tables and
@@ -64,8 +79,18 @@ canonical document, because the text refers to them by those numbers.
 
 ## Editing
 
-The files in `chapters/`, `appendices/` and `backmatter/` are ordinary Typst and are meant to
-be edited by hand.
+The files in `chapters/`, `appendices/` and `backmatter/` are ordinary Typst and can be
+edited by hand, mainly for layout and publication work (see the source policy above).
+
+### Propagating a Markdown change
+
+1. Edit `docs/aetherarray-master-reference.md`.
+2. From the repository root, run `python tools/docs/md_to_typst.py`. Without `--force` it only
+   creates missing files and reports every existing file that now differs from the Markdown;
+   it overwrites nothing.
+3. Bring the change into those Typst files by hand, or, after reviewing and backing up the
+   diff (`git diff`, `git stash`), run it again with `--force`, which warns before overwriting.
+4. Rebuild with `python tools/docs/build_typst_edition.py`.
 
 Three kinds of file are generated and should not be edited by hand:
 
@@ -86,8 +111,21 @@ consistent.
 
 ## How this edition was made
 
-`tools/docs/md_to_typst.py` converted the Markdown once, with `tools/docs/latex_to_typst.py`
-for the mathematics. It carries the text, equations, tables, caveats and captions over without
+`tools/docs/md_to_typst.py` converted the Markdown, with `tools/docs/latex_to_typst.py` for
+the mathematics. It carries the text, equations, tables, caveats and captions over without
 rewording them. The title page, the automatic table of contents and the list of figures are the
-only additions. Running the converter again with `--force` overwrites hand edits to the prose
-files.
+only additions.
+
+## Building the PDF and the ZIP
+
+From the repository root:
+
+```sh
+python tools/docs/build_typst_edition.py --typst /path/to/typst
+```
+
+It writes `docs/build/AetherArray_Master_Reference_v0.2.pdf` and
+`docs/build/AetherArray_Master_Reference_v0.2_Typst.zip`, then extracts the ZIP into a
+temporary folder and compiles `main.typ` there to prove that the archive is self-contained and
+importable into typst.app as is. `docs/build/` is ignored by git: both files are reproducible
+from the sources.
