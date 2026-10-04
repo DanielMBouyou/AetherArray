@@ -1,0 +1,10 @@
+flowchart LR
+    H["HFSS<br/>via PyAEDT"] -->|".s2p, .s4p<br/>+ JSON sidecar"| T["Touchstone files<br/>+ provenance"]
+    A["ADS or scikit-rf<br/>circuit model"] -->|".s2p"| T
+    V["VNA, R&S ZVL<br/>calibrated plane"] -->|".s2p, .s4p"| T
+    T --> SK["scikit-rf<br/>Network objects"]
+    SK --> RK["rfkit"]
+    RK --> C1["state by state comparison<br/>decision 0007"]
+    RK --> C2["array state H<br/>rfkit.state"]
+    RK --> C3["G4 verdict<br/>decision 0008"]
+    RK --> C4["dataset for inference<br/>rfkit.dataset"]

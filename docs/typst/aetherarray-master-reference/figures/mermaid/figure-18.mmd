@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph PHYS["Physical, Rev A, N = 4"]
+        M1["drift distributions"]
+        M2["temporal correlation"]
+        M3["temperature dependence"]
+        M4["noise floor (EXP-005)"]
+        M5["coupling structure (EXP-011)"]
+    end
+    subgraph SIM["Simulated, N = 4 to 128 (proposed)"]
+        S1["array simulator<br/>EXP-001, not yet built"]
+        S2["recalibration with and<br/>without learned prior"]
+        S3["M_required vs N"]
+    end
+    PHYS -->|"parameterise, labelled measured-on-4"| S1
+    S1 --> S2 --> S3
+    S3 -.->|"check N = 4 against hardware first"| PHYS

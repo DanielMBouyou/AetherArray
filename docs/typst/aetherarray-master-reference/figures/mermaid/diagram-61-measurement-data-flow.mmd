@@ -1,0 +1,9 @@
+flowchart LR
+    HW["Rev A hardware"] --> VNA["analyser<br/>complex S21"]
+    HW --> DETP["detector path<br/>AD8318 + converter"]
+    VNA --> RAWV["raw Touchstone<br/>results/.../raw"]
+    DETP --> RAWD["raw records<br/>counts, timestamps, T, words"]
+    RAWV --> RK2["rfkit<br/>provenance, grid, metrics"]
+    RAWD --> RK2
+    RK2 --> HT["array state H_t<br/>rfkit.state"]
+    HT --> DS["calibration dataset<br/>rfkit.dataset"]

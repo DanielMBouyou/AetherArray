@@ -1,0 +1,11 @@
+flowchart TB
+    S1["SIM-001 50 ohm line<br/>W50, eps_eff, attenuation<br/>READY, blocked"] --> S2["SIM-002 70.7 ohm line, bends, meanders<br/>differential phase of real arms"]
+    S2 --> S3["SIM-003 one switched line bit<br/>state dependent phase and loss"]
+    S3 --> S4["SIM-004 enable + 3 bits<br/>all 8 states"]
+    S1 --> S5["SIM-005 4-way Wilkinson<br/>balance, isolation, match"]
+    S1 -.->|"antenna construction"| S6["SIM-006 single patch<br/>match, bandwidth, efficiency"]
+    S6 --> S7["SIM-007 = EXP-011 Stage 1<br/>4-element coupling, embedded patterns, G4"]
+    S4 --> S8["SIM-008 system model<br/>cascade in rfkit"]
+    S5 --> S8
+    S7 --> S8
+    S8 --> L["layout, gate F5"]

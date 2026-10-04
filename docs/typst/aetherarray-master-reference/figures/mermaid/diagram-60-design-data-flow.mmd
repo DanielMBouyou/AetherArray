@@ -1,0 +1,10 @@
+flowchart LR
+    J["canonical stack-up<br/>reva-stackup.json"] --> SEED["analytical seed<br/>rfkit.stackup"]
+    J --> PY["PyAEDT builder<br/>tools/sim"]
+    SEED --> PY
+    PY --> HF["HFSS<br/>Student by default"]
+    HF --> TS["Touchstone + sidecar<br/>stack-up fingerprint, convergence"]
+    TS --> RK["rfkit<br/>lineparams, compare_states"]
+    RK --> DEC["design decision<br/>W50, lengths, verdicts"]
+    DEC -->|"layout values"| LC["layout-constraints.md"]
+    COUP["coupon measurements<br/>after fabrication"] -->|"new stack-up revision"| J

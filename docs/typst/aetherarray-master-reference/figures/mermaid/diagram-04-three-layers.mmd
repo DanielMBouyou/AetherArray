@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph L1["1. RF hardware platform"]
+        A1["4 patch antennas<br/>antenna board"] --> A2["enable + 3 phase bits per channel<br/>beamformer board"]
+        A2 --> A3["4-way Wilkinson<br/>path select"]
+        A3 --> A4["analyser port<br/>or AD8318 detector"]
+        A5["DE1-SoC: deterministic beam states,<br/>timestamps, records"] --> A2
+    end
+    subgraph L2["2. Calibration research"]
+        B1["array state H_t"] --> B2["physical forward model<br/>likelihood"]
+        B3["drift history<br/>learned prior"] --> B4["posterior over H_t<br/>sparse recalibration"]
+        B2 --> B4
+        B4 --> B5["M_required against<br/>from-scratch baseline"]
+    end
+    subgraph L3["3. AP-S ISAC demonstrator (proposed)"]
+        C1["communication mode:<br/>beam to wanted TX, null on interferer"]
+        C2["sensing mode:<br/>pattern diversity on ambient signals"]
+        C3["drift, degrade, recalibrate:<br/>shows what calibration is worth"]
+    end
+    L1 -->|"measurements y_k for commanded states x_k"| L2
+    L2 -->|"calibrated state estimate"| L3
+    L3 -.->|"makes the value of layer 2 visible; does not redefine it"| L2

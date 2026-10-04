@@ -1,0 +1,31 @@
+flowchart LR
+    subgraph PC["PC, optional"]
+        P1["train drift prior"]
+        P2["analysis, figures"]
+    end
+    subgraph HPS["DE1-SoC HPS (ARM)"]
+        H1["orchestration, sequences"]
+        H2["storage, session metadata"]
+        H3["posterior update"]
+        H4["choice of next measurement"]
+    end
+    subgraph FAB["DE1-SoC FPGA fabric"]
+        F1["beam state register"]
+        F2["sequencer"]
+        F3["trigger generator"]
+        F4["timestamp counter"]
+        F5["SPI master, I2C master"]
+        F6["record FIFO"]
+    end
+    subgraph RF["RF board"]
+        R1["registered buffer"]
+        R2["29 PE4259-63"]
+        R3["converter beside AD8318"]
+        R4["MCP9808 x2"]
+    end
+    PC <--> HPS
+    HPS <--> FAB
+    F1 -->|"16 data + STROBE"| R1 --> R2
+    F5 <-->|"SPI"| R3
+    F5 <-->|"I2C"| R4
+    R3 -->|"raw counts"| F6
