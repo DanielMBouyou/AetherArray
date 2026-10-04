@@ -293,6 +293,41 @@ def test_hfss_builder_plan_needs_no_aedt_and_reads_the_canonical_file(st):
             assert z0 == 0.0 and z1 == pytest.approx(v["sub_h"]) and y0 == y1 == port["y"]
 
 
+def _builder():
+    path = REPO / "tools" / "sim" / "sim001_hfss.py"
+    spec = importlib.util.spec_from_file_location("sim001_hfss", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_port_size_check_plan_scales_only_port_and_box(st):
+    """Protocol step 6: seed width, both lengths, port and box enlarged by half."""
+    mod = _builder()
+    base = {d["name"]: d for d in mod.plan(st)["designs"]}
+    big = mod.plan(st, port_scale=1.5, seed_only=True)["designs"]
+    assert len(big) == 2
+    for d in big:
+        ref = base[d["name"].replace("_ps1p5", "")]
+        assert d["name"].endswith("_ps1p5")
+        assert d["w_mm"] == ref["w_mm"] == su.sim001_parameters(st)["variables_mm"]["w_seed"]
+        assert d["trace"] == ref["trace"]
+        assert d["substrate"]["sizes"][0] == pytest.approx(1.5 * ref["substrate"]["sizes"][0])
+        assert d["air"]["sizes"][2] + d["trace"]["origin"][2] == pytest.approx(1.5 * ref["port_h_mm"])
+
+
+def test_builder_refuses_to_build_twice_into_one_project(st, tmp_path):
+    mod = _builder()
+    (tmp_path / "sim001.aedt").write_text("", encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        mod.build(tmp_path, student=True, solve=False, st=st)
+
+
+def test_failure_cleanup_touches_only_servers_started_by_the_run():
+    import time
+    assert _builder().stop_servers_started_after(time.time() + 3600) == []
+
+
 # ----------------------------------------------------------------- traceability
 def test_stackup_fingerprint_travels_with_a_trace(tmp_path, st):
     f = np.linspace(2.3e9, 2.6e9, 31)

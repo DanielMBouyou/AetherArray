@@ -1,10 +1,12 @@
 # SIM-001: a 50 ohm microstrip on the Rev A beamformer stack-up
 
-- Status: planned, **READY** since 2026-10-03, see the gate in section 1
+- Status: planned, **READY** since 2026-10-03, see the gate in section 1; **execution blocked
+  since 2026-10-03**: AEDT Student starts but opens no scripting session, see
+  `results/SIM-001/notes.md`
 - Date: 2026-10-03
 - Estimated effort: half a day, local
 - Actual effort: not run
-- Results: `results/SIM-001/`, not created until the run
+- Results: `results/SIM-001/`, session notes only; no solver data
 - Where: `LOCAL`, HFSS Student; see section 3
 
 ## Question
@@ -103,22 +105,33 @@ it.
 
 ## Procedure
 
-1. `cd tools && python sim/sim001_hfss.py --dry-run`, and check that the fingerprint printed is
-   the one `python -m rfkit.cli stackup` prints.
-2. Build only: `python sim/sim001_hfss.py --out ../results/SIM-001/run-YYYYMMDD --student`. Open
-   the project, run Validation Check on each design, and look at one design's geometry and
-   ports.
-3. Solve: the same command with `--solve`.
-4. From each convergence file, copy the pass count, the final volume element count and the
-   final change in S into the matching JSON sidecar.
+Raw output goes under `results/SIM-001/raw/run-YYYYMMDD/`, which `results/README.md` keeps out
+of git; each step uses a fresh subdirectory, because the builder refuses to add designs to a
+project that already has them. Commands are run from `tools/`. Amended on 2026-10-04: the
+paths gained the `raw/` level, step 6 gained builder options and steps 7 to 9 a script. No
+criterion changed.
+
+1. `python sim/sim001_hfss.py --dry-run`, and check that the fingerprint printed is the one
+   `python -m rfkit.cli stackup` prints.
+2. Build only: `python sim/sim001_hfss.py --out ../results/SIM-001/raw/run-YYYYMMDD/build-check
+   --student`. Open the project, run Validation Check on each design, and look at one design's
+   geometry and ports. Add `--graphical` if AEDT has to show itself, for example on a first
+   launch.
+3. Solve: `--out .../solve --student --solve`. Each design exports a 50 ohm renormalised `.s2p`
+   and a `-portdata.s2p` referenced to the ports' own impedance, both with HFSS's gamma and port
+   impedance comments.
+4. From each convergence file, copy the pass count, the final volume element count, the final
+   change in S, and whether HFSS reported the solve converged, into the matching JSON sidecar:
+   `adaptive_passes`, `mesh_elements`, `final_delta_s`, `converged`.
 5. Check every sidecar with `rfkit.stackup.check_sim_export(meta, rfkit.stackup.load())` and
    that each `.s2p` carries the gamma and impedance comments.
-6. Port size check: for the seed width, both lengths, enlarge `port_w` and `port_h` by half and
-   solve again; record the change in $Z_{pi}$ and $\varepsilon_{\text{eff}}$ at $f_0$.
-7. Load every `.s2p` with `load_touchstone(path, source="hfss", stackup=fingerprint)`.
-8. Extract the propagation constant from each pair of lengths by the two line method, and
-   $Z_{pi}$ at $f_0$ from the port solution.
-9. Apply the decision criterion.
+6. Port size check: `--out .../portcheck --student --solve --port-scale 1.5 --seed-only`, the
+   seed width, both lengths, port and box enlarged by half.
+7. to 9. `python sim/sim001_analyse.py --run .../solve --portcheck .../portcheck --json
+   ../results/SIM-001/processed/analysis.json`. It loads every `.s2p` with
+   `load_touchstone(path, source="hfss", stackup=fingerprint)`, extracts the propagation
+   constant from each pair of lengths by the two line method, `rfkit.lineparams`, reads
+   $Z_{pi}$ at $f_0$ from the port data, and applies the decision criterion as written above.
 10. Write `results/SIM-001/README.md` with the raw files' checksums, the metadata and the
     verdicts, and record $W_{50}$ in `hardware/rev-a/layout-constraints.md` as a SIM-001
     result.

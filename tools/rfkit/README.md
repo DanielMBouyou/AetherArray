@@ -114,6 +114,7 @@ width and length it prints is a seed or an estimate, labelled INITIALISATION ONL
 | --- | --- |
 | `provenance` | where a trace came from, and its checksum |
 | `io` | Touchstone loading, and synthetic construction for tests |
+| `lineparams` | propagation constant from two line lengths, by the two line method; effective permittivity and attenuation from it |
 | `stackup` | the canonical Rev A stack-up: validation, SIM-001 seeds and inputs, sensitivity, and the generated documentation tables |
 | `grid` | shared band, common grid, refusal to extrapolate |
 | `metrics` | extraction at a point and over a band, phase on the circle |

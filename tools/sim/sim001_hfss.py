@@ -26,6 +26,7 @@ import argparse
 import hashlib
 import json
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -35,18 +36,30 @@ from rfkit import stackup  # noqa: E402
 AEDT_VERSION = "2025.2"
 
 
-def plan(st: stackup.Stackup | None = None) -> dict:
-    """The complete model description, in millimetres, with no AEDT involved."""
+def plan(st: stackup.Stackup | None = None, port_scale: float = 1.0,
+         seed_only: bool = False) -> dict:
+    """The complete model description, in millimetres, with no AEDT involved.
+
+    ``port_scale`` and ``seed_only`` serve protocol step 6, the port size check:
+    the seed width, both lengths, with the port and the box enlarged by the
+    given factor. Every other number is the canonical file's.
+    """
+    if port_scale <= 0:
+        raise ValueError("port_scale must be positive")
     st = st or stackup.load()
     p = stackup.sim001_parameters(st)
     v = p["variables_mm"]
+    widths = [v["w_seed"]] if seed_only else p["width_sweep_mm"]
+    suffix = "" if port_scale == 1.0 else f"_ps{port_scale:g}".replace(".", "p")
     designs = []
-    for w in p["width_sweep_mm"]:
+    for w in widths:
         for length in (v["l_short"], v["l_long"]):
-            name = f"sim001_w{w:.4f}_l{length:.1f}".replace(".", "p")
-            pw, ph, h, t = v["port_w"], v["port_h"], v["sub_h"], v["cu_t"]
+            name = f"sim001_w{w:.4f}_l{length:.1f}".replace(".", "p") + suffix
+            pw, ph = v["port_w"] * port_scale, v["port_h"] * port_scale
+            h, t = v["sub_h"], v["cu_t"]
             designs.append({
-                "name": name, "w_mm": w, "l_mm": length,
+                "name": name, "w_mm": w, "l_mm": length, "port_scale": port_scale,
+                "port_w_mm": pw, "port_h_mm": ph,
                 "substrate": {"origin": [-pw / 2, 0.0, 0.0], "sizes": [pw, length, h]},
                 "trace": {"origin": [-w / 2, 0.0, h], "sizes": [w, length, t]},
                 "air": {"origin": [-pw / 2, 0.0, h], "sizes": [pw, length, ph - h]},
@@ -67,21 +80,65 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build(out: Path, student: bool, solve: bool, st: stackup.Stackup | None = None) -> list:
+def build(out: Path, student: bool, solve: bool, st: stackup.Stackup | None = None,
+          port_scale: float = 1.0, seed_only: bool = False, graphical: bool = False) -> list:
+    """Build every planned design into one project, and solve and export if asked.
+
+    Refuses a directory that already holds the project: adding the designs a
+    second time would duplicate their geometry. AEDT is released even when a
+    step fails, so a failed run leaves no server behind.
+    """
+    st = st or stackup.load()
+    pl = plan(st, port_scale=port_scale, seed_only=seed_only)
+    out.mkdir(parents=True, exist_ok=True)
+    project = out / "sim001.aedt"
+    if project.exists():
+        raise FileExistsError(f"{project} exists; build each step into a fresh directory")
+    t0 = time.time()
+    try:
+        return _build(pl, out, str(project), student, solve, st, graphical)
+    except BaseException:
+        stopped = stop_servers_started_after(t0)
+        if stopped:
+            print(f"stopped AEDT servers left by this run: {stopped}", file=sys.stderr)
+        raise
+
+
+def stop_servers_started_after(t0: float) -> list:
+    """Stop AEDT server processes this run started, after a failure.
+
+    A launch that never connects leaves its server running, and PyAEDT cannot
+    release a session it never had. Only processes created after ``t0`` are
+    touched, so an AEDT the user opened earlier is left alone.
+    """
+    try:
+        import psutil
+    except ImportError:
+        return []
+    stopped = []
+    for proc in psutil.process_iter(["name", "create_time", "pid"]):
+        name = (proc.info["name"] or "").lower()
+        if name.startswith("ansysedt") and (proc.info["create_time"] or 0) >= t0:
+            try:
+                proc.kill()
+                stopped.append(proc.info["pid"])
+            except psutil.Error:
+                pass
+    return stopped
+
+
+def _build(pl: dict, out: Path, project: str, student: bool, solve: bool,
+           st: stackup.Stackup, graphical: bool) -> list:
     from ansys.aedt.core import Hfss  # imported here so --dry-run needs no AEDT
 
-    st = st or stackup.load()
-    pl = plan(st)
     p = pl["parameters"]
     m = p["materials"]
     s = p["settings"]
-    out.mkdir(parents=True, exist_ok=True)
-    project = str(out / "sim001.aedt")
     written = []
     hfss = None
     for d in pl["designs"]:
         hfss = Hfss(project=project, design=d["name"], solution_type="Modal",
-                    version=AEDT_VERSION, non_graphical=True, student_version=student)
+                    version=AEDT_VERSION, non_graphical=not graphical, student_version=student)
         hfss.modeler.model_units = "mm"
         sub = hfss.materials.add_material("sim001_substrate")
         sub.permittivity = m["substrate"]["permittivity"]
@@ -125,6 +182,12 @@ def build(out: Path, student: bool, solve: bool, st: stackup.Stackup | None = No
         hfss.export_touchstone(setup="Setup1", sweep="Sweep1", output_file=str(s2p),
                                renormalization=True, impedance=s["port_impedance_ohm"],
                                gamma_impedance_comments=True)
+        # The same solution referenced to the ports' own impedance, with HFSS's
+        # gamma and port impedance comments: Zpi and the port propagation
+        # constant come from here, whatever a renormalised file's comments mean.
+        portdata = out / f"{d['name']}-portdata.s2p"
+        hfss.export_touchstone(setup="Setup1", sweep="Sweep1", output_file=str(portdata),
+                               renormalization=False, gamma_impedance_comments=True)
         conv = out / f"{d['name']}-convergence.conv"
         hfss.export_convergence("Setup1", output_file=str(conv))
         meta = {
@@ -137,13 +200,18 @@ def build(out: Path, student: bool, solve: bool, st: stackup.Stackup | None = No
             "port_impedance_ohm": s["port_impedance_ohm"],
             "port_definition": "wave port, modal, one mode, Zpi, integration line ground to trace",
             "renormalised": True,
-            "mesh_elements": None, "adaptive_passes": None, "final_delta_s": None,
+            "mesh_elements": None, "adaptive_passes": None, "final_delta_s": None, "converged": None,
             "convergence_file": conv.name,
             "convergence_criterion": {"max_delta_s": s["max_delta_s"],
                                       "min_converged_passes": s["min_converged_passes"]},
             "boundary": "outer faces perfect electric conductor; ground finite conductivity",
-            "materials": m, "variables_mm": {**p["variables_mm"], "w": d["w_mm"], "l": d["l_mm"]},
+            "materials": m,
+            "variables_mm": {**p["variables_mm"], "w": d["w_mm"], "l": d["l_mm"],
+                             "port_scale": d["port_scale"], "port_w_used": d["port_w_mm"],
+                             "port_h_used": d["port_h_mm"]},
             "touchstone": {"file": s2p.name, "sha256": _sha256(s2p)},
+            "port_data": {"file": portdata.name, "sha256": _sha256(portdata),
+                          "renormalised": False},
         }
         (out / f"{d['name']}.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
         written.append(s2p)
@@ -158,13 +226,20 @@ def main(argv=None) -> int:
     ap.add_argument("--out", type=Path, help="directory for the project and the exports")
     ap.add_argument("--student", action="store_true", help="use the AEDT Student licence")
     ap.add_argument("--solve", action="store_true", help="solve and export, not only build")
+    ap.add_argument("--port-scale", type=float, default=1.0,
+                    help="enlarge port and box by this factor, protocol step 6")
+    ap.add_argument("--seed-only", action="store_true",
+                    help="the seed width only, both lengths, protocol step 6")
+    ap.add_argument("--graphical", action="store_true",
+                    help="show AEDT, for example to see a first launch dialog")
     args = ap.parse_args(argv)
     if args.dry_run:
-        print(json.dumps(plan(), indent=2))
+        print(json.dumps(plan(port_scale=args.port_scale, seed_only=args.seed_only), indent=2))
         return 0
     if args.out is None:
         ap.error("--out is required unless --dry-run")
-    for path in build(args.out, args.student, args.solve):
+    for path in build(args.out, args.student, args.solve, port_scale=args.port_scale,
+                      seed_only=args.seed_only, graphical=args.graphical):
         print(f"wrote {path}")
     return 0
 
