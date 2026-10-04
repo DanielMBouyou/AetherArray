@@ -1,0 +1,8 @@
+flowchart LR
+    TX["COTS RF sources<br/>Wi-Fi, Bluetooth, hotspot"] --> ENV["environment<br/>people, objects, multipath"]
+    ENV --> ARR["AetherArray<br/>4 patches, switched lines"]
+    FPGA["DE1-SoC fabric<br/>deterministic state, timestamps"] --> ARR
+    ARR --> MEAS["measurements<br/>detector or receiver to be chosen"]
+    MEAS --> CAL["calibrated RF metrics<br/>posterior H_t, P_D, P_I, p(t)"]
+    CAL --> DASH["COMM / SENSE dashboard<br/>real time"]
+    CAL --> FPGA

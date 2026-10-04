@@ -1,0 +1,10 @@
+flowchart LR
+    X["commanded state x<br/>16-bit word"] --> W["nominal weights<br/>w(x): enable bit and phase state"]
+    W --> H["array state H_t<br/>diag: gain and phase error per channel<br/>off-diag: coupling (extension)"]
+    H --> R["realised weights<br/>H_t w(x)"]
+    R --> AF["beam: AF(theta), null depth,<br/>sensing patterns"]
+    R --> Y["measurement y_k<br/>complex (analyser) or power (detector)"]
+    Y --> EST["estimator<br/>likelihood x prior"]
+    D["history D:<br/>past H, T, dt"] --> EST
+    EST -->|"H_t estimate"| SEL["state selection<br/>enumerate 512 / 820"]
+    SEL -->|"best x for the criterion"| X

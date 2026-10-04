@@ -1,0 +1,10 @@
+flowchart LR
+    HIST["historical H_t<br/>temperatures, times, handling flags"] --> TM["temporal model<br/>Kalman or GP, learned theta"]
+    TM --> PRIOR["prior p_theta(H_t | history)"]
+    NEW["new sparse measurements<br/>power readings + code words"] --> LIK["physical likelihood<br/>forward model + noise model"]
+    PRIOR --> POST["posterior over H_t"]
+    LIK --> POST
+    POST --> STOP{"stopping rule:<br/>target met with 1 - alpha?"}
+    STOP -->|"no"| SELECT["choose next state<br/>fixed schedule or information gain"]
+    SELECT --> NEW
+    STOP -->|"yes"| BEAM["corrected beam states<br/>enumeration of 512 / 820"]

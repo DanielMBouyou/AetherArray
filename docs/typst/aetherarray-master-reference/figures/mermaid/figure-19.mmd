@@ -1,0 +1,16 @@
+flowchart TB
+    SRC["COTS RF source(s)<br/>Wi-Fi AP, BLE beacon, hotspot"] --> FIELD["propagation field<br/>direct path + multipath, R(t)"]
+    FIELD -->|"COMM path: wanted TX, interferer"| ARR
+    FIELD -->|"SENSE path: scattering by people, objects"| ARR
+    ARR["AetherArray<br/>4 elements, 512 relative states, receive only"] --> HW["hardware state H_t<br/>drifts with time and temperature"]
+    HW --> CAL["calibration layer<br/>estimate of H_t beneath both functions"]
+    CAL --> BEAM["beam / null selection<br/>exact enumeration"]
+    CAL --> SENS["spatial sensing<br/>pattern-diverse vector p(t)"]
+    BEAM --> CP["communication performance<br/>desired vs interferer"]
+    SENS --> EI["environment inference<br/>change / presence"]
+    subgraph PRIOR["Recalibration with a learned prior"]
+        HIST["history D"] --> LP["learned prior<br/>p_theta(H_t | history)"]
+        NEWM["sparse new RF measurements"] --> POST["posterior over H_t"]
+        LP --> POST
+    end
+    POST -->|"corrected estimate"| CAL

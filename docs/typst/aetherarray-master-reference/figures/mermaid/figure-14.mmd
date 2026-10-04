@@ -1,0 +1,21 @@
+flowchart TB
+    E4["EXP-004 O1, O6-O9<br/>SCH-001 READY"] --> P2["class 2 purchases:<br/>interconnect, antennas"]
+    E5A["EXP-005 Phase A<br/>LOCAL, ready, not run"] --> DET["detector purchase<br/>after C1 with V1-V4"]
+    E5A --> RC["schematic re-capture<br/>R9, H3 outcomes; H1-H5"]
+    P2 --> E5B["EXP-005 Phase B<br/>SCH-003, rules not written"]
+    DET --> E5B
+    SIM["SIM-001 and successors"] --> LAY["line lengths, layout<br/>gate F5"]
+    E4 --> F["pre-fabrication gate F1-F5"]
+    E5A --> F
+    E5B --> F
+    RC --> F
+    LAY --> F
+    F --> FAB["Rev A fabrication"]
+    FAB --> C12["coupons, SCH-012"]
+    FAB --> V6["Rev A validation, SCH-006<br/>incl. E6 switch repeatability"]
+    FAB --> E11["EXP-011 Stage 2, SCH-005<br/>measured coupling, G4"]
+    V6 --> E7["EXP-006 to EXP-009<br/>radiated experiments, SCH-007"]
+    V6 --> E10["EXP-010, EXP-014<br/>drift, unattended rig"]
+    E10 --> G2{"gate G2:<br/>drift above floor?"}
+    G2 -->|"yes"| E15["EXP-015<br/>learned prior vs from scratch"]
+    G2 -->|"no"| STOP["learning track abandoned,<br/>decision 0002 superseded"]

@@ -1,0 +1,487 @@
+# Bibliography of the AetherArray master technical reference, version 0.2.
+#
+# Extracted by tools/docs/md_to_typst.py from the References section of
+# docs/aetherarray-master-reference.md. backmatter/references.typ renders it.
+#
+# Fields:
+#   label     the identifier text exactly as printed, for example "[B1]"
+#   group     section of the reference list
+#   evidence  the verification level that the entry text or its group heading states:
+#             full, abstract, bibliographic, index-level, snippet-only, unverified,
+#             or repository-record (details are in docs/references/bibliography.md).
+#             It restates the printed entry and is never stronger than it.
+#   preprint  present and true when the entry says it is a preprint
+#   text      the entry as printed, in Typst markup; the printed text is authoritative
+#   source    the same entry in the Markdown of the canonical document
+
+groups:
+  - key: textbooks
+    title: "Textbooks and classical sources"
+    default-evidence: index-level
+    entries:
+      - id: B1
+        ids: [B1]
+        label: "[B1]"
+        evidence: index-level
+        text: "D. M. Pozar, _Microwave Engineering_, 4th ed., Wiley, 2012. Index level for edition."
+        source: "D. M. Pozar, *Microwave Engineering*, 4th ed., Wiley, 2012. Index level for edition."
+      - id: B2
+        ids: [B2]
+        label: "[B2]"
+        evidence: index-level
+        text: "C. A. Balanis, _Antenna Theory: Analysis and Design_, 4th ed., Wiley, 2016. Index level for edition."
+        source: "C. A. Balanis, *Antenna Theory: Analysis and Design*, 4th ed., Wiley, 2016. Index level for edition."
+      - id: B3
+        ids: [B3]
+        label: "[B3]"
+        evidence: index-level
+        text: "R. J. Mailloux, _Phased Array Antenna Handbook_, 3rd ed., Artech House, 2017. Index level."
+        source: "R. J. Mailloux, *Phased Array Antenna Handbook*, 3rd ed., Artech House, 2017. Index level."
+      - id: B4
+        ids: [B4]
+        label: "[B4]"
+        evidence: index-level
+        text: "R. C. Hansen, _Phased Array Antennas_, 2nd ed., Wiley, 2009. Index level."
+        source: "R. C. Hansen, *Phased Array Antennas*, 2nd ed., Wiley, 2009. Index level."
+      - id: B5
+        ids: [B5]
+        label: "[B5]"
+        evidence: index-level
+        text: "H. L. Van Trees, _Optimum Array Processing_, Wiley, 2002. Index level."
+        source: "H. L. Van Trees, *Optimum Array Processing*, Wiley, 2002. Index level."
+      - id: B6
+        ids: [B6]
+        label: "[B6]"
+        evidence: index-level
+        text: "J. Ruze, \"Antenna tolerance theory, a review,\" _Proc. IEEE_, 54(4), 633-640, 1966. Index level."
+        source: "J. Ruze, \"Antenna tolerance theory, a review,\" *Proc. IEEE*, 54(4), 633-640, 1966. Index level."
+      - id: B7
+        ids: [B7]
+        label: "[B7]"
+        evidence: index-level
+        text: "C. J. Miller, \"Minimizing the effects of phase quantization errors in an electronically scanned array,\" _Proc. Symp. Electronically Scanned Array Techniques and Applications_, RADC, 1964. Index level; pages and report number not confirmed."
+        source: "C. J. Miller, \"Minimizing the effects of phase quantization errors in an electronically scanned array,\" *Proc. Symp. Electronically Scanned Array Techniques and Applications*, RADC, 1964. Index level; pages and report number not confirmed."
+      - id: B8
+        ids: [B8]
+        label: "[B8]"
+        evidence: index-level
+        text: "E. Hammerstad, O. Jensen, \"Accurate models for microstrip computer-aided design,\" _IEEE MTT-S Int. Microwave Symp. Digest_, 407-409, 1980. Index level."
+        source: "E. Hammerstad, O. Jensen, \"Accurate models for microstrip computer-aided design,\" *IEEE MTT-S Int. Microwave Symp. Digest*, 407-409, 1980. Index level."
+      - id: B9
+        ids: [B9]
+        label: "[B9]"
+        evidence: index-level
+        text: "M. Kirschning, R. H. Jansen, \"Accurate model for effective dielectric constant of microstrip with validity up to millimetre-wave frequencies,\" _Electronics Letters_, 18(6), 272-273, 1982. Index level."
+        source: "M. Kirschning, R. H. Jansen, \"Accurate model for effective dielectric constant of microstrip with validity up to millimetre-wave frequencies,\" *Electronics Letters*, 18(6), 272-273, 1982. Index level."
+  - key: repository
+    title: "Repository bibliography entries cited"
+    default-evidence: repository-record
+    entries:
+      - id: A6
+        ids: [A6]
+        label: "[A6]"
+        evidence: abstract
+        text: "S. Mano, T. Katagi, REV method, Trans. IECE Japan J65-B, 555-560, 1982; English translation in _Electronics and Communications in Japan, Part I_, 65(5), 58-64, 1982, doi:10.1002/ecja.4410650508. Abstract; the translation's page numbers 58-64 found at index level on 2026-10-04 are not yet in the bibliography."
+        source: "S. Mano, T. Katagi, REV method, Trans. IECE Japan J65-B, 555-560, 1982; English translation in *Electronics and Communications in Japan, Part I*, 65(5), 58-64, 1982, doi:10.1002/ecja.4410650508. Abstract; the translation's page numbers 58-64 found at index level on 2026-10-04 are not yet in the bibliography."
+      - id: A7
+        ids: [A7]
+        label: "[A7]"
+        evidence: abstract
+        text: "H. M. Aumann, A. J. Fenn, F. G. Willwerth, _IEEE Trans. Antennas Propag._, 37(7), 844-850, 1989. Abstract."
+        source: "H. M. Aumann, A. J. Fenn, F. G. Willwerth, *IEEE Trans. Antennas Propag.*, 37(7), 844-850, 1989. Abstract."
+      - id: A12
+        ids: [A12]
+        label: "[A12]"
+        evidence: abstract
+        text: "A. Conca, D. Edidin, M. Hering, C. Vinzant, _Appl. Comput. Harmon. Anal._, 38(2), 346-356, 2015. Abstract; scope of the result clarified at index level (section 11.5)."
+        source: "A. Conca, D. Edidin, M. Hering, C. Vinzant, *Appl. Comput. Harmon. Anal.*, 38(2), 346-356, 2015. Abstract; scope of the result clarified at index level (section 11.5)."
+      - id: A13
+        ids: [A13]
+        label: "[A13]"
+        evidence: bibliographic
+        text: "B. Shahriari et al., review of Bayesian optimization, _Proc. IEEE_, 104(1), 148-175, 2016. Bibliographic."
+        source: "B. Shahriari et al., review of Bayesian optimization, *Proc. IEEE*, 104(1), 148-175, 2016. Bibliographic."
+      - id: A16
+        ids: [A16]
+        label: "[A16]"
+        evidence: abstract
+        text: "Z. Sarayloo, N. Masoumi, H. Shahi et al., ICEE 2020. Abstract."
+        source: "Z. Sarayloo, N. Masoumi, H. Shahi et al., ICEE 2020. Abstract."
+      - id: A18
+        ids: [A18]
+        label: "[A18]"
+        evidence: abstract
+        text: "S. D. Silverstein, _IEEE Trans. Signal Process._, 45(1), 206-218, 1997. Abstract."
+        source: "S. D. Silverstein, *IEEE Trans. Signal Process.*, 45(1), 206-218, 1997. Abstract."
+      - id: A19
+        ids: [A19]
+        label: "[A19]"
+        evidence: abstract
+        text: "S. S. Tambovskiy, G. Fodor, H. M. Tullberg, arXiv:2301.06582, 2023; peer reviewed version in _Proc. WSA and SCC 2023_, VDE, index level. Abstract."
+        source: "S. S. Tambovskiy, G. Fodor, H. M. Tullberg, arXiv:2301.06582, 2023; peer reviewed version in *Proc. WSA and SCC 2023*, VDE, index level. Abstract."
+      - id: A20
+        ids: [A20]
+        label: "[A20]"
+        evidence: full
+        text: "S. Li et al., arXiv:2504.16107, 2025. Full text, per the bibliography."
+        source: "S. Li et al., arXiv:2504.16107, 2025. Full text, per the bibliography."
+      - id: A21
+        ids: [A21]
+        label: "[A21]"
+        evidence: unverified
+        text: "Listed in the bibliography as located but not verified. Authors found at index level: X. Xie, H. Chen, Z. Ma, B. Lan, H. Xu, N. Li, X. Qi, C. Song, Z. Xu, \"A power-only fast calibration method for phased array using convolution neural network,\" 2024, IEEE Xplore document 10660493; venue inferred as _IEEE Antennas and Wireless Propagation Letters_, not confirmed."
+        source: "Listed in the bibliography as located but not verified. Authors found at index level: X. Xie, H. Chen, Z. Ma, B. Lan, H. Xu, N. Li, X. Qi, C. Song, Z. Xu, \"A power-only fast calibration method for phased array using convolution neural network,\" 2024, IEEE Xplore document 10660493; venue inferred as *IEEE Antennas and Wireless Propagation Letters*, not confirmed."
+      - id: A22
+        ids: [A22]
+        label: "[A22]"
+        evidence: unverified
+        text: "Listed in the bibliography as located but not retrievable. Authors found at index level: C. Pan, X. Ba, Y. Tang, F. Zhang, Y. Zhang, Z. Wang, W. Fan, \"Phased array antenna calibration method experimental validation and comparison,\" _Electronics_, 12(3), 489, 2023."
+        source: "Listed in the bibliography as located but not retrievable. Authors found at index level: C. Pan, X. Ba, Y. Tang, F. Zhang, Y. Zhang, Z. Wang, W. Fan, \"Phased array antenna calibration method experimental validation and comparison,\" *Electronics*, 12(3), 489, 2023."
+      - id: A23
+        ids: [A23]
+        label: "[A23]"
+        evidence: abstract
+        text: "W. K. Kahn, H. Kurss, \"Minimum-scattering antennas,\" _IEEE Trans. Antennas Propag._, 13(5), 671-675, 1965. Abstract."
+        source: "W. K. Kahn, H. Kurss, \"Minimum-scattering antennas,\" *IEEE Trans. Antennas Propag.*, 13(5), 671-675, 1965. Abstract."
+      - id: A24
+        ids: [A24]
+        label: "[A24]"
+        evidence: abstract
+        text: "W. Wasylkiwskyj, W. K. Kahn, _IEEE Trans. Antennas Propag._, 18(2), 204-216, 1970. Abstract."
+        source: "W. Wasylkiwskyj, W. K. Kahn, *IEEE Trans. Antennas Propag.*, 18(2), 204-216, 1970. Abstract."
+      - id: V1
+        ids: [V1]
+        label: "[V1]"
+        evidence: repository-record
+        text: "pSemi PE4259 product page and distributor listing, 2026-09-18."
+        source: "pSemi PE4259 product page and distributor listing, 2026-09-18."
+      - id: V5
+        ids: [V5]
+        label: "[V5]"
+        evidence: repository-record
+        text: "Microchip MCP9808, 2026-09-18."
+        source: "Microchip MCP9808, 2026-09-18."
+      - id: V6
+        ids: [V6]
+        label: "[V6]"
+        evidence: repository-record
+        text: "Analog Devices AD8318 data sheet, revision E."
+        source: "Analog Devices AD8318 data sheet, revision E."
+      - id: V8
+        ids: [V8, V12, V14, V17, V18, V23]
+        label: "[V8] to [V12], [V14], [V17], [V18], [V23]:"
+        evidence: repository-record
+        text: "fabricator, laminate and simulator documentation, 2026-10-03, as listed in the bibliography."
+        source: "fabricator, laminate and simulator documentation, 2026-10-03, as listed in the bibliography."
+      - id: T1
+        ids: [T1, T1a]
+        label: "[T1], [T1a]:"
+        evidence: repository-record
+        text: "Rohde and Schwarz ZVL family and option designations."
+        source: "Rohde and Schwarz ZVL family and option designations."
+      - id: T6
+        ids: [T6]
+        label: "[T6]:"
+        evidence: repository-record
+        text: "Terasic DE1-SoC user manual."
+        source: "Terasic DE1-SoC user manual."
+      - id: R1
+        ids: [R1]
+        label: "[R1]:"
+        evidence: repository-record
+        text: "Commission Implementing Decision (EU) 2022/180, annex, band 57a."
+        source: "Commission Implementing Decision (EU) 2022/180, annex, band 57a."
+  - key: literature
+    title: "Literature verified at index level on 2026-10-04, not yet in the repository bibliography"
+    default-evidence: index-level
+    entries:
+      - id: L1
+        ids: [L1]
+        label: "[L1]"
+        evidence: index-level
+        text: "R. Balan, P. Casazza, D. Edidin, \"On signal reconstruction without phase,\" _Appl. Comput. Harmon. Anal._, 20(3), 345-356, 2006."
+        source: "R. Balan, P. Casazza, D. Edidin, \"On signal reconstruction without phase,\" *Appl. Comput. Harmon. Anal.*, 20(3), 345-356, 2006."
+      - id: L2
+        ids: [L2]
+        label: "[L2]"
+        evidence: index-level
+        text: "E. J. Candès, T. Strohmer, V. Voroninski, \"PhaseLift: exact and stable signal recovery from magnitude measurements via convex programming,\" _Commun. Pure Appl. Math._, 66(8), 1241-1274, 2013."
+        source: "E. J. Candès, T. Strohmer, V. Voroninski, \"PhaseLift: exact and stable signal recovery from magnitude measurements via convex programming,\" *Commun. Pure Appl. Math.*, 66(8), 1241-1274, 2013."
+      - id: L3
+        ids: [L3]
+        label: "[L3]"
+        evidence: index-level
+        text: "A. S. Bandeira, J. Cahill, D. G. Mixon, A. A. Nelson, \"Saving phase: injectivity and stability for phase retrieval,\" _Appl. Comput. Harmon. Anal._, 37(1), 2014; the $4 N - 4$ conjecture."
+        source: "A. S. Bandeira, J. Cahill, D. G. Mixon, A. A. Nelson, \"Saving phase: injectivity and stability for phase retrieval,\" *Appl. Comput. Harmon. Anal.*, 37(1), 2014; the $4N - 4$ conjecture."
+      - id: L4
+        ids: [L4]
+        label: "[L4]"
+        evidence: index-level
+        text: "C. Vinzant, \"A small frame and a certificate of its injectivity,\" _Proc. SampTA 2015_, 197-200; eleven injective vectors in $bb(C)^4$."
+        source: "C. Vinzant, \"A small frame and a certificate of its injectivity,\" *Proc. SampTA 2015*, 197-200; eleven injective vectors in $\\mathbb{C}^4$."
+      - id: L5
+        ids: [L5]
+        label: "[L5]"
+        evidence: index-level
+        text: "T. Heinosaari, L. Mazzarella, M. M. Wolf, \"Quantum tomography under prior information,\" _Commun. Math. Phys._, 318(2), 355-374, 2013."
+        source: "T. Heinosaari, L. Mazzarella, M. M. Wolf, \"Quantum tomography under prior information,\" *Commun. Math. Phys.*, 318(2), 355-374, 2013."
+      - id: L6
+        ids: [L6]
+        label: "[L6]"
+        evidence: index-level
+        preprint: true
+        text: "\"Phase retrieval in $bb(C)^4$ requires exactly eleven measurements,\" arXiv:2607.27719, 2026; unreviewed preprint, authors not confirmed."
+        source: "\"Phase retrieval in $\\mathbb{C}^4$ requires exactly eleven measurements,\" arXiv:2607.27719, 2026; unreviewed preprint, authors not confirmed."
+      - id: L7
+        ids: [L7]
+        label: "[L7]"
+        evidence: index-level
+        text: "R. Long, J. Ouyang, F. Yang, W. Han, L. Zhou, \"Fast amplitude-only measurement method for phased array calibration,\" _IEEE Trans. Antennas Propag._, 65(4), 1815-1822, 2017."
+        source: "R. Long, J. Ouyang, F. Yang, W. Han, L. Zhou, \"Fast amplitude-only measurement method for phased array calibration,\" *IEEE Trans. Antennas Propag.*, 65(4), 1815-1822, 2017."
+      - id: L8
+        ids: [L8]
+        label: "[L8]"
+        evidence: index-level
+        text: "R. Long, J. Ouyang, F. Yang, W. Han, L. Zhou, \"Multi-element phased array calibration method by solving linear equations,\" _IEEE Trans. Antennas Propag._, 65(6), 2931-2939, 2017."
+        source: "R. Long, J. Ouyang, F. Yang, W. Han, L. Zhou, \"Multi-element phased array calibration method by solving linear equations,\" *IEEE Trans. Antennas Propag.*, 65(6), 2931-2939, 2017."
+      - id: L9
+        ids: [L9]
+        label: "[L9]"
+        evidence: index-level
+        text: "T. Takahashi, Y. Konishi, S. Makino et al., \"Fast measurement technique for phased array calibration,\" _IEEE Trans. Antennas Propag._, 56(7), 1888-1899, 2008."
+        source: "T. Takahashi, Y. Konishi, S. Makino et al., \"Fast measurement technique for phased array calibration,\" *IEEE Trans. Antennas Propag.*, 56(7), 1888-1899, 2008."
+      - id: L10
+        ids: [L10]
+        label: "[L10]"
+        evidence: index-level
+        text: "Z. Wang, F. Zhang, H. Gao, O. Franek, G. F. Pedersen, W. Fan, \"Over-the-air array calibration of mmWave phased array in beam-steering mode based on measured complex signals,\" _IEEE Trans. Antennas Propag._, 69(11), 7876-7888, 2021."
+        source: "Z. Wang, F. Zhang, H. Gao, O. Franek, G. F. Pedersen, W. Fan, \"Over-the-air array calibration of mmWave phased array in beam-steering mode based on measured complex signals,\" *IEEE Trans. Antennas Propag.*, 69(11), 7876-7888, 2021."
+      - id: L11
+        ids: [L11]
+        label: "[L11]"
+        evidence: index-level
+        text: "Z. Zhou, Z. Wei, J. Ren, Y. Yin, G. F. Pedersen, M. Shen, \"Transfer-learning-assisted multielement calibration for active phased antenna arrays,\" _IEEE Trans. Antennas Propag._, 2023; volume and pages not confirmed."
+        source: "Z. Zhou, Z. Wei, J. Ren, Y. Yin, G. F. Pedersen, M. Shen, \"Transfer-learning-assisted multielement calibration for active phased antenna arrays,\" *IEEE Trans. Antennas Propag.*, 2023; volume and pages not confirmed."
+      - id: L13
+        ids: [L13]
+        label: "[L13]"
+        evidence: index-level
+        text: "A. Wu, I. A. Syed, A. Ayling, A. Hajimiri, \"On-board array self-calibration using amplitude-only proximal-field sensors and machine-learning-based phase retrieval,\" _IEEE/MTT-S IMS 2025_, 930-933."
+        source: "A. Wu, I. A. Syed, A. Ayling, A. Hajimiri, \"On-board array self-calibration using amplitude-only proximal-field sensors and machine-learning-based phase retrieval,\" *IEEE/MTT-S IMS 2025*, 930-933."
+      - id: L14
+        ids: [L14]
+        label: "[L14]"
+        evidence: index-level
+        text: "J. Vieira, F. Rusek, O. Edfors, S. Malkowsky, L. Liu, F. Tufvesson, \"Reciprocity calibration for massive MIMO: proposal, modeling, and validation,\" _IEEE Trans. Wireless Commun._, 16(5), 3042-3056, 2017."
+        source: "J. Vieira, F. Rusek, O. Edfors, S. Malkowsky, L. Liu, F. Tufvesson, \"Reciprocity calibration for massive MIMO: proposal, modeling, and validation,\" *IEEE Trans. Wireless Commun.*, 16(5), 3042-3056, 2017."
+      - id: L15
+        ids: [L15]
+        label: "[L15]"
+        evidence: index-level
+        text: "R. Rogalin et al., \"Scalable synchronization and reciprocity calibration for distributed multiuser MIMO,\" _IEEE Trans. Wireless Commun._, 13(4), 1815-1831, 2014."
+        source: "R. Rogalin et al., \"Scalable synchronization and reciprocity calibration for distributed multiuser MIMO,\" *IEEE Trans. Wireless Commun.*, 13(4), 1815-1831, 2014."
+      - id: L16
+        ids: [L16]
+        label: "[L16]"
+        evidence: index-level
+        text: "X. Jiang et al., \"A framework for over-the-air reciprocity calibration for TDD massive MIMO systems,\" _IEEE Trans. Wireless Commun._, 17(9), 2018; pages not confirmed."
+        source: "X. Jiang et al., \"A framework for over-the-air reciprocity calibration for TDD massive MIMO systems,\" *IEEE Trans. Wireless Commun.*, 17(9), 2018; pages not confirmed."
+      - id: L17
+        ids: [L17]
+        label: "[L17]"
+        evidence: index-level
+        text: "C. Shepard et al., \"Argos: practical many-antenna base stations,\" _Proc. ACM MobiCom_, 2012."
+        source: "C. Shepard et al., \"Argos: practical many-antenna base stations,\" *Proc. ACM MobiCom*, 2012."
+      - id: L18
+        ids: [L18]
+        label: "[L18]"
+        evidence: index-level
+        text: "R. M. Lebrón, P.-S. Tsai, J. M. Emmett, C. Fulton, J. L. Salazar-Cerreno, \"Validation and testing of initial and in-situ mutual coupling-based calibration of a dual-polarized active phased array antenna,\" _IEEE Access_, 8, 78315-78329, 2020."
+        source: "R. M. Lebrón, P.-S. Tsai, J. M. Emmett, C. Fulton, J. L. Salazar-Cerreno, \"Validation and testing of initial and in-situ mutual coupling-based calibration of a dual-polarized active phased array antenna,\" *IEEE Access*, 8, 78315-78329, 2020."
+      - id: L19
+        ids: [L19]
+        label: "[L19]"
+        evidence: index-level
+        text: "\"Long-term calibration stability of a radio astronomical phased array feed,\" _Astronomical Journal_, 145(1), 24, 2013; authors not confirmed."
+        source: "\"Long-term calibration stability of a radio astronomical phased array feed,\" *Astronomical Journal*, 145(1), 24, 2013; authors not confirmed."
+      - id: L20
+        ids: [L20]
+        label: "[L20]"
+        evidence: index-level
+        text: "US Patent 10,211,527 B2, granted 2019: recalibration with a subset of excitation patterns under limited drift. Not peer reviewed."
+        source: "US Patent 10,211,527 B2, granted 2019: recalibration with a subset of excitation patterns under limited drift. Not peer reviewed."
+      - id: L21
+        ids: [L21]
+        label: "[L21]"
+        evidence: index-level
+        text: "C. Tasse, \"Non-linear Kalman filters for calibration in radio interferometry,\" _Astron. Astrophys._, 566, A127, 2014."
+        source: "C. Tasse, \"Non-linear Kalman filters for calibration in radio interferometry,\" *Astron. Astrophys.*, 566, A127, 2014."
+      - id: L22
+        ids: [L22]
+        label: "[L22]"
+        evidence: index-level
+        text: "P. Arras, P. Frank, R. Leike, R. Westermann, T. A. Enßlin, \"Unified radio interferometric calibration and imaging with joint uncertainty quantification,\" _Astron. Astrophys._, 627, A134, 2019."
+        source: "P. Arras, P. Frank, R. Leike, R. Westermann, T. A. Enßlin, \"Unified radio interferometric calibration and imaging with joint uncertainty quantification,\" *Astron. Astrophys.*, 627, A134, 2019."
+      - id: L23
+        ids: [L23]
+        label: "[L23]"
+        evidence: index-level
+        text: "J.-S. Kim et al., \"Bayesian self-calibration and imaging in very long baseline interferometry,\" _Astron. Astrophys._, 690, A129, 2024."
+        source: "J.-S. Kim et al., \"Bayesian self-calibration and imaging in very long baseline interferometry,\" *Astron. Astrophys.*, 690, A129, 2024."
+      - id: L24
+        ids: [L24]
+        label: "[L24]"
+        evidence: index-level
+        preprint: true
+        text: "P. Hödl, J. Möderl, E. Leitinger, K. Witrisal, \"Bayesian self-calibration and parametric channel estimation for 6G antenna arrays,\" arXiv:2510.11628, 2025; preprint."
+        source: "P. Hödl, J. Möderl, E. Leitinger, K. Witrisal, \"Bayesian self-calibration and parametric channel estimation for 6G antenna arrays,\" arXiv:2510.11628, 2025; preprint."
+      - id: L25
+        ids: [L25]
+        label: "[L25]"
+        evidence: index-level
+        text: "J. Hartikainen, S. Särkkä, \"Kalman filtering and smoothing solutions to temporal Gaussian process regression models,\" _IEEE MLSP_, 2010."
+        source: "J. Hartikainen, S. Särkkä, \"Kalman filtering and smoothing solutions to temporal Gaussian process regression models,\" *IEEE MLSP*, 2010."
+      - id: L26
+        ids: [L26]
+        label: "[L26]"
+        evidence: index-level
+        text: "K. Chaloner, I. Verdinelli, \"Bayesian experimental design: a review,\" _Statistical Science_, 10(3), 273-304, 1995."
+        source: "K. Chaloner, I. Verdinelli, \"Bayesian experimental design: a review,\" *Statistical Science*, 10(3), 273-304, 1995."
+      - id: L27
+        ids: [L27]
+        label: "[L27]"
+        evidence: index-level
+        text: "T. Rainforth, A. Foster, D. R. Ivanova, F. Bickford Smith, \"Modern Bayesian experimental design,\" _Statistical Science_, 39(1), 100-114, 2024."
+        source: "T. Rainforth, A. Foster, D. R. Ivanova, F. Bickford Smith, \"Modern Bayesian experimental design,\" *Statistical Science*, 39(1), 100-114, 2024."
+      - id: L28
+        ids: [L28]
+        label: "[L28]"
+        evidence: index-level
+        text: "D. V. Lindley, \"On a measure of the information provided by an experiment,\" _Ann. Math. Statist._, 27(4), 986-1005, 1956."
+        source: "D. V. Lindley, \"On a measure of the information provided by an experiment,\" *Ann. Math. Statist.*, 27(4), 986-1005, 1956."
+      - id: L29
+        ids: [L29]
+        label: "[L29]"
+        evidence: index-level
+        text: "A. Krause, A. Singh, C. Guestrin, \"Near-optimal sensor placements in Gaussian processes,\" _J. Machine Learning Research_, 9, 235-284, 2008."
+        source: "A. Krause, A. Singh, C. Guestrin, \"Near-optimal sensor placements in Gaussian processes,\" *J. Machine Learning Research*, 9, 235-284, 2008."
+      - id: L30
+        ids: [L30]
+        label: "[L30]"
+        evidence: index-level
+        text: "R. E. Kalman, \"A new approach to linear filtering and prediction problems,\" _Trans. ASME J. Basic Eng._, 82(1), 35-45, 1960."
+        source: "R. E. Kalman, \"A new approach to linear filtering and prediction problems,\" *Trans. ASME J. Basic Eng.*, 82(1), 35-45, 1960."
+      - id: L31
+        ids: [L31]
+        label: "[L31]"
+        evidence: index-level
+        text: "C. E. Rasmussen, C. K. I. Williams, _Gaussian Processes for Machine Learning_, MIT Press, 2006."
+        source: "C. E. Rasmussen, C. K. I. Williams, *Gaussian Processes for Machine Learning*, MIT Press, 2006."
+      - id: L32
+        ids: [L32]
+        label: "[L32]"
+        evidence: index-level
+        text: "F. Liu, Y. Cui, C. Masouros, J. Xu, T. X. Han, Y. C. Eldar, S. Buzzi, \"Integrated sensing and communications: toward dual-functional wireless networks for 6G and beyond,\" _IEEE J. Sel. Areas Commun._, 40(6), 1728-1767, 2022."
+        source: "F. Liu, Y. Cui, C. Masouros, J. Xu, T. X. Han, Y. C. Eldar, S. Buzzi, \"Integrated sensing and communications: toward dual-functional wireless networks for 6G and beyond,\" *IEEE J. Sel. Areas Commun.*, 40(6), 1728-1767, 2022."
+      - id: L33
+        ids: [L33]
+        label: "[L33]"
+        evidence: index-level
+        text: "F. Colone, P. Falcone, C. Bongioanni, P. Lombardo, \"WiFi-based passive bistatic radar: data processing schemes and experimental results,\" _IEEE Trans. Aerosp. Electron. Syst._, 48(2), 1061-1079, 2012."
+        source: "F. Colone, P. Falcone, C. Bongioanni, P. Lombardo, \"WiFi-based passive bistatic radar: data processing schemes and experimental results,\" *IEEE Trans. Aerosp. Electron. Syst.*, 48(2), 1061-1079, 2012."
+      - id: L34
+        ids: [L34]
+        label: "[L34]"
+        evidence: index-level
+        text: "Y. Ma, G. Zhou, S. Wang, \"WiFi sensing with channel state information: a survey,\" _ACM Computing Surveys_, 52(3), 46, 2019."
+        source: "Y. Ma, G. Zhou, S. Wang, \"WiFi sensing with channel state information: a survey,\" *ACM Computing Surveys*, 52(3), 46, 2019."
+      - id: L35
+        ids: [L35]
+        label: "[L35]"
+        evidence: index-level
+        text: "J. Gjengset, J. Xiong, G. McPhillips, K. Jamieson, \"Phaser: enabling phased array signal processing on commodity WiFi access points,\" _Proc. ACM MobiCom_, 2014."
+        source: "J. Gjengset, J. Xiong, G. McPhillips, K. Jamieson, \"Phaser: enabling phased array signal processing on commodity WiFi access points,\" *Proc. ACM MobiCom*, 2014."
+      - id: L36
+        ids: [L36]
+        label: "[L36]"
+        evidence: index-level
+        text: "J. M. Mateos-Ramos, C. Häger, M. F. Keskin, L. Le Magoarou, H. Wymeersch, \"Model-based end-to-end learning for multi-target integrated sensing and communication under hardware impairments,\" _IEEE Trans. Wireless Commun._, 24(3), 2574-2589, 2025."
+        source: "J. M. Mateos-Ramos, C. Häger, M. F. Keskin, L. Le Magoarou, H. Wymeersch, \"Model-based end-to-end learning for multi-target integrated sensing and communication under hardware impairments,\" *IEEE Trans. Wireless Commun.*, 24(3), 2574-2589, 2025."
+      - id: L37
+        ids: [L37]
+        label: "[L37]"
+        evidence: index-level
+        preprint: true
+        text: "H. Chen et al., \"Mismatch analysis and cooperative calibration of array beam patterns for ISAC systems,\" arXiv:2602.01293, 2026; preprint."
+        source: "H. Chen et al., \"Mismatch analysis and cooperative calibration of array beam patterns for ISAC systems,\" arXiv:2602.01293, 2026; preprint."
+      - id: L38
+        ids: [L38]
+        label: "[L38]"
+        evidence: index-level
+        preprint: true
+        text: "J. M. Mateos-Ramos et al., \"Unsupervised end-to-end array calibration for multi-target ISAC,\" arXiv:2604.00806, 2026; preprint."
+        source: "J. M. Mateos-Ramos et al., \"Unsupervised end-to-end array calibration for multi-target ISAC,\" arXiv:2604.00806, 2026; preprint."
+      - id: L42
+        ids: [L42]
+        label: "[L42]"
+        evidence: index-level
+        text: "C. Sturm, W. Wiesbeck, \"Waveform design and signal processing aspects for fusion of wireless communications and radar sensing,\" _Proc. IEEE_, 99(7), 1236-1259, 2011."
+        source: "C. Sturm, W. Wiesbeck, \"Waveform design and signal processing aspects for fusion of wireless communications and radar sensing,\" *Proc. IEEE*, 99(7), 1236-1259, 2011."
+      - id: L43
+        ids: [L43]
+        label: "[L43]"
+        evidence: index-level
+        text: "H. D. Griffiths, C. J. Baker, \"Passive coherent location radar systems. Part 1: performance prediction,\" _IEE Proc. Radar, Sonar and Navigation_, 152(3), 153-159, 2005."
+        source: "H. D. Griffiths, C. J. Baker, \"Passive coherent location radar systems. Part 1: performance prediction,\" *IEE Proc. Radar, Sonar and Navigation*, 152(3), 153-159, 2005."
+      - id: L39
+        ids: [L39]
+        label: "[L39]"
+        evidence: index-level
+        text: "E. J. Candès, X. Li, M. Soltanolkotabi, \"Phase retrieval via Wirtinger flow: theory and algorithms,\" _IEEE Trans. Inf. Theory_, 61(4), 1985-2007, 2015."
+        source: "E. J. Candès, X. Li, M. Soltanolkotabi, \"Phase retrieval via Wirtinger flow: theory and algorithms,\" *IEEE Trans. Inf. Theory*, 61(4), 1985-2007, 2015."
+  - key: ieee-pages
+    title: "IEEE contest and society pages, snippet only, accessed 2026-10-04"
+    default-evidence: snippet-only
+    entries:
+      - id: P1
+        ids: [P1]
+        label: "[P1]"
+        evidence: snippet-only
+        text: "IEEE AP-S, \"2027 IEEE AP-S Student Design Contest,\" #link(\"https://ieeeaps.org/education/2027-ieee-ap-s-student-design-contest\")"
+        source: "IEEE AP-S, \"2027 IEEE AP-S Student Design Contest,\" https://ieeeaps.org/education/2027-ieee-ap-s-student-design-contest"
+      - id: P2
+        ids: [P2]
+        label: "[P2]"
+        evidence: snippet-only
+        text: "IEEE AP-S, 2027 Student Design Contest call, #link(\"https://ieeeaps.org/images/aps-pdf/2026/2027_IEEE_APS_Student_Design_Contest_Call.pdf\")"
+        source: "IEEE AP-S, 2027 Student Design Contest call, https://ieeeaps.org/images/aps-pdf/2026/2027_IEEE_APS_Student_Design_Contest_Call.pdf"
+      - id: P3
+        ids: [P3]
+        label: "[P3]"
+        evidence: snippet-only
+        text: "2027 IEEE AP-S/URSI symposium, #link(\"https://2027.apsursi.org/\")"
+        source: "2027 IEEE AP-S/URSI symposium, https://2027.apsursi.org/"
+      - id: P4
+        ids: [P4]
+        label: "[P4]"
+        evidence: snippet-only
+        text: "IEEE MTT-S student programmes, #link(\"https://mtt.org/students/\")"
+        source: "IEEE MTT-S student programmes, https://mtt.org/students/"
+      - id: P5
+        ids: [P5]
+        label: "[P5]"
+        evidence: snippet-only
+        text: "IEEE AP-S fellowship programme, #link(\"https://ieeeaps.org/ieee-antennas-and-propagation-society-fellowship-program\")"
+        source: "IEEE AP-S fellowship programme, https://ieeeaps.org/ieee-antennas-and-propagation-society-fellowship-program"
+      - id: P6
+        ids: [P6]
+        label: "[P6]"
+        evidence: snippet-only
+        text: "IEEE AP-S doctoral research grants, #link(\"https://ieeeaps.org/aps-2026-doctoral-research-grants\")"
+        source: "IEEE AP-S doctoral research grants, https://ieeeaps.org/aps-2026-doctoral-research-grants"
+      - id: P7
+        ids: [P7]
+        label: "[P7]"
+        evidence: snippet-only
+        text: "IEEE AP-S research and travel grants, #link(\"https://ieeeaps.org/education/research-and-travel-grants\")"
+        source: "IEEE AP-S research and travel grants, https://ieeeaps.org/education/research-and-travel-grants"

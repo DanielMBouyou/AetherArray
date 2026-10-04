@@ -1,0 +1,15 @@
+{
+  "theme": "neutral",
+  "fontFamily": "Libertinus Serif",
+  "htmlLabels": false,
+  "flowchart": {
+    "htmlLabels": false,
+    "curve": "basis",
+    "padding": 10
+  },
+  "themeVariables": {
+    "fontFamily": "Libertinus Serif",
+    "fontSize": "15px"
+  },
+  "themeCSS": ".edgeLabel rect { opacity: 1 !important; fill: #ffffff !important; }"
+}

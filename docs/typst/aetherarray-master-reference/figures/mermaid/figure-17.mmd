@@ -1,0 +1,7 @@
+flowchart TB
+    S1["1. calibrated response<br/>show estimated pattern and per-state powers"] --> S2["2. communication mode<br/>beam on wanted TX, null on interferer, live SIR"]
+    S2 --> S3["3. drift<br/>natural, or induced and declared (e.g. board warmed)"]
+    S3 --> S4["4. degradation<br/>null depth on interferer rises; metric falls"]
+    S4 --> S5["5. full recalibration<br/>count M_full displayed; null restored"]
+    S5 --> S6["6. later: sparse recalibration with learned prior<br/>count M_sparse displayed; null restored"]
+    S6 --> S7["7. sensing mode<br/>calibrated pattern-diversity detection"]

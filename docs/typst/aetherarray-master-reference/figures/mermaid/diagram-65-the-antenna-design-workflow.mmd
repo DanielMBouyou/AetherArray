@@ -1,0 +1,8 @@
+flowchart LR
+    S["analytical seed<br/>Balanis transmission line model"] --> E["full wave model<br/>HFSS, single patch"]
+    E --> P["parametric study<br/>length, inset, width"]
+    P --> A["4-element board model<br/>coupling, embedded patterns"]
+    A --> F["fabrication<br/>with coupons C1, C2"]
+    F --> V["VNA: S11 per port,<br/>4x4 coupling matrix"]
+    V --> R["model correction<br/>measured permittivity"]
+    R -.-> E
