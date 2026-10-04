@@ -772,6 +772,7 @@ GENERATED_DOCS = (
     "hardware/rev-a/stackup/README.md",
     "decisions/0009-rev-a-stack-up.md",
     "experiments/SIM-001-microstrip-50-ohm.md",
+    "docs/aetherarray-master-reference.md",
 )
 _BLOCK = re.compile(r"(<!-- stackup:begin (\S+) -->\n)(.*?)(<!-- stackup:end \2 -->)", re.S)
 

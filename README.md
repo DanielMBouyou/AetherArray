@@ -466,6 +466,7 @@ libraries. Right now it expects them where the Windows installer puts them by de
 
 | You want to | Go to |
 | --- | --- |
+| everything in one long reference, from first principles to current status | `docs/aetherarray-master-reference.md` |
 | the scope and the questions | `docs/scope.md` |
 | the equations, explained | `docs/mathematics/formulation.md` and `docs/mathematics/inverse-calibration.md` |
 | why the first board looks the way it does | `docs/architecture/rev-a-rf-architecture.md` and `decisions/0003-rev-a-rf-architecture.md` |
